@@ -1,14 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
-namespace HNC
-{
+namespace HNC {
     [CreateAssetMenu(fileName = "InputHandler", menuName = "HNC/InputHandler")]
-    public class InputHandler : ScriptableObject, GameInput.IPlayerActions, GameInput.ICompanionActions, GameInput.IUIActions
-    {
+    public class InputHandler : ScriptableObject, GameInput.IPlayerActions, GameInput.ICompanionActions, GameInput.IUIActions {
         public event UnityAction<Vector2> move = delegate { };
         public event UnityAction<Vector2> look = delegate { };
         public event UnityAction aimStarted = delegate { };
@@ -23,10 +19,8 @@ namespace HNC
 
         private GameInput gameInput;
 
-        private void OnEnable()
-        {
-            if (gameInput == null)
-            {
+        private void OnEnable() {
+            if (gameInput == null) {
                 gameInput = new GameInput();
                 gameInput.Player.SetCallbacks(this);
                 gameInput.Companion.SetCallbacks(this);
@@ -34,151 +28,101 @@ namespace HNC
             }
         }
 
-        private void OnDisable()
-        {
-            DisableAllInput();
-        }
+        private void OnDisable() => DisableAllInput();
 
-        public void DisableAllInput()
-        {
+        public void DisableAllInput() {
             gameInput.Player.Disable();
             gameInput.Companion.Disable();
             gameInput.UI.Disable();
         }
 
-        public void EnablePlayerInput()
-        {
+        public void EnablePlayerInput() {
             gameInput.Player.Enable();
             gameInput.Companion.Disable();
             gameInput.UI.Disable();
         }
 
-        public void EnableCompanionInput()
-        {
+        public void EnableCompanionInput() {
             gameInput.Player.Disable();
             gameInput.Companion.Enable();
             gameInput.UI.Disable();
         }
 
-        public void EnableUIInput()
-        {
+        public void EnableUIInput() {
             gameInput.Player.Disable();
             gameInput.Companion.Disable();
             gameInput.UI.Enable();
         }
 
-        public void OnAim(InputAction.CallbackContext context)
-        {
-            if (context.started)
-            {
+        public void OnAim(InputAction.CallbackContext context) {
+            if (context.started) {
                 aimStarted?.Invoke();
             }
 
-            if (context.canceled)
-            {
+            if (context.canceled) {
                 aimCanceled?.Invoke();
             }
         }
 
-        public void OnCrouch(InputAction.CallbackContext context)
-        {
-            if (context.started)
-            {
+        public void OnCrouch(InputAction.CallbackContext context) {
+            if (context.started) {
                 crouchStarted?.Invoke();
             }
 
-            if (context.canceled)
-            {
+            if (context.canceled) {
                 crouchCanceled?.Invoke();
             }
         }
 
-        public void OnFire(InputAction.CallbackContext context)
-        {
-            if (context.started)
-            {
+        public void OnFire(InputAction.CallbackContext context) {
+            if (context.started) {
                 fireStarted?.Invoke();
             }
 
-            if (context.canceled)
-            {
+            if (context.canceled) {
                 fireCanceled?.Invoke();
             }
         }
 
-        public void OnLook(InputAction.CallbackContext context)
-        {
-            var value = context.ReadValue<Vector2>();
+        public void OnLook(InputAction.CallbackContext context) {
+            Vector2 value = context.ReadValue<Vector2>();
             look?.Invoke(value);
         }
 
-        public void OnMove(InputAction.CallbackContext context)
-        {
-            var value = context.ReadValue<Vector2>();
+        public void OnMove(InputAction.CallbackContext context) {
+            Vector2 value = context.ReadValue<Vector2>();
             move?.Invoke(value);
         }
 
-        public void OnCompanionLook(InputAction.CallbackContext context)
-        {
-            var value = context.ReadValue<Vector2>();
+        public void OnCompanionLook(InputAction.CallbackContext context) {
+            Vector2 value = context.ReadValue<Vector2>();
             companionLook?.Invoke(value);
         }
 
-        public void OnCompanionMove(InputAction.CallbackContext context)
-        {
-            var value = context.ReadValue<Vector2>();
+        public void OnCompanionMove(InputAction.CallbackContext context) {
+            Vector2 value = context.ReadValue<Vector2>();
             companionMove?.Invoke(value);
         }
 
-        public void OnNavigate(InputAction.CallbackContext context)
-        {
-            throw new System.NotImplementedException();
-        }
+        public void OnNavigate(InputAction.CallbackContext context) => throw new System.NotImplementedException();
 
-        public void OnSubmit(InputAction.CallbackContext context)
-        {
-            throw new System.NotImplementedException();
-        }
+        public void OnSubmit(InputAction.CallbackContext context) => throw new System.NotImplementedException();
 
-        public void OnCancel(InputAction.CallbackContext context)
-        {
-            throw new System.NotImplementedException();
-        }
+        public void OnCancel(InputAction.CallbackContext context) => throw new System.NotImplementedException();
 
-        public void OnPoint(InputAction.CallbackContext context)
-        {
-            throw new System.NotImplementedException();
-        }
+        public void OnPoint(InputAction.CallbackContext context) => throw new System.NotImplementedException();
 
-        public void OnClick(InputAction.CallbackContext context)
-        {
-            throw new System.NotImplementedException();
-        }
+        public void OnClick(InputAction.CallbackContext context) => throw new System.NotImplementedException();
 
-        public void OnScrollWheel(InputAction.CallbackContext context)
-        {
-            throw new System.NotImplementedException();
-        }
+        public void OnScrollWheel(InputAction.CallbackContext context) => throw new System.NotImplementedException();
 
-        public void OnMiddleClick(InputAction.CallbackContext context)
-        {
-            throw new System.NotImplementedException();
-        }
+        public void OnMiddleClick(InputAction.CallbackContext context) => throw new System.NotImplementedException();
 
-        public void OnRightClick(InputAction.CallbackContext context)
-        {
-            throw new System.NotImplementedException();
-        }
+        public void OnRightClick(InputAction.CallbackContext context) => throw new System.NotImplementedException();
 
-        public void OnTrackedDevicePosition(InputAction.CallbackContext context)
-        {
-            throw new System.NotImplementedException();
-        }
+        public void OnTrackedDevicePosition(InputAction.CallbackContext context) => throw new System.NotImplementedException();
 
-        public void OnTrackedDeviceOrientation(InputAction.CallbackContext context)
-        {
-            throw new System.NotImplementedException();
-        }
+        public void OnTrackedDeviceOrientation(InputAction.CallbackContext context) => throw new System.NotImplementedException();
     }
 }
 
