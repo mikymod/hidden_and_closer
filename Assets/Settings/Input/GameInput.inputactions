@@ -1,5 +1,5 @@
 {
-    "name": "hidden_and_closer",
+    "name": "GameInput",
     "maps": [
         {
             "name": "Player",
@@ -323,7 +323,7 @@
             "id": "4883d67b-6646-47bf-b1da-e353a0d80e46",
             "actions": [
                 {
-                    "name": "Move",
+                    "name": "CompanionMove",
                     "type": "Value",
                     "id": "6517e9c3-3a34-4a7f-89fe-21a0378f991d",
                     "expectedControlType": "Vector2",
@@ -332,7 +332,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Look",
+                    "name": "CompanionLook",
                     "type": "Value",
                     "id": "465612de-7b84-495c-96fe-0bba0ffa2355",
                     "expectedControlType": "Vector2",
@@ -349,7 +349,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
-                    "action": "Move",
+                    "action": "CompanionMove",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -360,7 +360,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Move",
+                    "action": "CompanionMove",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -371,7 +371,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
-                    "action": "Move",
+                    "action": "CompanionMove",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -382,7 +382,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
-                    "action": "Move",
+                    "action": "CompanionMove",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -393,7 +393,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
-                    "action": "Move",
+                    "action": "CompanionMove",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -404,7 +404,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
-                    "action": "Move",
+                    "action": "CompanionMove",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -415,7 +415,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
-                    "action": "Move",
+                    "action": "CompanionMove",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -426,7 +426,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
-                    "action": "Move",
+                    "action": "CompanionMove",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -437,7 +437,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
-                    "action": "Move",
+                    "action": "CompanionMove",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -448,7 +448,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
-                    "action": "Move",
+                    "action": "CompanionMove",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -459,7 +459,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "XR",
-                    "action": "Move",
+                    "action": "CompanionMove",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -470,7 +470,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Joystick",
-                    "action": "Move",
+                    "action": "CompanionMove",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -481,7 +481,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
-                    "action": "Look",
+                    "action": "CompanionLook",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -492,7 +492,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse;Touch",
-                    "action": "Look",
+                    "action": "CompanionLook",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -503,7 +503,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Joystick",
-                    "action": "Look",
+                    "action": "CompanionLook",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
