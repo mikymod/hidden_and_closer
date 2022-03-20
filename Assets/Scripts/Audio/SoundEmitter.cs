@@ -14,30 +14,26 @@ namespace HNC
             audioSource = GetComponent<AudioSource>();
         }
 
-        public void Play(AudioClipsBank audioClipBank, AudioConfiguration audioConfig)
+        public void Play(AudioClipsBank audioClipBank, AudioConfiguration audioConfig, bool fadeIn, float fadeTime)
         {
             audioSource.clip = audioClipBank.GetClip();
             audioConfig.ApplyTo(audioSource);
             audioSource.Play();
+            if (fadeIn)
+            {
+                StartCoroutine(FadeIn(fadeTime));
+            }
             if (!audioSource.loop)
             {
-                StartCoroutine(AudioClipFinishPlaying(audioClipBank.GetClip().length, audioSource));
+                float clipLengthRemaining = audioSource.clip.length - audioSource.time;
+                StartCoroutine(AudioClipFinishPlaying(clipLengthRemaining, audioSource));
             }
         }
 
         public void Resume() => audioSource.UnPause();
         public void Pause() => audioSource.Pause();
         public void Stop() => audioSource.Stop();
-        public void Finish()
-        {
-            if (!audioSource.loop) return;
-
-            audioSource.loop = false;
-            float clipLenghtRemaining = audioSource.clip.length - audioSource.time;
-            
-            //CheckThis, it works?
-            StartCoroutine(AudioClipFinishPlaying(clipLenghtRemaining ,audioSource));
-        }
+        
         private IEnumerator AudioClipFinishPlaying(float lenght, AudioSource source)
         {
             yield return new WaitForSeconds(lenght);
@@ -76,7 +72,6 @@ namespace HNC
             audioSource.volume = 0f;
             audioSource.gameObject.SetActive(false);
         }
-
         public void SetUniqueID() => id = Guid.NewGuid().GetHashCode();
         public int GetUniqueID() => id;
         public bool CheckForUniqueID(int key) => key == id;

@@ -18,7 +18,7 @@ namespace HNC
         [Range(0f, 1f)] private float musicVolume = 1f;
         [Range(0f, 1f)] private float sfxVolume = 1f;
 
-        public UnityAction<AudioClipsBank, AudioConfiguration, float> OnSoundPlay;
+        public UnityAction<AudioClipsBank, AudioConfiguration, bool,float> OnSoundPlay;
         public UnityAction<float> OnSoundStop;
         public UnityAction OnSoundPause;
         public UnityAction OnSoundResume;
@@ -55,13 +55,12 @@ namespace HNC
             OnMasterVolumeChanged -= SFXVolumChanged;
         }
 
-        private void Play(AudioClipsBank audioClipBank, AudioConfiguration audioConfig, float fadeTime)
+        private void Play(AudioClipsBank audioClipBank, AudioConfiguration audioConfig, bool fadeIn,float fadeTime)
         {
             GameObject soundEmitter = pooler.GetSoundEmitter();
             if (soundEmitter != null)
             {
-                FadeIn(fadeTime);
-                soundEmitter.GetComponent<SoundEmitter>().Play(audioClipBank, audioConfig);
+                soundEmitter.GetComponent<SoundEmitter>().Play(audioClipBank, audioConfig, fadeIn, fadeTime);
             }
         }
 
@@ -70,7 +69,6 @@ namespace HNC
             GameObject soundEmitter = pooler.DisposeSoundEmitter();
             if (soundEmitter != null)
             {
-                FadeOut(fadeTime);
                 soundEmitter.GetComponent<SoundEmitter>().Stop();
             }
         }
@@ -91,15 +89,17 @@ namespace HNC
                 soundEmitter.GetComponent<SoundEmitter>().Resume();
             }
         }
-        private void FadeIn(float fadeTime)
-        {
-            StartCoroutine(pooler.GetComponent<SoundEmitter>().FadeIn(fadeTime));
-        }
+        //private void FadeIn(float fadeTime)
+        //{
+        //    GameObject soundEmitter = pooler.GetSoundEmitter();
+        //    StartCoroutine(soundEmitter.GetComponent<SoundEmitter>().FadeIn(fadeTime));
+        //}
 
-        private void FadeOut(float fadeTime)
-        {
-            StartCoroutine(pooler.GetComponent<SoundEmitter>().FadeOut(fadeTime));
-        }
+        //private void FadeOut(float fadeTime)
+        //{
+        //    GameObject soundEmitter = pooler.GetSoundEmitter();
+        //    StartCoroutine(soundEmitter.GetComponent<SoundEmitter>().FadeOut(fadeTime));
+        //}
 
         private void MasterVolumChanged(float volume)
         {

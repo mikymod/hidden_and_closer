@@ -21,7 +21,6 @@ namespace HNC
 
             public enum AudioSequenceMode{ Sequential, Random }
             public AudioSequenceMode sequenceMode = AudioSequenceMode.Sequential;
-
             public AudioClip[] audioClips;
             private int currentIndex = -1;
             private int previousIndex = -1;
