@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace HNC {
     [RequireComponent(typeof(CharacterController))]
+    [RequireComponent(typeof(Animator))]
     public class PlayerController : MonoBehaviour {
         [SerializeField] private InputHandler _input;
         [Header("Movement")]
@@ -15,21 +16,23 @@ namespace HNC {
         public float SpeedChangeRate = 10.0f;
 
         private CharacterController _characterController;
+        private Animator _animator;
         private StateMachine _stateMachine;
         private List<IState> _states;
 
         private bool _isMoving;
 
         private void OnEnable() {
+            _animator = GetComponent<Animator>();
             _characterController = GetComponent<CharacterController>();
 
             _stateMachine = new StateMachine();
 
             _states = new List<IState>();
-            IState idle = new PlayerIdle();
+            IState idle = new PlayerIdle(_animator);
             _states.Add(idle);
             idle.OnEnable();
-            IState move = new PlayerMove(_input, _characterController, MovementSpeed, RotationSmoothTime, SpeedChangeRate);
+            IState move = new PlayerMove(_input, _animator, _characterController, MovementSpeed, RotationSmoothTime, SpeedChangeRate);
             _states.Add(move);
             move.OnEnable();
 
