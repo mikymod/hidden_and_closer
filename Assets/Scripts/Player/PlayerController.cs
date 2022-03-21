@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace HNC {
     [RequireComponent(typeof(CharacterController))]
+    [RequireComponent(typeof(Animator))]
     public class PlayerController : MonoBehaviour {
         [SerializeField] private InputHandler _input;
         [Header("Movement")]
@@ -18,9 +19,9 @@ namespace HNC {
 
 
         [Header("Animation")]
-        [SerializeField] private string MoveParamName;
-        [SerializeField] private string SpeedParamName;
-        [SerializeField] private string CrouchParamName;
+        public string MoveParamName;
+        public string SpeedParamName;
+        public string CrouchParamName;
 
         private StateMachine _stateMachine;
         private List<IState> _states;
@@ -43,7 +44,6 @@ namespace HNC {
         public int AnimatorCrouchHash { get; private set; }
 
         private void Awake() {
-
             _stateMachine = new StateMachine();
 
             _states = new List<IState>();

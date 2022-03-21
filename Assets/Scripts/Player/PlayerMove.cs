@@ -50,8 +50,8 @@ namespace HNC {
 
             //Set anim params
             if (_player.HasAnimator) {
-                _player.Animator.SetBool(_player.AnimatorMoveHash, _player.Input.sqrMagnitude > _player.Threshold);
-                _player.Animator.SetFloat(_player.AnimatorSpeedHash, _animationBlend);
+                _player.Animator.SetBool(_player.MoveParamName, _player.Input.sqrMagnitude > _player.Threshold);
+                _player.Animator.SetFloat(_player.SpeedParamName, _animationBlend);
             }
         }
 

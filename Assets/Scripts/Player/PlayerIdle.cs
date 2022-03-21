@@ -8,7 +8,7 @@ namespace HNC {
 
         public void Enter() {
             if (_player.HasAnimator) {
-                _player.Animator.SetBool(_player.AnimatorMoveHash, false);
+                _player.Animator.SetBool(_player.MoveParamName, false);
             }
         }
         void IState.Update() => Debug.Log("Player Idle Update");
