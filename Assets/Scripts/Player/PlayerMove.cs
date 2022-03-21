@@ -4,6 +4,7 @@ namespace HNC {
 
     public class PlayerMove : IState {
         private readonly InputHandler _inputHandler;
+        private readonly Animator _animator;
         private readonly CharacterController _characterController;
         private readonly float _movementSpeed;
         private readonly float _rotationSmoothTime;
@@ -13,9 +14,11 @@ namespace HNC {
         private float _speed;
         private float _targetRotation;
         private float _rotationVelocity = 0;
+        private float _animationBlend;
 
-        public PlayerMove(InputHandler input, CharacterController characterController, float movementSpeed, float rotationSmoothTime, float speedChangeRate) {
+        public PlayerMove(InputHandler input, Animator animator, CharacterController characterController, float movementSpeed, float rotationSmoothTime, float speedChangeRate) {
             _inputHandler = input;
+            _animator = animator;
             _characterController = characterController;
             _movementSpeed = movementSpeed;
             _rotationSmoothTime = rotationSmoothTime;
@@ -24,11 +27,13 @@ namespace HNC {
 
         public void OnEnable() => _inputHandler.move += OnMove;
 
-        public void Enter() { }
-
-        private void OnMove(Vector2 input) {
-            _input = input;
+        public void Enter() {
+            if (_animator != null) {
+                _animator.SetBool("Move", true);
+            }
         }
+
+        private void OnMove(Vector2 input) => _input = input;
 
         void IState.Update() {
             // a reference to the players current horizontal velocity
@@ -46,6 +51,7 @@ namespace HNC {
             } else {
                 _speed = _movementSpeed;
             }
+            _animationBlend = Mathf.Lerp(_animationBlend, _movementSpeed, Time.deltaTime * _speedChangeRate);
 
             // normalise input direction
             Vector3 inputDirection = new Vector3(_input.x, 0.0f, _input.y).normalized;
@@ -63,6 +69,10 @@ namespace HNC {
 
             // move the player
             _characterController.Move(targetDirection.normalized * (_speed * Time.deltaTime));
+
+            if (_animator != null) {
+                _animator.SetFloat("Speed", _animationBlend);
+            }
         }
         public void Exit() { }
 
