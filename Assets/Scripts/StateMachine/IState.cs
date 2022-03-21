@@ -6,8 +6,10 @@ namespace HNC
 {
     public interface IState
     {
+        void OnEnable();
         void Enter();
         void Update();
         void Exit();
+        void OnDisable();
     }
 }
