@@ -12,12 +12,14 @@ namespace HNC
         [SerializeField] private AudioConfigurationSO hitConfiguration;
         [SerializeField] private AudioClipsBankSO brokenGlassClipsBank;
         [SerializeField] private AudioConfigurationSO brokenGlassConfiguration;
-        [SerializeField] private AudioManager audioManager;
-
-        public void PlayBuzzingSound() => audioManager.OnSoundPlay?.Invoke(buzzingClipsBank, buzzingConfiguration, true, 0f);
-        public void StopBuzzingSound() => audioManager.OnSoundStop?.Invoke(0f);
-        public void PlayHitSound() => audioManager.OnSoundPlay?.Invoke(hitClipsBank, hitConfiguration, false, 0f);
-        public void PlayBrokenGlassSound() => audioManager.OnSoundPlay?.Invoke(brokenGlassClipsBank, brokenGlassConfiguration, false, 0f);
-        
+      
+        public void PlayBuzzingSound() => AudioManager.OnSoundPlay?.Invoke(buzzingClipsBank, buzzingConfiguration, true, 0f);
+        public void StopBuzzingSound() => AudioManager.OnSoundStop?.Invoke(0f);
+        public void PlayHitSound() => AudioManager.OnSoundPlay?.Invoke(hitClipsBank, hitConfiguration, false, 0f);
+        public void PlayBrokenGlassSound()
+        {
+            AudioManager.OnSoundPlay?.Invoke(brokenGlassClipsBank, brokenGlassConfiguration, false, 0f);
+            AudioManager.OnDoingNoise?.Invoke(transform);
+        }
     }
 }
