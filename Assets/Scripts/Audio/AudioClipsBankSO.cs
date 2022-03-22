@@ -5,7 +5,8 @@ using UnityEngine;
 
 namespace HNC
 {
-    public class AudioClipsBank : MonoBehaviour
+    [CreateAssetMenu(fileName = "AudioClipsBank", menuName = "HNC/AudioClipsBank")]
+    public class AudioClipsBankSO : ScriptableObject
     {
        
         public AudioClipsGroup audioClipsGroups = default;

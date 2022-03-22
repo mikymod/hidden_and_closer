@@ -14,7 +14,7 @@ namespace HNC
             audioSource = GetComponent<AudioSource>();
         }
 
-        public void Play(AudioClipsBank audioClipBank, AudioConfiguration audioConfig, bool fadeIn, float fadeTime)
+        public void Play(AudioClipsBankSO audioClipBank, AudioConfigurationSO audioConfig, bool fadeIn, float fadeTime)
         {
             audioSource.clip = audioClipBank.GetClip();
             audioConfig.ApplyTo(audioSource);
