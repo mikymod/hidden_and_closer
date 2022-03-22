@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: 31e4e928076dcb4479173b0f9c712371
+guid: cf9473168fada52449ff4e776ad1ad48
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable:
   - first:
       74: -203655887218126122
-    second: Throw Object
+    second: Head Hit
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -35,11 +35,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Throw Object
+      name: Head Hit
       takeName: mixamo.com
       internalID: 0
-      firstFrame: 115
-      lastFrame: 137
+      firstFrame: 0
+      lastFrame: 56
       wrapMode: 0
       orientationOffsetY: 0
       level: 0.1
@@ -51,7 +51,7 @@ ModelImporter:
       loopBlendOrientation: 1
       loopBlendPositionY: 1
       loopBlendPositionXZ: 0
-      keepOriginalOrientation: 1
+      keepOriginalOrientation: 0
       keepOriginalPositionY: 0
       keepOriginalPositionXZ: 0
       heightFromFeet: 1
