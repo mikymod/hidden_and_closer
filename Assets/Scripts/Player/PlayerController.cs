@@ -1,10 +1,13 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace HNC {
+namespace HNC
+{
     [RequireComponent(typeof(CharacterController))]
     [RequireComponent(typeof(Animator))]
-    public class PlayerController : MonoBehaviour {
+    public class PlayerController : MonoBehaviour
+    {
         [SerializeField] private InputHandler _input;
         [Header("Movement")]
         [Tooltip("Move speed of the characte")]
@@ -16,6 +19,9 @@ namespace HNC {
         public float SpeedChangeRate = 10.0f;
         [Tooltip("Threshold for Controller")]
         public float Threshold = 0.2f;
+        [Tooltip("Move speed of the characte")]
+        public float CrouchSpeed = 1.0f;
+
 
 
         [Header("Animation")]
@@ -32,6 +38,8 @@ namespace HNC {
         [HideInInspector]
         public bool IsMoving { get; private set; }
         [HideInInspector]
+        public bool IsCrouching { get; private set; }
+        [HideInInspector]
         public Vector3 Input { get; private set; }
         [HideInInspector]
         public Animator Animator { get; private set; }
@@ -43,7 +51,8 @@ namespace HNC {
         [HideInInspector]
         public int AnimatorCrouchHash { get; private set; }
 
-        private void Awake() {
+        private void Awake()
+        {
             _stateMachine = new StateMachine();
 
             _states = new List<IState>();
@@ -58,32 +67,42 @@ namespace HNC {
             _stateMachine.SetInitialState(idle);
         }
 
-        private void OnEnable() {
+        private void OnEnable()
+        {
             CharacterController = GetComponent<CharacterController>();
             Animator = GetComponent<Animator>();
             AnimatorMoveHash = MoveParamName.GetHashCode();
-            AnimatorSpeedHash= SpeedParamName.GetHashCode();
+            AnimatorSpeedHash = SpeedParamName.GetHashCode();
             AnimatorCrouchHash = CrouchParamName.GetHashCode();
 
             _input.EnablePlayerInput();
             _input.move += OnMove;
-
+            _input.crouchStarted += OnCrouchStarted;
+            _input.crouchCanceled += OnCrouchCanceled;
         }
 
-        private void OnMove(Vector2 input) {
+        private void OnDisable()
+        {
+            _input.move -= OnMove;
+            _input.crouchStarted -= OnCrouchStarted;
+            _input.crouchCanceled -= OnCrouchCanceled;
+        }
+        private void OnMove(Vector2 input)
+        {
             input.Normalize();
             Input = new Vector3(input.x, 0, input.y);
             IsMoving = input.sqrMagnitude != 0;
         }
 
-        private void Update() {
-            if (_stateMachine != null) {
+        private void OnCrouchStarted() => IsCrouching = true;
+        private void OnCrouchCanceled() => IsCrouching = false;
+
+        private void Update()
+        {
+            if (_stateMachine != null)
+            {
                 _stateMachine.Update();
             }
-        }
-
-        private void OnDisable() {
-            _input.move -= OnMove;
         }
     }
 }

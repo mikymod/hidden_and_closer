@@ -1655,6 +1655,11 @@ MonoBehaviour:
   MovementSpeed: 0.5
   RotationSmoothTime: 0.12
   SpeedChangeRate: 10
+  Threshold: 0.2
+  CrouchSpeed: 1
+  MoveParamName: Move
+  SpeedParamName: Speed
+  CrouchParamName: Crouch
 --- !u!1 &1491129765998800
 GameObject:
   m_ObjectHideFlags: 0
