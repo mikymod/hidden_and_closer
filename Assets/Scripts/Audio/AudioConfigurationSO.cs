@@ -6,7 +6,8 @@ using UnityEngine.Audio;
 
 namespace HNC
 {
-    public class AudioConfiguration : MonoBehaviour
+    [CreateAssetMenu(fileName = "AudioConfiguration", menuName = "HNC/AudioConfiguration")]
+    public class AudioConfigurationSO : ScriptableObject
     {
         [SerializeField] private AudioMixerGroup audioMixerGroup = null;
         private enum PriorityLevel

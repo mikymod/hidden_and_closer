@@ -12,7 +12,7 @@ namespace HNC {
         [Range(0f, 1f)] private readonly float musicVolume = 1f;
         [Range(0f, 1f)] private readonly float sfxVolume = 1f;
 
-        public UnityAction<AudioClipsBank, AudioConfiguration, bool, float> OnSoundPlay;
+        public UnityAction<AudioClipsBankSO, AudioConfigurationSO, bool, float> OnSoundPlay;
         public UnityAction<float> OnSoundStop;
         public UnityAction OnSoundPause;
         public UnityAction OnSoundResume;
@@ -44,7 +44,7 @@ namespace HNC {
             OnMasterVolumeChanged -= SFXVolumChanged;
         }
 
-        private void Play(AudioClipsBank audioClipBank, AudioConfiguration audioConfig, bool fadeIn, float fadeTime) {
+        private void Play(AudioClipsBankSO audioClipBank, AudioConfigurationSO audioConfig, bool fadeIn, float fadeTime) {
             GameObject soundEmitter = pooler.GetSoundEmitter();
             if (soundEmitter != null) {
                 soundEmitter.GetComponent<SoundEmitter>().Play(audioClipBank, audioConfig, fadeIn, fadeTime);
@@ -94,8 +94,8 @@ namespace HNC {
             masterVolume = volume;
             audioMixer.SetFloat("SFX", NormalizedMixerValue(volume));
         }
-        private float NormalizedMixerValue(float volume) =>
-            //TODO
-            0f;
+
+        //TODO
+        private float NormalizedMixerValue(float volume) => 0f;
     }
 }
