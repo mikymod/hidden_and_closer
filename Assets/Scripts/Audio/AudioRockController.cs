@@ -8,8 +8,11 @@ namespace HNC
     {
         [SerializeField] private AudioClipsBankSO hitClipsBank;
         [SerializeField] private AudioConfigurationSO hitConfiguration;
-        [SerializeField] private AudioManager audioManager;
 
-        public void PlayHitSound() => audioManager.OnSoundPlay?.Invoke(hitClipsBank, hitConfiguration, false, 0f);
+        public void PlayHitSound()
+        {
+            AudioManager.OnSoundPlay?.Invoke(hitClipsBank, hitConfiguration, false, 0f);
+            AudioManager.OnDoingNoise?.Invoke(transform);
+        }
     }
 }

@@ -3,7 +3,8 @@ using UnityEngine.Audio;
 using UnityEngine.Events;
 
 namespace HNC {
-    public class AudioManager : MonoBehaviour {
+    public class AudioManager : MonoBehaviour 
+    {
         private Pooler pooler;
 
         [SerializeField] private AudioMixer audioMixer = default;
@@ -12,15 +13,16 @@ namespace HNC {
         [Range(0f, 1f)] private readonly float musicVolume = 1f;
         [Range(0f, 1f)] private readonly float sfxVolume = 1f;
 
-        public UnityAction<AudioClipsBankSO, AudioConfigurationSO, bool, float> OnSoundPlay;
-        public UnityAction<float> OnSoundStop;
-        public UnityAction OnSoundPause;
-        public UnityAction OnSoundResume;
-        public UnityAction OnSoundFadeIn;
-        public UnityAction OnSoundFadeOut;
-        public UnityAction<float> OnMasterVolumeChanged;
-        public UnityAction<float> OnMusicVolumeChanged;
-        public UnityAction<float> OnSFXVolumeChanged;
+        public static UnityAction<AudioClipsBankSO, AudioConfigurationSO, bool, float> OnSoundPlay;
+        public static UnityAction<float> OnSoundStop;
+        public static UnityAction OnSoundPause;
+        public static UnityAction OnSoundResume;
+        public static UnityAction OnSoundFadeIn;
+        public static UnityAction OnSoundFadeOut;
+        public static UnityAction<float> OnMasterVolumeChanged;
+        public static UnityAction<float> OnMusicVolumeChanged;
+        public static UnityAction<float> OnSFXVolumeChanged;
+        public static UnityAction<Transform> OnDoingNoise;
 
         private void Awake() => pooler = GetComponent<Pooler>();
 
