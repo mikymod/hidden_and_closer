@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace HNC
 {
@@ -28,6 +29,7 @@ namespace HNC
         public string MoveParamName;
         public string SpeedParamName;
         public string CrouchParamName;
+        public string DeathParamName;
 
         private StateMachine _stateMachine;
         private List<IState> _states;
@@ -50,6 +52,11 @@ namespace HNC
         public int AnimatorSpeedHash { get; private set; }
         [HideInInspector]
         public int AnimatorCrouchHash { get; private set; }
+        public bool Dead { get; private set; } = false;
+
+        #region Events
+        public event UnityAction DeadEvent;
+        #endregion
 
         private void Awake()
         {
@@ -60,9 +67,13 @@ namespace HNC
             _states.Add(idle);
             IState move = new PlayerMove(this);
             _states.Add(move);
+            IState death = new PlayerDeath(this);
+            _states.Add(death);
 
             _stateMachine.AddTransition(idle, move, () => IsMoving);
             _stateMachine.AddTransition(move, idle, () => !IsMoving);
+
+            _stateMachine.AddAnyTransition(death, () => Dead);
 
             _stateMachine.SetInitialState(idle);
         }
@@ -79,6 +90,8 @@ namespace HNC
             _input.move += OnMove;
             _input.crouchStarted += OnCrouchStarted;
             _input.crouchCanceled += OnCrouchCanceled;
+
+            DeadEvent += OnDead;
         }
 
         private void OnDisable()
@@ -86,6 +99,8 @@ namespace HNC
             _input.move -= OnMove;
             _input.crouchStarted -= OnCrouchStarted;
             _input.crouchCanceled -= OnCrouchCanceled;
+
+            DeadEvent -= OnDead;
         }
         private void OnMove(Vector2 input)
         {
@@ -104,5 +119,7 @@ namespace HNC
                 _stateMachine.Update();
             }
         }
+
+        private void OnDead() => Dead = true;
     }
 }

@@ -1660,6 +1660,7 @@ MonoBehaviour:
   MoveParamName: Move
   SpeedParamName: Speed
   CrouchParamName: Crouch
+  DeathParamName: Death
 --- !u!1 &1491129765998800
 GameObject:
   m_ObjectHideFlags: 0
