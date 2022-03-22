@@ -42,7 +42,7 @@ ModelImporter:
       lastFrame: 218
       wrapMode: 0
       orientationOffsetY: 0
-      level: 0
+      level: 0.1
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
@@ -73,7 +73,7 @@ ModelImporter:
     sortHierarchyByName: 1
     importVisibility: 1
     importBlendShapes: 0
-    importCameras: 1
+    importCameras: 0
     importLights: 0
     fileIdsGeneration: 2
     swapUVChannels: 0

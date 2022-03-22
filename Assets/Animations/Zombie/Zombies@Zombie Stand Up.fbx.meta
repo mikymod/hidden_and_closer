@@ -1,11 +1,8 @@
 fileFormatVersion: 2
-guid: be104f0a372f72a41a204aedcd9f9f0c
+guid: 55b35ec5e99ac08448ec2057115ea609
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable:
-  - first:
-      74: 1827226128182048838
-    second: Take 001
   - first:
       74: -203655887218126122
     second: mixamo.com
@@ -46,9 +43,9 @@ ModelImporter:
     useSRGBMaterialColor: 1
     sortHierarchyByName: 1
     importVisibility: 1
-    importBlendShapes: 1
-    importCameras: 1
-    importLights: 1
+    importBlendShapes: 0
+    importCameras: 0
+    importLights: 0
     fileIdsGeneration: 2
     swapUVChannels: 0
     generateSecondaryUV: 0
@@ -78,11 +75,7 @@ ModelImporter:
     legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 0
-  referencedClips:
-  - 7f5d9a8564785da498321d9726d202be
-  - 55b35ec5e99ac08448ec2057115ea609
-  - c7db49fd23e5f2f49b08fb778dfc3f67
-  - 5d10bf50c9e6e1040be598dae2cedd42
+  referencedClips: []
   importAnimation: 1
   humanDescription:
     serializedVersion: 3
