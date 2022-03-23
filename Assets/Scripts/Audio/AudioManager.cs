@@ -3,7 +3,8 @@ using UnityEngine.Audio;
 using UnityEngine.Events;
 
 namespace HNC {
-    public class AudioManager : MonoBehaviour {
+    public class AudioManager : MonoBehaviour 
+    {
         private Pooler pooler;
 
         [SerializeField] private AudioMixer audioMixer = default;
@@ -12,15 +13,15 @@ namespace HNC {
         [Range(0f, 1f)] private readonly float musicVolume = 1f;
         [Range(0f, 1f)] private readonly float sfxVolume = 1f;
 
-        public UnityAction<AudioClipsBankSO, AudioConfigurationSO, bool, float> OnSoundPlay;
-        public UnityAction<float> OnSoundStop;
-        public UnityAction OnSoundPause;
-        public UnityAction OnSoundResume;
-        public UnityAction OnSoundFadeIn;
-        public UnityAction OnSoundFadeOut;
-        public UnityAction<float> OnMasterVolumeChanged;
-        public UnityAction<float> OnMusicVolumeChanged;
-        public UnityAction<float> OnSFXVolumeChanged;
+        public static UnityAction<AudioClipsBankSO, AudioConfigurationSO, Transform, float> OnSoundPlay;
+        public static UnityAction<Transform, float> OnSoundStop;
+        public static UnityAction OnSoundPause;
+        public static UnityAction OnSoundResume;
+        public static UnityAction OnSoundFadeIn;
+        public static UnityAction OnSoundFadeOut;
+        public static UnityAction<float> OnMasterVolumeChanged;
+        public static UnityAction<float> OnMusicVolumeChanged;
+        public static UnityAction<float> OnSFXVolumeChanged;
 
         private void Awake() => pooler = GetComponent<Pooler>();
 
@@ -44,17 +45,17 @@ namespace HNC {
             OnMasterVolumeChanged -= SFXVolumChanged;
         }
 
-        private void Play(AudioClipsBankSO audioClipBank, AudioConfigurationSO audioConfig, bool fadeIn, float fadeTime) {
+        private void Play(AudioClipsBankSO audioClipBank, AudioConfigurationSO audioConfig, Transform transform, float fadeTime) {
             GameObject soundEmitter = pooler.GetSoundEmitter();
             if (soundEmitter != null) {
-                soundEmitter.GetComponent<SoundEmitter>().Play(audioClipBank, audioConfig, fadeIn, fadeTime);
+                soundEmitter.GetComponent<SoundEmitter>().Play(audioClipBank, audioConfig, transform, fadeTime);
             }
         }
 
-        private void Stop(float fadeTime) {
+        private void Stop(Transform transform, float fadeTime) {
             GameObject soundEmitter = pooler.DisposeSoundEmitter();
-            if (soundEmitter != null) {
-                soundEmitter.GetComponent<SoundEmitter>().Stop();
+            if (soundEmitter != null) { 
+                soundEmitter.GetComponent<SoundEmitter>().Stop(transform, fadeTime);
             }
         }
 
@@ -70,17 +71,6 @@ namespace HNC {
                 soundEmitter.GetComponent<SoundEmitter>().Resume();
             }
         }
-        //private void FadeIn(float fadeTime)
-        //{
-        //    GameObject soundEmitter = pooler.GetSoundEmitter();
-        //    StartCoroutine(soundEmitter.GetComponent<SoundEmitter>().FadeIn(fadeTime));
-        //}
-
-        //private void FadeOut(float fadeTime)
-        //{
-        //    GameObject soundEmitter = pooler.GetSoundEmitter();
-        //    StartCoroutine(soundEmitter.GetComponent<SoundEmitter>().FadeOut(fadeTime));
-        //}
 
         private void MasterVolumChanged(float volume) {
             masterVolume = volume;

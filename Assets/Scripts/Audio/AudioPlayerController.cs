@@ -16,15 +16,20 @@ namespace HNC
         [SerializeField] private AudioConfigurationSO hitConfiguration;
         [SerializeField] private AudioClipsBankSO deathClipsBank;
         [SerializeField] private AudioConfigurationSO deathConfiguration;
-        [SerializeField] private AudioManager audioManager;
 
-        
-        public void PlayStandWalkSound() => audioManager.OnSoundPlay?.Invoke(walkStandClipsBank, walkStandConfiguration, false, 0f);
-        public void PlayCrouchWalkSound() => audioManager.OnSoundPlay?.Invoke(walkCrouchClipsBank, walkCrouchConfiguration, false, 0f);
-        public void PlayShootSound() => audioManager.OnSoundPlay?.Invoke(shootClipsBank, shootConfiguration, false, 0f);
-        public void PlayHitSound() => audioManager.OnSoundPlay?.Invoke(hitClipsBank, hitConfiguration, false, 0f);
-        public void PlayDeathSound() => audioManager.OnSoundPlay?.Invoke(deathClipsBank, deathConfiguration, false, 0f);
-        
-
+        public void PlayStandWalkSound()
+        {
+            AudioManager.OnSoundPlay?.Invoke(walkStandClipsBank, walkStandConfiguration, transform, 0f);
+        }
+        public void PlayCrouchWalkSound()
+        { 
+            AudioManager.OnSoundPlay?.Invoke(walkCrouchClipsBank, walkCrouchConfiguration, transform, 0f);
+        }
+        public void PlayHitSound()
+        {
+            AudioManager.OnSoundPlay?.Invoke(hitClipsBank, hitConfiguration, transform, 0f);
+        }
+        public void PlayShootSound() => AudioManager.OnSoundPlay?.Invoke(shootClipsBank, shootConfiguration, transform, 0f);
+        public void PlayDeathSound() => AudioManager.OnSoundPlay?.Invoke(deathClipsBank, deathConfiguration, transform, 0f);
     }
 }
