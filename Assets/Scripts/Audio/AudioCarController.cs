@@ -11,8 +11,7 @@ namespace HNC
 
         public void PlayMoveSound()
         {
-            AudioManager.OnSoundPlay?.Invoke(moveClipsBank, moveConfiguration, true, 0f);
-            AudioManager.OnDoingNoise?.Invoke(transform);
+            AudioManager.OnSoundPlay?.Invoke(moveClipsBank, moveConfiguration, transform, 0f);
         }
     }
 }
