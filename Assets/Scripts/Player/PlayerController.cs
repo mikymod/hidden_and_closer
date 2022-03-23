@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
 using UnityEngine;
@@ -6,137 +7,76 @@ using UnityEngine.Events;
 
 namespace HNC
 {
-    [RequireComponent(typeof(CharacterController))]
-    [RequireComponent(typeof(Animator))]
+    // Player Controller semplificato 
     public class PlayerController : MonoBehaviour
     {
-        [SerializeField] private InputHandler _input;
-
-        [Header("Movement")]
-        [Tooltip("Move speed of the characte")]
-        public float MovementSpeed = 2.0f;
-        [Tooltip("How fast the character turns to face movement direction")]
-        [Range(0.0f, 0.3f)]
-        public float RotationSmoothTime = 0.12f;
-        [Tooltip("Acceleration and deceleration")]
-        public float SpeedChangeRate = 10.0f;
-        [Tooltip("Threshold for Controller")]
-        public float Threshold = 0.2f;
-        [Tooltip("Move speed of the characte")]
-        public float CrouchSpeed = 1.0f;
-
-        [Header("Animation")]
-        public string MoveParamName;
-        public string SpeedParamName;
-        public string CrouchParamName;
-        public string DeathParamName;
-
-        [Header("Camera")]
+        [SerializeField] private InputHandler input;
         [SerializeField] private Transform followTarget;
         [SerializeField] private CinemachineVirtualCamera moveCamera;
         [SerializeField] private CinemachineVirtualCamera aimCamera;
         [SerializeField] private float rotationSpeed = 1f;
         [SerializeField] private float rotationDelta = 0.1f;
-
-        private StateMachine _stateMachine;
-        private List<IState> _states;
-        private Vector2 _look;
-        private bool _aiming;
-
-        //Need for State
-        [HideInInspector]
-        public CharacterController CharacterController { get; private set; }
-        [HideInInspector]
-        public bool IsMoving { get; private set; }
-        [HideInInspector]
-        public bool IsCrouching { get; private set; }
-        [HideInInspector]
-        public Vector3 Input { get; private set; }
-        [HideInInspector]
-        public Animator Animator { get; private set; }
-        public bool HasAnimator => Animator != null;
-        [HideInInspector]
-        public int AnimatorMoveHash { get; private set; }
-        [HideInInspector]
-        public int AnimatorSpeedHash { get; private set; }
-        [HideInInspector]
-        public int AnimatorCrouchHash { get; private set; }
-        public bool Dead { get; private set; } = false;
+        [SerializeField] private float moveSpeed = 1f;
+        [SerializeField] public float crouchSpeed = 1.0f;
 
         #region Events
         public event UnityAction DeadEvent;
         #endregion
 
+        private CharacterController _character;
+        private Animator _animator;
+        private Vector2 _move;
+        private Vector2 _look;
+        private bool _aiming;
+        private bool _crouch;
+        private bool _dead;
+
         private void Awake()
         {
-            _stateMachine = new StateMachine();
-
-            _states = new List<IState>();
-            IState idle = new PlayerIdle(this);
-            _states.Add(idle);
-            IState move = new PlayerMove(this);
-            _states.Add(move);
-            IState death = new PlayerDeath(this);
-            _states.Add(death);
-
-            _stateMachine.AddTransition(idle, move, () => IsMoving);
-            _stateMachine.AddTransition(move, idle, () => !IsMoving);
-
-            _stateMachine.AddAnyTransition(death, () => Dead);
-
-            _stateMachine.SetInitialState(idle);
+            _character = GetComponent<CharacterController>();
+            _animator = GetComponent<Animator>();
         }
 
         private void OnEnable()
         {
-            CharacterController = GetComponent<CharacterController>();
-            Animator = GetComponent<Animator>();
-            AnimatorMoveHash = MoveParamName.GetHashCode();
-            AnimatorSpeedHash = SpeedParamName.GetHashCode();
-            AnimatorCrouchHash = CrouchParamName.GetHashCode();
+            input.EnablePlayerInput(); // FIXME: this should not be here
 
-            _input.EnablePlayerInput();
-            _input.move += OnMove;
-            _input.crouchStarted += OnCrouchStarted;
-            _input.crouchCanceled += OnCrouchCanceled;
-            _input.look += OnLook;
-            _input.aimStarted += OnAimStarted;
-            _input.aimCanceled += OnAimCanceled;
+            input.move += OnMove;
+            input.look += OnLook;
+            input.aimStarted += OnAimStarted;
+            input.aimCanceled += OnAimCanceled;
+            input.crouchStarted += OnCrouchStarted;
 
-            DeadEvent += OnDead;
+            DeadEvent += OnDeath;
         }
 
         private void OnDisable()
         {
-            _input.move -= OnMove;
-            _input.crouchStarted -= OnCrouchStarted;
-            _input.crouchCanceled -= OnCrouchCanceled;
-            _input.look -= OnLook;
-            _input.aimStarted -= OnAimStarted;
-            _input.aimCanceled -= OnAimCanceled;
+            input.move -= OnMove;
+            input.look -= OnLook;
+            input.aimStarted -= OnAimStarted;
+            input.aimCanceled -= OnAimCanceled;
+            input.crouchStarted -= OnCrouchStarted;
 
-            DeadEvent -= OnDead;
-        }
-        private void OnMove(Vector2 input)
-        {
-            input.Normalize();
-            Input = new Vector3(input.x, 0, input.y);
-            IsMoving = input.sqrMagnitude != 0;
+            DeadEvent -= OnDeath;
         }
 
-        private void OnCrouchStarted() => IsCrouching = true;
-        private void OnCrouchCanceled() => IsCrouching = false;
+        private void OnMove(Vector2 move) => _move = move;
         private void OnLook(Vector2 look) => _look = look;
         private void OnAimStarted()
         {
             _aiming = true;
             CameraSwitch(_aiming);
         }
+
         private void OnAimCanceled()
         {
             _aiming = false;
             CameraSwitch(_aiming);
         }
+        private void OnCrouchStarted() => _crouch = !_crouch;
+
+        private void OnDeath() => _animator.SetTrigger("Death");
 
         private void Update()
         {
@@ -144,7 +84,7 @@ namespace HNC
             followTarget.transform.rotation *= Quaternion.AngleAxis(_look.x * rotationSpeed, Vector3.up);
 
             //  Vertical - Rotate follow target around x and clamp
-            followTarget.transform.rotation *= Quaternion.AngleAxis(_look.y * rotationSpeed, Vector3.right);
+            followTarget.transform.rotation *= Quaternion.AngleAxis(_look.y * rotationSpeed, Vector3.left);
             var angles = followTarget.transform.localEulerAngles;
             if (angles.x > 50 && angles.x < 180)
             {
@@ -157,25 +97,29 @@ namespace HNC
             angles.z = 0;
             followTarget.transform.localEulerAngles = angles;
 
-            // TODO: should we move when aiming?
+            //
             if (_aiming)
             {
                 transform.rotation = Quaternion.Euler(0, followTarget.transform.rotation.eulerAngles.y, 0);
                 followTarget.transform.localEulerAngles = new Vector3(angles.x, 0, 0);
             }
 
-            // Rotate
-            transform.rotation = Quaternion.Euler(0, followTarget.transform.rotation.eulerAngles.y, 0);
-            followTarget.transform.localEulerAngles = new Vector3(angles.x, 0, 0);
+            // Move
+            float speed = (_crouch ? crouchSpeed : moveSpeed) / 50f;
+            Vector3 motion = (transform.forward * _move.y * speed) + (transform.right * _move.x * speed);
+            _character.Move(motion);
 
-
-            if (_stateMachine != null)
+            // Rotate around player if player isn't moving 
+            if (_move != Vector2.zero)
             {
-                _stateMachine.Update();
+                transform.rotation = Quaternion.Euler(0, followTarget.transform.rotation.eulerAngles.y, 0);
+                followTarget.transform.localEulerAngles = new Vector3(angles.x, 0, 0);
             }
-        }
 
-        private void OnDead() => Dead = true;
+            _animator.SetFloat("Speed", 1);
+            _animator.SetBool("Move", _move.magnitude > 0.2f);
+            _animator.SetBool("Crouch", _crouch);
+        }
 
         private void CameraSwitch(bool aim)
         {
