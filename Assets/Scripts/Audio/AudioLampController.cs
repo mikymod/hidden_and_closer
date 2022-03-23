@@ -15,10 +15,15 @@ namespace HNC
       
         public void PlayBuzzingSound() => AudioManager.OnSoundPlay?.Invoke(buzzingClipsBank, buzzingConfiguration, transform, 0f);
         public void StopBuzzingSound() => AudioManager.OnSoundStop?.Invoke(transform, 0f);
-        public void PlayHitSound() => AudioManager.OnSoundPlay?.Invoke(hitClipsBank, hitConfiguration, transform, 0f);
+        public void PlayHitSound()
+        {
+            AudioManager.OnSoundPlay?.Invoke(hitClipsBank, hitConfiguration, transform, 0f);
+            hitConfiguration.pitch = hitConfiguration.randomPitch ? Random.Range(0.9f, 1.2f) : 1;
+        }
         public void PlayBrokenGlassSound()
         {
             AudioManager.OnSoundPlay?.Invoke(brokenGlassClipsBank, brokenGlassConfiguration, transform, 0f);
+            brokenGlassConfiguration.pitch = brokenGlassConfiguration.randomPitch ? Random.Range(0.9f, 1.2f) : 1;
         }
     }
 }
