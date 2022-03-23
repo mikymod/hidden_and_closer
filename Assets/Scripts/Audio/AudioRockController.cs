@@ -11,8 +11,7 @@ namespace HNC
 
         public void PlayHitSound()
         {
-            AudioManager.OnSoundPlay?.Invoke(hitClipsBank, hitConfiguration, false, 0f);
-            AudioManager.OnDoingNoise?.Invoke(transform);
+            AudioManager.OnSoundPlay?.Invoke(hitClipsBank, hitConfiguration, transform, 0f);
         }
     }
 }

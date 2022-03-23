@@ -9,35 +9,43 @@ namespace HNC
     {
         private int id;
         private AudioSource audioSource;
+        private Transform originalParent;
         private void Awake()
         {
             audioSource = GetComponent<AudioSource>();
+            originalParent = transform.parent.transform;
         }
 
-        public void Play(AudioClipsBankSO audioClipBank, AudioConfigurationSO audioConfig, bool fadeIn, float fadeTime)
+        public void Play(AudioClipsBankSO audioClipBank, AudioConfigurationSO audioConfig, Transform transform, float fadeTime)
         {
+            audioSource.transform.parent = transform;
+            audioSource.transform.localPosition = Vector3.zero;
             audioSource.clip = audioClipBank.GetClip();
             audioConfig.ApplyTo(audioSource);
             audioSource.Play();
-            if (fadeIn)
+            if (fadeTime > 0)
             {
                 StartCoroutine(FadeIn(fadeTime));
             }
             if (!audioSource.loop)
             {
                 float clipLengthRemaining = audioSource.clip.length - audioSource.time;
-                StartCoroutine(AudioClipFinishPlaying(clipLengthRemaining, audioSource));
+                StartCoroutine(AudioClipFinishPlaying(transform, clipLengthRemaining));
             }
         }
 
         public void Resume() => audioSource.UnPause();
         public void Pause() => audioSource.Pause();
-        public void Stop() => audioSource.Stop();
-        
-        private IEnumerator AudioClipFinishPlaying(float lenght, AudioSource source)
+        public void Stop(Transform transform, float lenght)
+         {
+            audioSource.transform.parent = originalParent;
+            audioSource.Stop();
+            audioSource.gameObject.SetActive(false);
+        } 
+        private IEnumerator AudioClipFinishPlaying(Transform transform, float lenght)
         {
             yield return new WaitForSeconds(lenght);
-            source.gameObject.SetActive(false);
+            Stop(transform, lenght);
         }
 
         public IEnumerator FadeIn(float fadeTime)
@@ -75,7 +83,5 @@ namespace HNC
         public void SetUniqueID() => id = Guid.NewGuid().GetHashCode();
         public int GetUniqueID() => id;
         public bool CheckForUniqueID(int key) => key == id;
-
-
     }
 }
