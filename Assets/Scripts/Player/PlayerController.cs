@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Cinemachine;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -10,6 +11,7 @@ namespace HNC
     public class PlayerController : MonoBehaviour
     {
         [SerializeField] private InputHandler _input;
+
         [Header("Movement")]
         [Tooltip("Move speed of the characte")]
         public float MovementSpeed = 2.0f;
@@ -23,16 +25,23 @@ namespace HNC
         [Tooltip("Move speed of the characte")]
         public float CrouchSpeed = 1.0f;
 
-
-
         [Header("Animation")]
         public string MoveParamName;
         public string SpeedParamName;
         public string CrouchParamName;
         public string DeathParamName;
 
+        [Header("Camera")]
+        [SerializeField] private Transform followTarget;
+        [SerializeField] private CinemachineVirtualCamera moveCamera;
+        [SerializeField] private CinemachineVirtualCamera aimCamera;
+        [SerializeField] private float rotationSpeed = 1f;
+        [SerializeField] private float rotationDelta = 0.1f;
+
         private StateMachine _stateMachine;
         private List<IState> _states;
+        private Vector2 _look;
+        private bool _aiming;
 
         //Need for State
         [HideInInspector]
@@ -90,6 +99,9 @@ namespace HNC
             _input.move += OnMove;
             _input.crouchStarted += OnCrouchStarted;
             _input.crouchCanceled += OnCrouchCanceled;
+            _input.look += OnLook;
+            _input.aimStarted += OnAimStarted;
+            _input.aimCanceled += OnAimCanceled;
 
             DeadEvent += OnDead;
         }
@@ -99,6 +111,9 @@ namespace HNC
             _input.move -= OnMove;
             _input.crouchStarted -= OnCrouchStarted;
             _input.crouchCanceled -= OnCrouchCanceled;
+            _input.look -= OnLook;
+            _input.aimStarted -= OnAimStarted;
+            _input.aimCanceled -= OnAimCanceled;
 
             DeadEvent -= OnDead;
         }
@@ -111,9 +126,49 @@ namespace HNC
 
         private void OnCrouchStarted() => IsCrouching = true;
         private void OnCrouchCanceled() => IsCrouching = false;
+        private void OnLook(Vector2 look) => _look = look;
+        private void OnAimStarted()
+        {
+            _aiming = true;
+            CameraSwitch(_aiming);
+        }
+        private void OnAimCanceled()
+        {
+            _aiming = false;
+            CameraSwitch(_aiming);
+        }
 
         private void Update()
         {
+            // Horizontal - Rotate follow target around y
+            followTarget.transform.rotation *= Quaternion.AngleAxis(_look.x * rotationSpeed, Vector3.up);
+
+            //  Vertical - Rotate follow target around x and clamp
+            followTarget.transform.rotation *= Quaternion.AngleAxis(_look.y * rotationSpeed, Vector3.right);
+            var angles = followTarget.transform.localEulerAngles;
+            if (angles.x > 50 && angles.x < 180)
+            {
+                angles.x = 50;
+            }
+            else if (angles.x > 180 && angles.x < 330)
+            {
+                angles.x = 330;
+            }
+            angles.z = 0;
+            followTarget.transform.localEulerAngles = angles;
+
+            // TODO: should we move when aiming?
+            if (_aiming)
+            {
+                transform.rotation = Quaternion.Euler(0, followTarget.transform.rotation.eulerAngles.y, 0);
+                followTarget.transform.localEulerAngles = new Vector3(angles.x, 0, 0);
+            }
+
+            // Rotate
+            transform.rotation = Quaternion.Euler(0, followTarget.transform.rotation.eulerAngles.y, 0);
+            followTarget.transform.localEulerAngles = new Vector3(angles.x, 0, 0);
+
+
             if (_stateMachine != null)
             {
                 _stateMachine.Update();
@@ -121,5 +176,11 @@ namespace HNC
         }
 
         private void OnDead() => Dead = true;
+
+        private void CameraSwitch(bool aim)
+        {
+            moveCamera.Priority = aim ? -1 : 1;
+            aimCamera.Priority = aim ? 1 : -1;
+        }
     }
 }
