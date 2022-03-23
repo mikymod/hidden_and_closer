@@ -10,6 +10,7 @@ namespace HNC
         private int id;
         private AudioSource audioSource;
         private Transform originalParent;
+
         private void Awake()
         {
             audioSource = GetComponent<AudioSource>();
@@ -23,6 +24,7 @@ namespace HNC
             audioSource.clip = audioClipBank.GetClip();
             audioConfig.ApplyTo(audioSource);
             audioSource.Play();
+            
             if (fadeTime > 0)
             {
                 StartCoroutine(FadeIn(fadeTime));

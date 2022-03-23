@@ -17,8 +17,6 @@ namespace HNC {
         public static UnityAction<Transform, float> OnSoundStop;
         public static UnityAction OnSoundPause;
         public static UnityAction OnSoundResume;
-        public static UnityAction OnSoundFadeIn;
-        public static UnityAction OnSoundFadeOut;
         public static UnityAction<float> OnMasterVolumeChanged;
         public static UnityAction<float> OnMusicVolumeChanged;
         public static UnityAction<float> OnSFXVolumeChanged;
