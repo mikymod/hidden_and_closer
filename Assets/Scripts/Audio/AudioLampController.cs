@@ -14,7 +14,7 @@ namespace HNC
         [SerializeField] private AudioConfigurationSO brokenGlassConfiguration;
       
         public void PlayBuzzingSound() => AudioManager.OnSoundPlay?.Invoke(buzzingClipsBank, buzzingConfiguration, transform, 0f);
-        public void StopBuzzingSound() => AudioManager.OnSoundStop?.Invoke(transform, 0f);
+        public void StopBuzzingSound() => AudioManager.OnSoundStop?.Invoke(buzzingClipsBank, transform, 0f);
         public void PlayHitSound()
         {
             AudioManager.OnSoundPlay?.Invoke(hitClipsBank, hitConfiguration, transform, 0f);

@@ -154,7 +154,7 @@ namespace HNC {
             _soundEmittersState.Add(emitter, DetectedState.Releved);
         }
 
-        private void RemoveSoundEmitter(Transform emitter, float usless) {
+        private void RemoveSoundEmitter(AudioClipsBankSO uslessACB, Transform emitter, float usless) {
             if (!_soundEmittersTransform.Contains(emitter)) {
                 return;
             }

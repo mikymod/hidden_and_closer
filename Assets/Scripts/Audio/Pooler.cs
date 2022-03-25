@@ -6,7 +6,6 @@ namespace HNC {
         [SerializeField] private GameObject soundEmitter;
         [SerializeField] private int soundEmittersCount;
         private List<GameObject> soundEmitters;
-        private readonly List<int> keys = new List<int>();
 
         private void Awake() {
             soundEmitters = new List<GameObject>();
@@ -21,8 +20,6 @@ namespace HNC {
             for (int i = 0; i < soundEmitters.Count; i++) {
                 if (!soundEmitters[i].activeInHierarchy) {
                     soundEmitters[i].SetActive(true);
-                    soundEmitters[i].GetComponent<SoundEmitter>().SetUniqueID();
-                    keys.Add(soundEmitters[i].GetComponent<SoundEmitter>().GetUniqueID());
                     return soundEmitters[i];
                 }
             }
@@ -35,13 +32,13 @@ namespace HNC {
             return go;
         }
 
-        public GameObject DisposeSoundEmitter() {
-
-            for (int i = 0; i < soundEmitters.Count; i++) {
-                if (soundEmitters[i].activeInHierarchy && soundEmitters[i].GetComponent<SoundEmitter>().CheckForUniqueID(keys[i])) {
-                    keys.RemoveAt(i);
+        public GameObject DisposeSoundEmitter(AudioClipsBankSO audioClipBank)
+        {
+            for (int i = 0; i < soundEmitters.Count; i++)
+            {
+                if (soundEmitters[i].activeInHierarchy && soundEmitters[i].GetComponent<AudioSource>().clip == audioClipBank.GetClip())
+                {    
                     GameObject go = soundEmitters[i];
-                    go.SetActive(false);
                     return go;
                 }
             }

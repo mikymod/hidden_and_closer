@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.Events;
@@ -8,21 +9,24 @@ namespace HNC {
         private Pooler pooler;
 
         [SerializeField] private AudioMixer audioMixer = default;
-        [SerializeField] private AudioMixerSnapshot[] audioMixerSnapShots = default;
+        [SerializeField] private AudioMixerSnapshot audioMixerSnapshots = default;
         [Range(0f, 1f)] private float masterVolume = 1f;
         [Range(0f, 1f)] private readonly float musicVolume = 1f;
         [Range(0f, 1f)] private readonly float sfxVolume = 1f;
 
         public static UnityAction<AudioClipsBankSO, AudioConfigurationSO, Transform, float> OnSoundPlay;
-        public static UnityAction<Transform, float> OnSoundStop;
-        public static UnityAction OnSoundPause;
-        public static UnityAction OnSoundResume;
+        public static UnityAction<AudioClipsBankSO, Transform, float> OnSoundStop;
+        public static UnityAction<AudioClipsBankSO, float> OnSoundPause;
+        public static UnityAction<AudioClipsBankSO, float> OnSoundResume;
         public static UnityAction<float> OnMasterVolumeChanged;
         public static UnityAction<float> OnMusicVolumeChanged;
         public static UnityAction<float> OnSFXVolumeChanged;
 
-        private void Awake() => pooler = GetComponent<Pooler>();
-
+        private void Awake()
+        {
+            pooler = GetComponent<Pooler>();
+            ChangeAudioMixerSnapshot("Default");
+        }
         private void OnEnable() {
             OnSoundPlay += Play;
             OnSoundStop += Stop;
@@ -50,23 +54,23 @@ namespace HNC {
             }
         }
 
-        private void Stop(Transform transform, float fadeTime) {
-            GameObject soundEmitter = pooler.DisposeSoundEmitter();
+        private void Stop(AudioClipsBankSO audioClipBank, Transform transform, float fadeTime) {
+            GameObject soundEmitter = pooler.DisposeSoundEmitter(audioClipBank);
             if (soundEmitter != null) { 
                 soundEmitter.GetComponent<SoundEmitter>().Stop(transform, fadeTime);
             }
         }
 
-        private void Pause() {
-            GameObject soundEmitter = pooler.DisposeSoundEmitter();
+        private void Pause(AudioClipsBankSO audioClipBank, float fadeTime) {
+            GameObject soundEmitter = pooler.DisposeSoundEmitter(audioClipBank);
             if (soundEmitter != null) {
-                soundEmitter.GetComponent<SoundEmitter>().Pause();
+                soundEmitter.GetComponent<SoundEmitter>().Pause(fadeTime);
             }
         }
-        private void Resume() {
-            GameObject soundEmitter = pooler.DisposeSoundEmitter();
+        private void Resume(AudioClipsBankSO audioClipBank, float fadeTime) {
+            GameObject soundEmitter = pooler.DisposeSoundEmitter(audioClipBank);
             if (soundEmitter != null) {
-                soundEmitter.GetComponent<SoundEmitter>().Resume();
+                soundEmitter.GetComponent<SoundEmitter>().Resume(fadeTime);
             }
         }
 
@@ -83,7 +87,41 @@ namespace HNC {
             audioMixer.SetFloat("SFX", NormalizedMixerValue(volume));
         }
 
-        //TODO
-        private float NormalizedMixerValue(float volume) => 0f;
+        private float NormalizedMixerValue(float normalizedValue) => (normalizedValue - 1f) * 80f;
+
+        public IEnumerator FadeIn(AudioSource audioSource, float fadeTime)
+        {
+            float time = 0f;
+            float startVolume = audioSource.volume;
+            float duration = fadeTime;
+
+            while (time < duration)
+            {
+                audioSource.volume = Mathf.Lerp(startVolume, 1f, time / duration);
+                time += Time.deltaTime;
+                yield return null;
+            }
+
+            audioSource.volume = 1f;
+        }
+
+        public IEnumerator FadeOut(AudioSource audioSource, float fadeTime)
+        {
+            float time = 0f;
+            float startVolume = audioSource.volume;
+            float duration = fadeTime;
+
+            while (time < duration)
+            {
+                audioSource.volume = Mathf.Lerp(startVolume, 0f, time / duration);
+                time += Time.deltaTime;
+                yield return null;
+            }
+
+            audioSource.volume = 0f;
+            audioSource.Stop();
+        }
+
+        private void ChangeAudioMixerSnapshot(string snapshotName) => audioMixerSnapshots.TransitionTo(0f);
     }
 }

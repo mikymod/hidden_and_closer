@@ -22,16 +22,19 @@ namespace HNC
             AudioManager.OnSoundPlay?.Invoke(walkStandClipsBank, walkStandConfiguration, transform, 0f);
             walkStandConfiguration.pitch = walkStandConfiguration.randomPitch ? Random.Range(0.9f, 1.2f) : 1;
         }
+
         public void PlayCrouchWalkSound()
         {
             AudioManager.OnSoundPlay?.Invoke(walkCrouchClipsBank, walkCrouchConfiguration, transform, 0f);
             walkCrouchConfiguration.pitch = walkCrouchConfiguration.randomPitch ? Random.Range(0.9f, 1.2f) : 1;
         }
+
         public void PlayHitSound()
         {
             AudioManager.OnSoundPlay?.Invoke(hitClipsBank, hitConfiguration, transform, 0f);
             hitConfiguration.pitch = hitConfiguration.randomPitch ? Random.Range(0.9f, 1.2f) : 1;
         }
+
         public void PlayShootSound() => AudioManager.OnSoundPlay?.Invoke(shootClipsBank, shootConfiguration, transform, 0f);
         public void PlayDeathSound() => AudioManager.OnSoundPlay?.Invoke(deathClipsBank, deathConfiguration, transform, 0f);
     }
