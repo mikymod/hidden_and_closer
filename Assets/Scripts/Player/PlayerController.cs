@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using Cinemachine;
 using UnityEngine;
 using UnityEngine.Events;
@@ -30,6 +28,7 @@ namespace HNC
         private bool _aiming;
         private bool _crouch;
         private bool _dead;
+        private bool _fire;
 
         private void Awake()
         {
@@ -46,6 +45,7 @@ namespace HNC
             input.aimStarted += OnAimStarted;
             input.aimCanceled += OnAimCanceled;
             input.crouchStarted += OnCrouchStarted;
+            input.fireStarted += OnFireStarted;
 
             DeadEvent += OnDeath;
         }
@@ -57,6 +57,7 @@ namespace HNC
             input.aimStarted -= OnAimStarted;
             input.aimCanceled -= OnAimCanceled;
             input.crouchStarted -= OnCrouchStarted;
+            input.fireStarted -= OnFireStarted;
 
             DeadEvent -= OnDeath;
         }
@@ -67,13 +68,22 @@ namespace HNC
         {
             _aiming = true;
             CameraSwitch(_aiming);
+            EnableAimAnimationLayer();
         }
 
         private void OnAimCanceled()
         {
             _aiming = false;
             CameraSwitch(_aiming);
+            DisableAimAnimationLayer();
         }
+
+        private void OnFireStarted()
+        {
+            _fire = true;
+            StartCoroutine(ShootCoroutine());
+        }
+
         private void OnCrouchStarted() => _crouch = !_crouch;
 
         private void OnDeath() => _animator.SetTrigger("Death");
@@ -126,5 +136,18 @@ namespace HNC
             moveCamera.Priority = aim ? -1 : 1;
             aimCamera.Priority = aim ? 1 : -1;
         }
+
+        private IEnumerator ShootCoroutine()
+        {
+            _animator.SetTrigger("Shoot");
+            while (_animator.GetCurrentAnimatorStateInfo(1).normalizedTime != 1f)
+            {
+                yield return null;
+            }
+            DisableAimAnimationLayer();
+        }
+
+        private void EnableAimAnimationLayer() => _animator.SetLayerWeight(1, 1);
+        private void DisableAimAnimationLayer() => _animator.SetLayerWeight(1, 0);
     }
 }
