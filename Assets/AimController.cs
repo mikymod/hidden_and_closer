@@ -34,8 +34,6 @@ namespace HNC
             _animator = GetComponent<Animator>();
 
             _pooler = GetComponent<Pooler>();
-
-            CreatePhysicsScene();
         }
 
         private void OnEnable()
@@ -50,6 +48,11 @@ namespace HNC
             input.aimStarted -= OnAimStarted;
             input.aimCanceled -= OnAimCanceled;
             input.fireStarted -= OnFireStarted;
+        }
+
+        private void Start()
+        {
+            CreatePhysicsScene();
         }
 
         private void Update()
@@ -129,6 +132,7 @@ namespace HNC
             _physicsScene = SceneManager.CreateScene("physics-scene", new CreateSceneParameters(LocalPhysicsMode.Physics3D));
 
             var root = Instantiate(SceneManager.GetActiveScene().GetRootGameObjects()[0]);
+            root.GetComponentInChildren<AimController>().enabled = false;
             var renderers = root.GetComponentsInChildren<Renderer>();
             foreach (var renderer in renderers)
             {

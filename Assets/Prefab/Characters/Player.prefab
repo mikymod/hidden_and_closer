@@ -1073,8 +1073,8 @@ GameObject:
   - component: {fileID: 4691069568663642}
   - component: {fileID: 95337165567889042}
   - component: {fileID: 1934289073985820793}
-  - component: {fileID: 6960135517640401840}
   - component: {fileID: 5349604036036685420}
+  - component: {fileID: 6960135517640401840}
   - component: {fileID: 1528290127447410840}
   m_Layer: 0
   m_Name: Player
@@ -1140,6 +1140,20 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0.9, z: 0}
+--- !u!114 &5349604036036685420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1478715308122502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e620957a659b50147829015c202cccfe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 8243408570398417744, guid: 4b3474173e2f35147a5b2923b3ccdc09, type: 3}
+  poolCount: 3
 --- !u!114 &6960135517640401840
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1158,20 +1172,6 @@ MonoBehaviour:
   rotationDelta: 0.1
   moveSpeed: 1
   crouchSpeed: 1
---- !u!114 &5349604036036685420
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1478715308122502}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e620957a659b50147829015c202cccfe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prefab: {fileID: 8243408570398417744, guid: 4b3474173e2f35147a5b2923b3ccdc09, type: 3}
-  poolCount: 3
 --- !u!114 &1528290127447410840
 MonoBehaviour:
   m_ObjectHideFlags: 0
