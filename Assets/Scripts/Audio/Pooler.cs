@@ -1,44 +1,51 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace HNC {
-    public class Pooler : MonoBehaviour {
-        [SerializeField] private GameObject soundEmitter;
-        [SerializeField] private int soundEmittersCount;
-        private List<GameObject> soundEmitters;
+namespace HNC
+{
+    public class Pooler : MonoBehaviour
+    {
+        [SerializeField] private GameObject prefab;
+        [SerializeField] private int poolCount;
+        private List<GameObject> _objects;
 
-        private void Awake() {
-            soundEmitters = new List<GameObject>();
-            for (int i = 0; i < soundEmittersCount; i++) {
-                GameObject go = Instantiate(soundEmitter, transform);
+        private void Awake()
+        {
+            _objects = new List<GameObject>();
+            for (int i = 0; i < poolCount; i++)
+            {
+                GameObject go = Instantiate(prefab, transform);
                 go.SetActive(false);
-                soundEmitters.Add(go);
+                _objects.Add(go);
             }
         }
 
-        public GameObject GetSoundEmitter() {
-            for (int i = 0; i < soundEmitters.Count; i++) {
-                if (!soundEmitters[i].activeInHierarchy) {
-                    soundEmitters[i].SetActive(true);
-                    return soundEmitters[i];
+        public GameObject Get()
+        {
+            for (int i = 0; i < _objects.Count; i++)
+            {
+                if (!_objects[i].activeInHierarchy)
+                {
+                    _objects[i].SetActive(true);
+                    return _objects[i];
                 }
             }
 
-            GameObject go = Instantiate(soundEmitter, transform);
+            GameObject go = Instantiate(prefab, transform);
             go.SetActive(true);
-            soundEmitters.Add(go);
-
+            _objects.Add(go);
 
             return go;
         }
 
+        // FIXME: wrong place. Pooler should manage every kind of object
         public GameObject DisposeSoundEmitter(AudioClipsBankSO audioClipBank)
         {
-            for (int i = 0; i < soundEmitters.Count; i++)
+            for (int i = 0; i < _objects.Count; i++)
             {
-                if (soundEmitters[i].activeInHierarchy && soundEmitters[i].GetComponent<AudioSource>().clip == audioClipBank.GetClip())
-                {    
-                    GameObject go = soundEmitters[i];
+                if (_objects[i].activeInHierarchy && _objects[i].GetComponent<AudioSource>().clip == audioClipBank.GetClip())
+                {
+                    GameObject go = _objects[i];
                     return go;
                 }
             }
