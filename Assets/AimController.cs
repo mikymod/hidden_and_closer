@@ -147,6 +147,8 @@ namespace HNC
             }
 
             SceneManager.MoveGameObjectToScene(newRoot, _physicsScene);
+
+            Destroy(root);
         }
 
         private void SimulatePath()
