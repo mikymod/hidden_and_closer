@@ -146,6 +146,12 @@ namespace HNC
             var physicsObjects = root.GetComponentsInChildren<Collider>();
             foreach (var obj in physicsObjects)
             {
+                // Remove companion from this list
+                if (obj.GetComponent<CompanionController>() != null)
+                {
+                    continue;
+                }
+
                 obj.transform.SetParent(newRoot.transform);
             }
 

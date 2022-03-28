@@ -1,4 +1,5 @@
 using Cinemachine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,23 +17,25 @@ namespace HNC
         private bool isControllingCompanion;
 
         private Rigidbody _rb;
+        private Collider _collider;
+        private Renderer[] _renderers;
         private Vector2 _move;
         private Vector2 _look;
 
         private void Awake()
         {
             _rb = GetComponent<Rigidbody>();
+            _collider = GetComponentInChildren<Collider>();
+            _renderers = GetComponentsInChildren<Renderer>();
         }
 
         private void OnEnable()
         {
-            input.DisableAllInput();
-            input.EnableCompanionInput();
-            isControllingCompanion = true;
-            CameraSwitch(isControllingCompanion);
             input.companionMove += OnMove;
             input.companionLook += OnLook;
             input.playerSwitch += OnCompanionControllingFinished;
+
+            PlayerController.companionControl += OnCompanionControllingStarted;
         }
 
         private void OnDisable()
@@ -40,21 +43,46 @@ namespace HNC
             input.companionMove -= OnMove;
             input.companionLook -= OnLook;
             input.playerSwitch -= OnCompanionControllingFinished;
+
+            PlayerController.companionControl -= OnCompanionControllingStarted;
         }
 
         private void OnMove(Vector2 move) => _move = move;
         private void OnLook(Vector2 look) => _look = look;
 
-        private void OnCompanionControllingFinished()
+        private void OnCompanionControllingStarted(Transform spawn)
         {
-            input.DisableAllInput();
-            input.EnablePlayerInput();
-            isControllingCompanion = false;
-            CameraSwitch(isControllingCompanion);
-            gameObject.SetActive(false);
+            isControllingCompanion = true;
+            transform.position = spawn.position;
+            transform.rotation = spawn.rotation;
+
+            foreach (var rend in _renderers)
+            {
+                rend.enabled = true;
+            }
+
+            _collider.enabled = true;
+
+            CameraSwitch();
         }
 
-        private void CameraSwitch(bool companion)
+        private void OnCompanionControllingFinished()
+        {
+            isControllingCompanion = false;
+
+            input.DisableAllInput();
+            input.EnablePlayerInput();
+
+            foreach (var rend in _renderers)
+            {
+                rend.enabled = false;
+            }
+            _collider.enabled = false;
+
+            CameraSwitch();
+        }
+
+        private void CameraSwitch()
         {
             moveCamera.Priority = isControllingCompanion ? -1 : 1;
             companionCamera.Priority = isControllingCompanion ? 1 : -1;

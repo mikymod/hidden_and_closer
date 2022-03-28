@@ -1204,7 +1204,6 @@ MonoBehaviour:
   rotationDelta: 0.1
   moveSpeed: 1
   crouchSpeed: 1
-  companion: {fileID: 0}
   companionSpot: {fileID: 1383982822}
 --- !u!114 &1528290127447410840
 MonoBehaviour:
