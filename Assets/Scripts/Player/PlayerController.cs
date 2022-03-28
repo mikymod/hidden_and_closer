@@ -1,5 +1,3 @@
-using System.Collections;
-using Cinemachine;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -10,8 +8,6 @@ namespace HNC
     {
         [SerializeField] private InputHandler input;
         [SerializeField] private Transform followTarget;
-        [SerializeField] private CinemachineVirtualCamera moveCamera;
-        [SerializeField] private CinemachineVirtualCamera aimCamera;
         [SerializeField] private float rotationSpeed = 1f;
         [SerializeField] private float rotationDelta = 0.1f;
         [SerializeField] private float moveSpeed = 1f;
@@ -42,10 +38,9 @@ namespace HNC
 
             input.move += OnMove;
             input.look += OnLook;
+            input.crouchStarted += OnCrouchStarted;
             input.aimStarted += OnAimStarted;
             input.aimCanceled += OnAimCanceled;
-            input.crouchStarted += OnCrouchStarted;
-            input.fireStarted += OnFireStarted;
 
             DeadEvent += OnDeath;
         }
@@ -54,38 +49,18 @@ namespace HNC
         {
             input.move -= OnMove;
             input.look -= OnLook;
+            input.crouchStarted -= OnCrouchStarted;
             input.aimStarted -= OnAimStarted;
             input.aimCanceled -= OnAimCanceled;
-            input.crouchStarted -= OnCrouchStarted;
-            input.fireStarted -= OnFireStarted;
 
             DeadEvent -= OnDeath;
         }
 
         private void OnMove(Vector2 move) => _move = move;
         private void OnLook(Vector2 look) => _look = look;
-        private void OnAimStarted()
-        {
-            _aiming = true;
-            CameraSwitch(_aiming);
-            EnableAimAnimationLayer();
-        }
-
-        private void OnAimCanceled()
-        {
-            _aiming = false;
-            CameraSwitch(_aiming);
-            DisableAimAnimationLayer();
-        }
-
-        private void OnFireStarted()
-        {
-            _fire = true;
-            StartCoroutine(ShootCoroutine());
-        }
-
+        private void OnAimStarted() => _aiming = true;
+        private void OnAimCanceled() => _aiming = false;
         private void OnCrouchStarted() => _crouch = !_crouch;
-
         private void OnDeath() => _animator.SetTrigger("Death");
 
         private void Update()
@@ -107,47 +82,24 @@ namespace HNC
             angles.z = 0;
             followTarget.transform.localEulerAngles = angles;
 
-            //
-            if (_aiming)
-            {
-                transform.rotation = Quaternion.Euler(0, followTarget.transform.rotation.eulerAngles.y, 0);
-                followTarget.transform.localEulerAngles = new Vector3(angles.x, 0, 0);
-            }
-
             // Move
             float speed = (_crouch ? crouchSpeed : moveSpeed) / 50f;
             Vector3 motion = (transform.forward * _move.y * speed) + (transform.right * _move.x * speed);
             _character.Move(motion);
 
-            // Rotate around player if player isn't moving 
-            if (_move != Vector2.zero)
+            if (_aiming || _move != Vector2.zero)
             {
                 transform.rotation = Quaternion.Euler(0, followTarget.transform.rotation.eulerAngles.y, 0);
                 followTarget.transform.localEulerAngles = new Vector3(angles.x, 0, 0);
+            }
+            else if (_move == Vector2.zero)
+            {
+                followTarget.transform.localEulerAngles = new Vector3(0, angles.y, 0);
             }
 
             _animator.SetFloat("Speed", 1);
             _animator.SetBool("Move", _move.magnitude > 0.2f);
             _animator.SetBool("Crouch", _crouch);
         }
-
-        private void CameraSwitch(bool aim)
-        {
-            moveCamera.Priority = aim ? -1 : 1;
-            aimCamera.Priority = aim ? 1 : -1;
-        }
-
-        private IEnumerator ShootCoroutine()
-        {
-            _animator.SetTrigger("Shoot");
-            while (_animator.GetCurrentAnimatorStateInfo(1).normalizedTime != 1f)
-            {
-                yield return null;
-            }
-            DisableAimAnimationLayer();
-        }
-
-        private void EnableAimAnimationLayer() => _animator.SetLayerWeight(1, 1);
-        private void DisableAimAnimationLayer() => _animator.SetLayerWeight(1, 0);
     }
 }
