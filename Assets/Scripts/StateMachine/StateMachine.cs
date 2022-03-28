@@ -28,6 +28,7 @@ namespace HNC {
 
             _current.Exit();
             _current = state;
+            Debug.Log($"Current transition {state}");
 
             _transitions.TryGetValue(_current.GetType(), out _currentTransitions);
             if (_currentTransitions == null) {
