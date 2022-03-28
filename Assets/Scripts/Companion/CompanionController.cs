@@ -21,9 +21,7 @@ namespace HNC
 
         private void Awake()
         {
-            
             _rb = GetComponent<Rigidbody>();
-
         }
 
         private void OnEnable()
