@@ -16,6 +16,8 @@ namespace HNC {
 
         public event UnityAction<Vector2> companionMove = delegate { };
         public event UnityAction<Vector2> companionLook = delegate { };
+        public event UnityAction companionSwitch = delegate { };
+        public event UnityAction playerSwitch = delegate { };
 
         private GameInput gameInput;
 
@@ -103,7 +105,14 @@ namespace HNC {
             Vector2 value = context.ReadValue<Vector2>();
             companionMove?.Invoke(value);
         }
-
+        public void OnCompanionSwitch(InputAction.CallbackContext context)
+        {
+            companionSwitch?.Invoke();            
+        }
+        public void OnPlayerSwitch(InputAction.CallbackContext context)
+        {
+            playerSwitch?.Invoke();
+        }
         public void OnNavigate(InputAction.CallbackContext context) => throw new System.NotImplementedException();
 
         public void OnSubmit(InputAction.CallbackContext context) => throw new System.NotImplementedException();

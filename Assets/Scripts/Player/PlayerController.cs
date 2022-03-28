@@ -12,7 +12,9 @@ namespace HNC
         [SerializeField] private float rotationDelta = 0.1f;
         [SerializeField] private float moveSpeed = 1f;
         [SerializeField] public float crouchSpeed = 1.0f;
-
+        [SerializeField] private GameObject companion;
+        [SerializeField] private Transform companionSpot;
+        
         #region Events
         public event UnityAction DeadEvent;
         #endregion
@@ -34,6 +36,7 @@ namespace HNC
 
         private void OnEnable()
         {
+            input.DisableAllInput();
             input.EnablePlayerInput(); // FIXME: this should not be here
 
             input.move += OnMove;
@@ -41,6 +44,7 @@ namespace HNC
             input.crouchStarted += OnCrouchStarted;
             input.aimStarted += OnAimStarted;
             input.aimCanceled += OnAimCanceled;
+            input.companionSwitch += OnCompanionControllingStarted;
 
             DeadEvent += OnDeath;
         }
@@ -52,6 +56,7 @@ namespace HNC
             input.crouchStarted -= OnCrouchStarted;
             input.aimStarted -= OnAimStarted;
             input.aimCanceled -= OnAimCanceled;
+            input.companionSwitch -= OnCompanionControllingStarted;
 
             DeadEvent -= OnDeath;
         }
@@ -62,7 +67,12 @@ namespace HNC
         private void OnAimCanceled() => _aiming = false;
         private void OnCrouchStarted() => _crouch = !_crouch;
         private void OnDeath() => _animator.SetTrigger("Death");
-
+        private void OnCompanionControllingStarted()
+        {
+            companion.transform.position = companionSpot.position;
+            companion.transform.rotation = companionSpot.rotation;
+            companion.gameObject.SetActive(true);
+        }
         private void Update()
         {
             // Horizontal - Rotate follow target around y

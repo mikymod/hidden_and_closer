@@ -73,6 +73,15 @@ namespace HNC
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""CompanionSwitch"",
+                    ""type"": ""Button"",
+                    ""id"": ""179e9df7-2be6-45d8-8441-945ba54713fd"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -339,6 +348,17 @@ namespace HNC
                     ""action"": ""Crouch"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4046e011-2d35-408e-b03f-f3d676490223"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""CompanionSwitch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -363,6 +383,15 @@ namespace HNC
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""PlayerSwitch"",
+                    ""type"": ""Button"",
+                    ""id"": ""c5acfac5-264f-4bc4-89fa-ef841bcf8fad"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -528,6 +557,17 @@ namespace HNC
                     ""processors"": """",
                     ""groups"": ""Joystick"",
                     ""action"": ""CompanionLook"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3984aac4-15d6-4eaa-b532-20b34ae24e60"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""PlayerSwitch"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1120,10 +1160,12 @@ namespace HNC
             m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
             m_Player_Aim = m_Player.FindAction("Aim", throwIfNotFound: true);
             m_Player_Crouch = m_Player.FindAction("Crouch", throwIfNotFound: true);
+            m_Player_CompanionSwitch = m_Player.FindAction("CompanionSwitch", throwIfNotFound: true);
             // Companion
             m_Companion = asset.FindActionMap("Companion", throwIfNotFound: true);
             m_Companion_CompanionMove = m_Companion.FindAction("CompanionMove", throwIfNotFound: true);
             m_Companion_CompanionLook = m_Companion.FindAction("CompanionLook", throwIfNotFound: true);
+            m_Companion_PlayerSwitch = m_Companion.FindAction("PlayerSwitch", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1200,6 +1242,7 @@ namespace HNC
         private readonly InputAction m_Player_Fire;
         private readonly InputAction m_Player_Aim;
         private readonly InputAction m_Player_Crouch;
+        private readonly InputAction m_Player_CompanionSwitch;
         public struct PlayerActions
         {
             private @GameInput m_Wrapper;
@@ -1209,6 +1252,7 @@ namespace HNC
             public InputAction @Fire => m_Wrapper.m_Player_Fire;
             public InputAction @Aim => m_Wrapper.m_Player_Aim;
             public InputAction @Crouch => m_Wrapper.m_Player_Crouch;
+            public InputAction @CompanionSwitch => m_Wrapper.m_Player_CompanionSwitch;
             public InputActionMap Get() { return m_Wrapper.m_Player; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -1233,6 +1277,9 @@ namespace HNC
                     @Crouch.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCrouch;
                     @Crouch.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCrouch;
                     @Crouch.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCrouch;
+                    @CompanionSwitch.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCompanionSwitch;
+                    @CompanionSwitch.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCompanionSwitch;
+                    @CompanionSwitch.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCompanionSwitch;
                 }
                 m_Wrapper.m_PlayerActionsCallbackInterface = instance;
                 if (instance != null)
@@ -1252,6 +1299,9 @@ namespace HNC
                     @Crouch.started += instance.OnCrouch;
                     @Crouch.performed += instance.OnCrouch;
                     @Crouch.canceled += instance.OnCrouch;
+                    @CompanionSwitch.started += instance.OnCompanionSwitch;
+                    @CompanionSwitch.performed += instance.OnCompanionSwitch;
+                    @CompanionSwitch.canceled += instance.OnCompanionSwitch;
                 }
             }
         }
@@ -1262,12 +1312,14 @@ namespace HNC
         private ICompanionActions m_CompanionActionsCallbackInterface;
         private readonly InputAction m_Companion_CompanionMove;
         private readonly InputAction m_Companion_CompanionLook;
+        private readonly InputAction m_Companion_PlayerSwitch;
         public struct CompanionActions
         {
             private @GameInput m_Wrapper;
             public CompanionActions(@GameInput wrapper) { m_Wrapper = wrapper; }
             public InputAction @CompanionMove => m_Wrapper.m_Companion_CompanionMove;
             public InputAction @CompanionLook => m_Wrapper.m_Companion_CompanionLook;
+            public InputAction @PlayerSwitch => m_Wrapper.m_Companion_PlayerSwitch;
             public InputActionMap Get() { return m_Wrapper.m_Companion; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -1283,6 +1335,9 @@ namespace HNC
                     @CompanionLook.started -= m_Wrapper.m_CompanionActionsCallbackInterface.OnCompanionLook;
                     @CompanionLook.performed -= m_Wrapper.m_CompanionActionsCallbackInterface.OnCompanionLook;
                     @CompanionLook.canceled -= m_Wrapper.m_CompanionActionsCallbackInterface.OnCompanionLook;
+                    @PlayerSwitch.started -= m_Wrapper.m_CompanionActionsCallbackInterface.OnPlayerSwitch;
+                    @PlayerSwitch.performed -= m_Wrapper.m_CompanionActionsCallbackInterface.OnPlayerSwitch;
+                    @PlayerSwitch.canceled -= m_Wrapper.m_CompanionActionsCallbackInterface.OnPlayerSwitch;
                 }
                 m_Wrapper.m_CompanionActionsCallbackInterface = instance;
                 if (instance != null)
@@ -1293,6 +1348,9 @@ namespace HNC
                     @CompanionLook.started += instance.OnCompanionLook;
                     @CompanionLook.performed += instance.OnCompanionLook;
                     @CompanionLook.canceled += instance.OnCompanionLook;
+                    @PlayerSwitch.started += instance.OnPlayerSwitch;
+                    @PlayerSwitch.performed += instance.OnPlayerSwitch;
+                    @PlayerSwitch.canceled += instance.OnPlayerSwitch;
                 }
             }
         }
@@ -1454,11 +1512,13 @@ namespace HNC
             void OnFire(InputAction.CallbackContext context);
             void OnAim(InputAction.CallbackContext context);
             void OnCrouch(InputAction.CallbackContext context);
+            void OnCompanionSwitch(InputAction.CallbackContext context);
         }
         public interface ICompanionActions
         {
             void OnCompanionMove(InputAction.CallbackContext context);
             void OnCompanionLook(InputAction.CallbackContext context);
+            void OnPlayerSwitch(InputAction.CallbackContext context);
         }
         public interface IUIActions
         {
