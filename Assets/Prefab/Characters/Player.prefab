@@ -1223,6 +1223,7 @@ MonoBehaviour:
   bulletTransform: {fileID: 1603228654}
   handTransform: {fileID: 4619062712264124}
   bulletPrefab: {fileID: 8243408570398417744, guid: 4b3474173e2f35147a5b2923b3ccdc09, type: 3}
+  physicsBulletPrefab: {fileID: 8243408570398417744, guid: 506e472b7cc86b84b8a98e8c5ac172e5, type: 3}
   followTarget: {fileID: 4536244782654098760}
   fireForce: 15
   simSteps: 180

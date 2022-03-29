@@ -16,6 +16,7 @@ namespace HNC
         [SerializeField] private Transform bulletTransform;
         [SerializeField] private Transform handTransform;
         [SerializeField] private GameObject bulletPrefab;
+        [SerializeField] private GameObject physicsBulletPrefab;
         [SerializeField] private Transform followTarget;
         [SerializeField] private float fireForce = 5f;
         [SerializeField] private int simSteps = 120;
@@ -176,7 +177,7 @@ namespace HNC
             _bulletLineRenderer.positionCount = 0;
 
             // Create simulated bullet and add to physics scene
-            var simBullet = Instantiate(bulletPrefab, _bullet.transform.position, _bullet.transform.rotation);
+            var simBullet = Instantiate(physicsBulletPrefab, _bullet.transform.position, _bullet.transform.rotation);
             SceneManager.MoveGameObjectToScene(simBullet, _physicsScene);
             simBullet.SetActive(true);
 
@@ -185,6 +186,7 @@ namespace HNC
             simBulletRB.isKinematic = false;
             simBulletRB.useGravity = true;
             simBulletRB.AddForce(followTarget.forward * fireForce, ForceMode.Impulse);
+
 
             // Draw
             _bulletLineRenderer.enabled = true;
