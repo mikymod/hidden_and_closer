@@ -5,6 +5,16 @@ namespace HNC {
     [RequireComponent(typeof(Detector))]
     [RequireComponent(typeof(NavMeshAgent))]
     public class EnemyController : MonoBehaviour {
+        [Header("Debug")]
+        public GameObject IdleGO;
+        public GameObject SuspGO;
+        public GameObject AlertGO;
+        public GameObject AttackGO;
+        public GameObject SearchGO;
+        public GameObject DetectedGO;
+        //public bool PullAvatarTowardsAgent;
+        //public bool PullAgentTowardsAvatar;
+
         [Header("Character")]
         public float MovementSpeed;
         public float RotationSpeed;
@@ -59,6 +69,7 @@ namespace HNC {
 
         private void Awake() {
             NavMeshAgent = GetComponent<NavMeshAgent>();
+            NavMeshAgent.updatePosition = false;
 
             AnimatorComponent = GetComponent<Animator>();
             AnimSpeedHash = Animator.StringToHash(_speedParamName);
@@ -86,6 +97,7 @@ namespace HNC {
             _stateMachine.AddTransition(alertState, searchState, () => { /*Debug.Log($"Alert to Search {AlertTimer <= 0 && detected == null}");*/ return AlertTimer <= 0 && detected == null; });
             _stateMachine.AddTransition(attackState, searchState, () => { /*Debug.Log($"Attack to Search {detected == null}");*/ return detected == null; });
             _stateMachine.AddTransition(searchState, idleState, () => { /*Debug.Log($"Search to Idle {SearchTimer <= 0}");*/ return SearchTimer <= 0; });
+            _stateMachine.AddTransition(searchState, suspiciousState, () => { /*Debug.Log($"Search to Idle {SearchTimer <= 0}");*/ return detected != null; });
 
             _stateMachine.SetInitialState(idleState);
         }
@@ -104,6 +116,20 @@ namespace HNC {
             DetectionSystemEvents.OnVisionDetectExit -= OnDetectionExit;
         }
 
+        private void OnAnimatorMove() {
+            Vector3 position = AnimatorComponent.rootPosition;
+            position.y = NavMeshAgent.nextPosition.y;
+            transform.position = position;
+
+            if (Vector3.Distance(transform.position, NavMeshAgent.nextPosition) > NavMeshAgent.radius) {
+                //if (PullAvatarTowardsAgent) {
+                //    transform.position += (NavMeshAgent.nextPosition - transform.position) * 0.1f;
+                //} else if (PullAgentTowardsAvatar) {
+                NavMeshAgent.nextPosition += (transform.position - NavMeshAgent.nextPosition) * 0.1f;
+                //}
+            }
+        }
+
         private void OnDetectionEnter(GameObject detecter, GameObject detected) {
             //Ho rilevato io
             if (detecter == gameObject) {
@@ -113,6 +139,7 @@ namespace HNC {
                 if (this.detected == null || SuspiciousTimer >= SuspiciousTime && SuspiciousTimer < 0) {
                     //Setto detected e target
                     this.detected = detected;
+                    DetectedGO.SetActive(true);
 
                     //Attivo il suspTimer
                     SuspiciousTimer = SuspiciousTime;
@@ -125,6 +152,7 @@ namespace HNC {
             if (detecter == gameObject && this.detected != null && this.detected == detected) {
                 //Rimuovo il detected
                 this.detected = null;
+                DetectedGO.SetActive(false);
 
                 //Attivo il searchTimer
                 SearchTimer = SearchTime;

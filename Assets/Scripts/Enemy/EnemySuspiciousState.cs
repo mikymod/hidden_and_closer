@@ -7,6 +7,7 @@ namespace HNC {
         public EnemySuspiciousState(EnemyController enemy) => _enemy = enemy;
 
         public void Enter() {
+            _enemy.SuspGO.SetActive(true);
             _enemy.SuspiciousTimer = _enemy.SuspiciousTime;
             _enemy.NavMeshAgent.SetDestination(_enemy.detected.transform.position);
             if (_enemy.HasAnimator) {
@@ -14,7 +15,10 @@ namespace HNC {
             }
         }
 
-        public void Exit() => _enemy.SuspiciousTimer = _enemy.SuspiciousTime;
+        public void Exit() {
+            _enemy.SuspGO.SetActive(false);
+            _enemy.SuspiciousTimer = _enemy.SuspiciousTime;
+        }
 
         public void Update() {
             _enemy.SuspiciousTimer -= Time.deltaTime;

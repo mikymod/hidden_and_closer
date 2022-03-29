@@ -11,11 +11,11 @@ namespace HNC {
         }
 
         public void Enter() {
-        
+            _enemy.AlertGO.SetActive(true);
         }
 
         public void Exit() {
-        
+            _enemy.AlertGO.SetActive(false);
         }
 
         public void Update() {

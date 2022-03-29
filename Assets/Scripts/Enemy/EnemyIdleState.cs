@@ -14,6 +14,7 @@ namespace HNC {
         public EnemyIdleState(EnemyController enemy) => _enemy = enemy;
 
         public void Enter() {
+            _enemy.IdleGO.SetActive(true);
             GetRandomTarget();
             _screamTimer = Random.Range(_enemy.MinTimeScream, _enemy.MaxTimeScream);
         }
@@ -21,11 +22,12 @@ namespace HNC {
         private void GetRandomTarget() {
             //Caluclate random point
             Vector2 randomPoint = Random.insideUnitSphere * _enemy.PatrolRadius;
-            _enemy.NavMeshAgent.SetDestination(_enemy.transform.position + new Vector3(randomPoint.x, 0, randomPoint.y));
+            _enemy.NavMeshAgent.destination = _enemy.transform.position + new Vector3(randomPoint.x, 0, randomPoint.y);
             _enemy.AnimatorComponent.SetFloat(_enemy.AnimSpeedHash, 1);
         }
 
         public void Exit() {
+            _enemy.IdleGO.SetActive(false);
         }
 
         public void Update() {
