@@ -12,11 +12,11 @@ namespace HNC
         [SerializeField] private float rotationDelta = 0.1f;
         [SerializeField] private float moveSpeed = 1f;
         [SerializeField] public float crouchSpeed = 1.0f;
-        [SerializeField] private GameObject companion;
         [SerializeField] private Transform companionSpot;
-        
+
         #region Events
         public event UnityAction DeadEvent;
+        public static UnityAction<Transform> companionControl;
         #endregion
 
         private CharacterController _character;
@@ -69,9 +69,10 @@ namespace HNC
         private void OnDeath() => _animator.SetTrigger("Death");
         private void OnCompanionControllingStarted()
         {
-            companion.transform.position = companionSpot.position;
-            companion.transform.rotation = companionSpot.rotation;
-            companion.gameObject.SetActive(true);
+            input.DisableAllInput();
+            input.EnableCompanionInput();
+
+            companionControl?.Invoke(companionSpot);
         }
         private void Update()
         {

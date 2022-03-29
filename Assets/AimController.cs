@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using Cinemachine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -18,6 +19,8 @@ namespace HNC
         [SerializeField] private Transform followTarget;
         [SerializeField] private float fireForce = 5f;
         [SerializeField] private int simSteps = 120;
+        [SerializeField] private LayerMask layer;
+        [SerializeField] private Transform aimLookAt;
 
         private Animator _animator;
         private Pooler _pooler;
@@ -143,10 +146,18 @@ namespace HNC
             var physicsObjects = root.GetComponentsInChildren<Collider>();
             foreach (var obj in physicsObjects)
             {
+                // Remove companion from this list
+                if (obj.GetComponent<CompanionController>() != null)
+                {
+                    continue;
+                }
+
                 obj.transform.SetParent(newRoot.transform);
             }
 
             SceneManager.MoveGameObjectToScene(newRoot, _physicsScene);
+
+            Destroy(root);
         }
 
         private void SimulatePath()
@@ -181,7 +192,16 @@ namespace HNC
             for (int i = 0; i < simSteps; i++)
             {
                 _physicsScene.GetPhysicsScene().Simulate(Time.fixedDeltaTime);
+                Collider[] colliders = new Collider[1];
                 _bulletLineRenderer.SetPosition(i, simBullet.transform.position);
+                if (_physicsScene.GetPhysicsScene().OverlapSphere(simBullet.transform.position, 0.1f, colliders, layer, QueryTriggerInteraction.Ignore) > 0)
+                {
+                    _bulletLineRenderer.positionCount = i;
+                    aimLookAt.transform.rotation = simBullet.transform.rotation;
+                    aimLookAt.transform.position = simBullet.transform.position;
+                    aimCamera.LookAt = aimLookAt;
+                    break;
+                }
             }
 
             Destroy(simBullet);
