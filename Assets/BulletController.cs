@@ -1,27 +1,31 @@
 using System.Collections;
 using UnityEngine;
 
-// FIXME: temp behaviour
-public class BulletController : MonoBehaviour
+namespace HNC
 {
-    private Rigidbody _rb;
-
-    private void Awake()
+    // FIXME: temp behaviour
+    public class BulletController : MonoBehaviour
     {
-        _rb = GetComponent<Rigidbody>();
-    }
-    private void OnCollisionEnter(Collision other)
-    {
-        Debug.Log("On Collision enter");
-        StartCoroutine(Reset());
-    }
+        private Rigidbody _rb;
 
-    private IEnumerator Reset()
-    {
-        yield return new WaitForSeconds(1);
+        private void Awake()
+        {
+            _rb = GetComponent<Rigidbody>();
+        }
+        private void OnCollisionEnter(Collision other)
+        {
+            Debug.Log("On Collision enter");
+            StartCoroutine(Reset());
+            transform.GetComponent<AudioRockController>().PlayHitSound();
+        }
 
-        _rb.useGravity = false;
-        _rb.isKinematic = true;
-        gameObject.SetActive(false);
+        private IEnumerator Reset()
+        {
+            yield return new WaitForSeconds(1);
+
+            _rb.useGravity = false;
+            _rb.isKinematic = true;
+            gameObject.SetActive(false);
+        }
     }
 }

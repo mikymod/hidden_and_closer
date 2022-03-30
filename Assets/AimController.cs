@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -16,6 +17,7 @@ namespace HNC
         [SerializeField] private Transform bulletTransform;
         [SerializeField] private Transform handTransform;
         [SerializeField] private GameObject bulletPrefab;
+        [SerializeField] private GameObject physicsBulletPrefab;
         [SerializeField] private Transform followTarget;
         [SerializeField] private float fireForce = 5f;
         [SerializeField] private int simSteps = 120;
@@ -136,6 +138,11 @@ namespace HNC
 
             var root = Instantiate(SceneManager.GetActiveScene().GetRootGameObjects()[0]);
             root.GetComponentInChildren<AimController>().enabled = false;
+            var texts = root.GetComponentsInChildren<TMP_Text>();
+            foreach (var text in texts)
+            {
+                text.enabled = false;
+            }
             var renderers = root.GetComponentsInChildren<Renderer>();
             foreach (var renderer in renderers)
             {
@@ -176,7 +183,7 @@ namespace HNC
             _bulletLineRenderer.positionCount = 0;
 
             // Create simulated bullet and add to physics scene
-            var simBullet = Instantiate(bulletPrefab, _bullet.transform.position, _bullet.transform.rotation);
+            var simBullet = Instantiate(physicsBulletPrefab, _bullet.transform.position, _bullet.transform.rotation);
             SceneManager.MoveGameObjectToScene(simBullet, _physicsScene);
             simBullet.SetActive(true);
 
@@ -185,6 +192,7 @@ namespace HNC
             simBulletRB.isKinematic = false;
             simBulletRB.useGravity = true;
             simBulletRB.AddForce(followTarget.forward * fireForce, ForceMode.Impulse);
+
 
             // Draw
             _bulletLineRenderer.enabled = true;

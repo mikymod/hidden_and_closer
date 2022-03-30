@@ -1,7 +1,9 @@
 using UnityEngine;
 
-namespace HNC {
-    public class EnemyIdleState : IState {
+namespace HNC
+{
+    public class EnemyIdleState : IState
+    {
         //private enum ScreamState {
         //    Scream,
         //    Await,
@@ -13,24 +15,29 @@ namespace HNC {
 
         public EnemyIdleState(EnemyController enemy) => _enemy = enemy;
 
-        public void Enter() {
-            _enemy.IdleGO.SetActive(true);
+        public void Enter()
+        {
+            //_enemy.IdleGO.SetActive(true);
+            // _enemy.debugTest.text = "Idle State";
             GetRandomTarget();
             //_screamTimer = Random.Range(_enemy.MinTimeScream, _enemy.MaxTimeScream);
         }
 
-        private void GetRandomTarget() {
+        private void GetRandomTarget()
+        {
             //Caluclate random point
             Vector2 randomPoint = Random.insideUnitSphere * _enemy.PatrolRadius;
             _enemy.NavMeshAgent.destination = _enemy.transform.position + new Vector3(randomPoint.x, 0, randomPoint.y);
-            if (_enemy.HasAnimator) {
+            if (_enemy.HasAnimator)
+            {
                 _enemy.AnimatorComponent.SetFloat(_enemy.AnimSpeedHash, 1);
             }
         }
 
         public void Exit() => _enemy.IdleGO.SetActive(false);
 
-        public void Update() {
+        public void Update()
+        {
             //_screamTimer -= Time.deltaTime;
             //if (_screamState == ScreamState.Scream) {
             //    if (_screamTimer <= 0) {
@@ -52,15 +59,19 @@ namespace HNC {
             //        _screamTimer = Random.Range(_enemy.MinTimeScream, _enemy.MaxTimeScream);
             //    }
             //}
-            if (_enemy.NavMeshAgent.remainingDistance <= _enemy.PatrolTreshoold) {
-                if (_enemy.HasAnimator) {
+            if (_enemy.NavMeshAgent.remainingDistance <= _enemy.PatrolTreshoold)
+            {
+                if (_enemy.HasAnimator)
+                {
                     _enemy.AnimatorComponent.SetFloat(_enemy.AnimSpeedHash, 0);
                 }
                 _timeToNextPoint = Random.Range(_enemy.MinTimePatrol, _enemy.MaxTimePatrol);
             }
-            if (_timeToNextPoint > 0) {
+            if (_timeToNextPoint > 0)
+            {
                 _timeToNextPoint -= Time.deltaTime;
-                if (_timeToNextPoint <= 0) {
+                if (_timeToNextPoint <= 0)
+                {
                     GetRandomTarget();
                 }
             }

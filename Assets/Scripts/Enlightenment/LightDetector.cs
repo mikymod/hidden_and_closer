@@ -6,7 +6,7 @@ public class LightDetector : MonoBehaviour
     [SerializeField][Range(0f, 0.5f)] private float lightThreshold = 0.05f;
     private Texture2D texture;
 
-    private bool illuminated = false;
+    public bool illuminated = false;
     public bool Illuminated { get => illuminated; }
 
     private void Start()

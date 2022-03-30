@@ -109,12 +109,12 @@ namespace HNC
                 transform.rotation = Quaternion.Euler(0, followTarget.transform.rotation.eulerAngles.y, 0);
                 followTarget.transform.localEulerAngles = new Vector3(angles.x, 0, 0);
             }
-            else
+            else if(_move == Vector2.zero)
             {
                 followTarget.transform.localEulerAngles = new Vector3(0, angles.y, 0);
             }
 
-            _rb.AddForce(transform.forward * _move.y * moveSpeed);
+            transform.position += transform.forward * _move.y * moveSpeed * Time.deltaTime;
         }
     }
 }
