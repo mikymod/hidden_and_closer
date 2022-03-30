@@ -35,7 +35,7 @@ namespace HNC
             input.companionLook += OnLook;
             input.playerSwitch += OnCompanionControllingFinished;
 
-            PlayerController.companionControl += OnCompanionControllingStarted;
+            PlayerController.CompanionControl += OnCompanionControllingStarted;
         }
 
         private void OnDisable()
@@ -44,7 +44,7 @@ namespace HNC
             input.companionLook -= OnLook;
             input.playerSwitch -= OnCompanionControllingFinished;
 
-            PlayerController.companionControl -= OnCompanionControllingStarted;
+            PlayerController.CompanionControl -= OnCompanionControllingStarted;
         }
 
         private void OnMove(Vector2 move) => _move = move;
