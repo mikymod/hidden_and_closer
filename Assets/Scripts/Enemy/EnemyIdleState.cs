@@ -14,7 +14,8 @@ namespace HNC {
         public EnemyIdleState(EnemyController enemy) => _enemy = enemy;
 
         public void Enter() {
-            _enemy.IdleGO.SetActive(true);
+            //_enemy.IdleGO.SetActive(true);
+            _enemy.debugTest.text = "Idle State";
             GetRandomTarget();
             _screamTimer = Random.Range(_enemy.MinTimeScream, _enemy.MaxTimeScream);
         }
@@ -27,7 +28,7 @@ namespace HNC {
         }
 
         public void Exit() {
-            _enemy.IdleGO.SetActive(false);
+            //_enemy.IdleGO.SetActive(false);
         }
 
         public void Update() {

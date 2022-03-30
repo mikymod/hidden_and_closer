@@ -1,17 +1,19 @@
 using UnityEngine;
 using UnityEngine.AI;
+using TMPro;
 
 namespace HNC {
     [RequireComponent(typeof(Detector))]
     [RequireComponent(typeof(NavMeshAgent))]
     public class EnemyController : MonoBehaviour {
         [Header("Debug")]
-        public GameObject IdleGO;
-        public GameObject SuspGO;
-        public GameObject AlertGO;
-        public GameObject AttackGO;
-        public GameObject SearchGO;
-        public GameObject DetectedGO;
+        public TMP_Text debugTest;
+        //public GameObject IdleGO;
+        //public GameObject SuspGO;
+        //public GameObject AlertGO;
+        //public GameObject AttackGO;
+        //public GameObject SearchGO;
+        //public GameObject DetectedGO;
         //public bool PullAvatarTowardsAgent;
         //public bool PullAgentTowardsAvatar;
 
@@ -139,7 +141,7 @@ namespace HNC {
                 if (this.detected == null || SuspiciousTimer >= SuspiciousTime && SuspiciousTimer < 0) {
                     //Setto detected e target
                     this.detected = detected;
-                    DetectedGO.SetActive(true);
+                    //DetectedGO.SetActive(true);
 
                     //Attivo il suspTimer
                     SuspiciousTimer = SuspiciousTime;
@@ -152,7 +154,7 @@ namespace HNC {
             if (detecter == gameObject && this.detected != null && this.detected == detected) {
                 //Rimuovo il detected
                 this.detected = null;
-                DetectedGO.SetActive(false);
+                //DetectedGO.SetActive(false);
 
                 //Attivo il searchTimer
                 SearchTimer = SearchTime;

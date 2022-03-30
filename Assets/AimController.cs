@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -137,6 +138,11 @@ namespace HNC
 
             var root = Instantiate(SceneManager.GetActiveScene().GetRootGameObjects()[0]);
             root.GetComponentInChildren<AimController>().enabled = false;
+            var texts = root.GetComponentsInChildren<TMP_Text>();
+            foreach (var text in texts)
+            {
+                text.enabled = false;
+            }
             var renderers = root.GetComponentsInChildren<Renderer>();
             foreach (var renderer in renderers)
             {

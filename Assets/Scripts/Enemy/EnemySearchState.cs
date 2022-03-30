@@ -8,7 +8,8 @@ namespace HNC {
         public EnemySearchState(EnemyController enemy) => _enemy = enemy;
 
         public void Enter() {
-            _enemy.SearchGO.SetActive(true);
+            //_enemy.SearchGO.SetActive(true);
+            _enemy.debugTest.text = "Search State";
 
             _enemy.SearchTimer = _enemy.SearchTime;
         }
@@ -34,7 +35,7 @@ namespace HNC {
 
         public void Exit() {
 
-            _enemy.SearchGO.SetActive(false);
+            //_enemy.SearchGO.SetActive(false);
             _enemy.SearchTimer = _enemy.SearchTime + 1;
         }
     }

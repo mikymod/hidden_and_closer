@@ -10,8 +10,8 @@ namespace HNC {
             _enemy = enemy;
         }
 
-        public void Enter() { 
-        
+        public void Enter() {
+            _enemy.debugTest.text = "Death State";
         }
 
         public void Exit() {

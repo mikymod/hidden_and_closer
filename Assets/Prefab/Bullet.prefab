@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8243408570398417746}
   - component: {fileID: 4020791788615825543}
   - component: {fileID: 5397832591055222798}
-  - component: {fileID: 7908384309796340770}
+  - component: {fileID: -4728633214441573594}
   m_Layer: 9
   m_Name: Bullet
   m_TagString: Untagged
@@ -223,7 +223,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f96e4034d2c6f1f4b92c6cbdbfd5467f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &7908384309796340770
+--- !u!114 &-4728633214441573594
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
