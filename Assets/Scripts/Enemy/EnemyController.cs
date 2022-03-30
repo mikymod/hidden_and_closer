@@ -2,18 +2,20 @@ using UnityEngine;
 using UnityEngine.AI;
 using TMPro;
 
-namespace HNC {
+namespace HNC
+{
     [RequireComponent(typeof(Detector))]
     [RequireComponent(typeof(NavMeshAgent))]
-    public class EnemyController : MonoBehaviour {
+    public class EnemyController : MonoBehaviour
+    {
         [Header("Debug")]
-        public TMP_Text debugTest;
-        //public GameObject IdleGO;
-        //public GameObject SuspGO;
-        //public GameObject AlertGO;
-        //public GameObject AttackGO;
-        //public GameObject SearchGO;
-        //public GameObject DetectedGO;
+        public GameObject IdleGO;
+        public GameObject SuspGO;
+        public GameObject AlertGO;
+        public GameObject AttackGO;
+        public GameObject SearchGO;
+        public GameObject DetectedVideoGO;
+        public GameObject DetectedAudioGO;
         //public bool PullAvatarTowardsAgent;
         //public bool PullAgentTowardsAvatar;
 
@@ -22,25 +24,31 @@ namespace HNC {
         public float RotationSpeed;
 
         [Header("StateMachine")]
-        [Tooltip("Min time range for random animation of scream")]
-        public float MinTimeScream;
-        [Tooltip("Max time range for random animation of scream")]
-        public float MaxTimeScream;
+        [Tooltip("Min time range for check next point in Patrol")]
+        public float MinTimePatrol;
+        [Tooltip("Max time range for check next point in Patrol")]
+        public float MaxTimePatrol;
         [Tooltip("Radius for choose a Patrol target")]
         public float PatrolRadius;
-        [Tooltip("Treshoold of patrol")]
-        public float PatrolTreshoold;
         [Space(10)]
         [Tooltip("Time in Suspicious State")]
         public float SuspiciousTime;
         [Space(10)]
-        [Tooltip("Treshoold of attack")]
-        public float AttackTreshoold;
         [Tooltip("Time in Alert State")]
         public float AlertTime;
         [Space(10)]
         [Tooltip("Time in Search State")]
         public float SearchTime;
+
+        [Header("NavMesh")]
+        [Tooltip("Treshoold of patrol")]
+        public float PatrolTreshoold;
+        [Tooltip("Treshoold of suspicious")]
+        public float SuspiciousTreshoold;
+        [Tooltip("Treshoold of alert")]
+        public float AlertTreshoold;
+        [Tooltip("Treshoold of attack")]
+        public float AttackTreshoold;
 
         [Header("Animator")]
         [Tooltip("Speed float name")]
@@ -64,12 +72,15 @@ namespace HNC {
 
 
         //Detection
-        public GameObject detected { get; private set; }
+        public GameObject Detected { get; private set; }
+        public GameObject VideoDetected { get; private set; }
+        public GameObject AudioDetected { get; private set; }
         [HideInInspector] public float SuspiciousTimer;
         [HideInInspector] public float AlertTimer;
         [HideInInspector] public float SearchTimer;
 
-        private void Awake() {
+        private void Awake()
+        {
             NavMeshAgent = GetComponent<NavMeshAgent>();
             NavMeshAgent.updatePosition = false;
 
@@ -92,38 +103,82 @@ namespace HNC {
 
             _stateMachine.AddAnyTransition(deathState, () => life <= 0);
 
-            _stateMachine.AddTransition(idleState, suspiciousState, () => { /*Debug.Log($"Idle to Susp {detected != null}");*/ return detected != null; });
-            _stateMachine.AddTransition(suspiciousState, alertState, () => { /*Debug.Log($"Susp to Alert {SuspiciousTimer <= 0 && detected != null}");*/ return SuspiciousTimer <= 0 && detected != null; });
-            _stateMachine.AddTransition(suspiciousState, searchState, () => { /*Debug.Log($"Susp to Search {SuspiciousTimer <= 0 && detected == null}");*/ return SuspiciousTimer <= 0 && detected == null; });
-            _stateMachine.AddTransition(alertState, attackState, () => { /*Debug.Log($"Alert to Attack {AlertTimer <= 0 && detected != null}");*/ return AlertTimer <= 0 && detected != null; });
-            _stateMachine.AddTransition(alertState, searchState, () => { /*Debug.Log($"Alert to Search {AlertTimer <= 0 && detected == null}");*/ return AlertTimer <= 0 && detected == null; });
-            _stateMachine.AddTransition(attackState, searchState, () => { /*Debug.Log($"Attack to Search {detected == null}");*/ return detected == null; });
-            _stateMachine.AddTransition(searchState, idleState, () => { /*Debug.Log($"Search to Idle {SearchTimer <= 0}");*/ return SearchTimer <= 0; });
-            _stateMachine.AddTransition(searchState, suspiciousState, () => { /*Debug.Log($"Search to Idle {SearchTimer <= 0}");*/ return detected != null; });
+            _stateMachine.AddTransition(idleState, suspiciousState, () =>
+            {
+                /*Debug.Log($"Idle to Susp {detected != null}");*/
+                if (VideoDetected != null)
+                {
+                    Detected = VideoDetected;
+                }
+                else if (AudioDetected != null)
+                {
+                    Detected = AudioDetected;
+                }
+                return VideoDetected != null || AudioDetected != null;
+            });
+            _stateMachine.AddTransition(suspiciousState, alertState, () =>
+            {
+                /*Debug.Log($"Susp to Alert {SuspiciousTimer <= 0 && detected != null}");*/
+                return SuspiciousTimer <= 0 && VideoDetected != null;
+            });
+            _stateMachine.AddTransition(suspiciousState, searchState, () =>
+            {
+                /*Debug.Log($"Susp to Search {SuspiciousTimer <= 0 && detected == null}");*/
+                return SuspiciousTimer <= 0 && VideoDetected == null;
+            });
+            _stateMachine.AddTransition(alertState, attackState, () =>
+            {
+                /*Debug.Log($"Alert to Attack {AlertTimer <= 0 && detected != null}");*/
+                return AlertTimer <= 0 && VideoDetected != null;
+            });
+            _stateMachine.AddTransition(alertState, searchState, () =>
+            {
+                /*Debug.Log($"Alert to Search {AlertTimer <= 0 && detected == null}");*/
+                return AlertTimer <= 0 && VideoDetected == null;
+            });
+            _stateMachine.AddTransition(attackState, searchState, () =>
+            {
+                /*Debug.Log($"Attack to Search {detected == null}");*/
+                return VideoDetected == null;
+            });
+            _stateMachine.AddTransition(searchState, idleState, () =>
+            {
+                /*Debug.Log($"Search to Idle {SearchTimer <= 0}");*/
+                return SearchTimer <= 0;
+            });
+            _stateMachine.AddTransition(searchState, suspiciousState, () =>
+            {
+                /*Debug.Log($"Search to Idle {SearchTimer <= 0}");*/
+                return VideoDetected != null || AudioDetected != null;
+            });
 
             _stateMachine.SetInitialState(idleState);
         }
 
-        private void OnEnable() {
-            DetectionSystemEvents.OnAudioDetectEnter += OnDetectionEnter;
-            DetectionSystemEvents.OnVisionDetectEnter += OnDetectionEnter;
-            DetectionSystemEvents.OnAudioDetectExit += OnDetectionExit;
-            DetectionSystemEvents.OnVisionDetectExit += OnDetectionExit;
+        private void OnEnable()
+        {
+            DetectionSystemEvents.OnAudioDetectEnter += OnAudioDetectionEnter;
+            DetectionSystemEvents.OnVisionDetectEnter += OnVideoDetectionEnter;
+            DetectionSystemEvents.OnAudioDetectExit += OnAudioDetectionExit;
+            DetectionSystemEvents.OnVisionDetectExit += OnVideoDetectionExit;
         }
 
-        private void OnDisable() {
-            DetectionSystemEvents.OnAudioDetectEnter -= OnDetectionEnter;
-            DetectionSystemEvents.OnVisionDetectEnter -= OnDetectionEnter;
-            DetectionSystemEvents.OnAudioDetectExit -= OnDetectionExit;
-            DetectionSystemEvents.OnVisionDetectExit -= OnDetectionExit;
+        private void OnDisable()
+        {
+            DetectionSystemEvents.OnAudioDetectEnter -= OnAudioDetectionEnter;
+            DetectionSystemEvents.OnVisionDetectEnter -= OnVideoDetectionEnter;
+            DetectionSystemEvents.OnAudioDetectExit -= OnAudioDetectionExit;
+            DetectionSystemEvents.OnVisionDetectExit -= OnVideoDetectionExit;
         }
 
-        private void OnAnimatorMove() {
+        private void OnAnimatorMove()
+        {
             Vector3 position = AnimatorComponent.rootPosition;
             position.y = NavMeshAgent.nextPosition.y;
             transform.position = position;
 
-            if (Vector3.Distance(transform.position, NavMeshAgent.nextPosition) > NavMeshAgent.radius) {
+            if (Vector3.Distance(transform.position, NavMeshAgent.nextPosition) > NavMeshAgent.radius)
+            {
                 //if (PullAvatarTowardsAgent) {
                 //    transform.position += (NavMeshAgent.nextPosition - transform.position) * 0.1f;
                 //} else if (PullAgentTowardsAvatar) {
@@ -132,16 +187,19 @@ namespace HNC {
             }
         }
 
-        private void OnDetectionEnter(GameObject detecter, GameObject detected) {
+        private void OnVideoDetectionEnter(GameObject detecter, GameObject detected)
+        {
             //Ho rilevato io
-            if (detecter == gameObject) {
+            if (detecter == gameObject)
+            {
                 //Non ho un target
                 //OPPURE
                 //Lo considero solo se sono in Susp
-                if (this.detected == null || SuspiciousTimer >= SuspiciousTime && SuspiciousTimer < 0) {
+                if (VideoDetected == null || SuspiciousTimer >= SuspiciousTime && SuspiciousTimer < 0)
+                {
                     //Setto detected e target
-                    this.detected = detected;
-                    //DetectedGO.SetActive(true);
+                    VideoDetected = detected;
+                    DetectedVideoGO.SetActive(true);
 
                     //Attivo il suspTimer
                     SuspiciousTimer = SuspiciousTime;
@@ -149,12 +207,49 @@ namespace HNC {
             }
         }
 
-        private void OnDetectionExit(GameObject detecter, GameObject detected) {
-            //Ho rilevato io e stavo già rilevando detected
-            if (detecter == gameObject && this.detected != null && this.detected == detected) {
+        private void OnVideoDetectionExit(GameObject detecter, GameObject detected)
+        {
+            //Ho rilevato io e stavo giï¿½ rilevando detected
+            if (detecter == gameObject && VideoDetected != null && VideoDetected == detected)
+            {
                 //Rimuovo il detected
-                this.detected = null;
-                //DetectedGO.SetActive(false);
+                VideoDetected = null;
+                DetectedVideoGO.SetActive(false);
+
+                //Attivo il searchTimer
+                SearchTimer = SearchTime;
+            }
+
+        }
+
+        private void OnAudioDetectionEnter(GameObject detecter, GameObject detected)
+        {
+            //Ho rilevato io
+            if (detecter == gameObject)
+            {
+                //Non ho un target
+                //OPPURE
+                //Lo considero solo se sono in Susp
+                if (AudioDetected == null || SuspiciousTimer >= SuspiciousTime && SuspiciousTimer < 0)
+                {
+                    //Setto detected e target
+                    AudioDetected = detected;
+                    DetectedAudioGO.SetActive(true);
+
+                    //Attivo il suspTimer
+                    SuspiciousTimer = SuspiciousTime;
+                }
+            }
+        }
+
+        private void OnAudioDetectionExit(GameObject detecter, GameObject detected)
+        {
+            //Ho rilevato io e stavo giï¿½ rilevando detected
+            if (detecter == gameObject && AudioDetected != null && AudioDetected == detected)
+            {
+                //Rimuovo il detected
+                AudioDetected = null;
+                DetectedAudioGO.SetActive(false);
 
                 //Attivo il searchTimer
                 SearchTimer = SearchTime;

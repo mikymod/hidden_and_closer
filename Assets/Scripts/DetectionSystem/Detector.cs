@@ -11,8 +11,9 @@ internal enum DetectedState {
 namespace HNC {
     [RequireComponent(typeof(SphereCollider))]
     public class Detector : MonoBehaviour {
+        public Transform DetectedCenter;
         [Range(0.0f, 360f)]
-        public float VisionAngle = 30;
+        public float VisionAngle = 45;
         public LayerMask VisionLayerMask;
         public string PlayerLayerName;
 
@@ -27,7 +28,9 @@ namespace HNC {
 
         private Ray _ray;
         private RaycastHit _hit;
-        private Vector3 _distance;
+        private Vector3 _raycastEnd;
+        private Vector3 _raycastDirection;
+        private Vector3 _audioDistance;
 
         private void Awake() {
             _soundEmittersTransform = new List<Transform>();
@@ -41,7 +44,6 @@ namespace HNC {
         private void OnEnable() {
             AudioManager.OnSoundPlay += AddSoundEmitter;
             AudioManager.OnSoundStop += RemoveSoundEmitter;
-
         }
 
 
@@ -61,10 +63,12 @@ namespace HNC {
         private void Update() {
             //Vision detected
             if (_playerTransform != null) {
-                Vector3 distance = _playerTransform.position - transform.position;
-                if (Mathf.Acos(Vector3.Dot(distance.normalized, transform.forward)) * Mathf.Rad2Deg <= VisionAngle * 0.5f) {
-                    _ray = new Ray(transform.position, distance);
-                    Debug.DrawLine(_ray.origin, _playerTransform.position, Color.green);
+                _raycastEnd = _playerTransform.position;
+                _raycastEnd.y = DetectedCenter.position.y;
+                _raycastDirection = _raycastEnd - DetectedCenter.position;
+                if (Mathf.Acos(Vector3.Dot(_raycastDirection.normalized, transform.forward)) * Mathf.Rad2Deg <= VisionAngle * 0.5f) {
+                    _ray = new Ray(DetectedCenter.position, _raycastDirection);
+                    Debug.DrawLine(_ray.origin, _ray.origin + _raycastDirection, Color.green);
                     if (Physics.Raycast(_ray, out _hit, _radius, VisionLayerMask)) {
                         if (_hit.collider.transform == _playerTransform) {
                             switch (_playerState) {
@@ -107,8 +111,8 @@ namespace HNC {
             //Audio detected
             for (int i = 0; i < _soundEmittersTransform.Count; i++) {
                 //Check distance
-                _distance = _soundEmittersTransform[i].position - transform.position;
-                if (_distance.sqrMagnitude < _radius * _radius) {
+                _audioDistance = _soundEmittersTransform[i].position - DetectedCenter.position;
+                if (_audioDistance.sqrMagnitude < _radius * _radius) {
                     switch (_soundEmittersState[_soundEmittersTransform[i]]) {
                         case DetectedState.None:
                             Debug.LogWarning("Error in detection System, sound NONE was releved", gameObject);
