@@ -16,8 +16,8 @@ namespace HNC {
         public void Update() {
             _enemy.SearchTimer -= Time.deltaTime;
             if (_enemy.NavMeshAgent.remainingDistance <= _enemy.PatrolTreshoold) {
-                if (_enemy.detected != null) {
-                    _enemy.NavMeshAgent.SetDestination(_enemy.detected.transform.position);
+                if (_enemy.VideoDetected != null) {
+                    _enemy.NavMeshAgent.SetDestination(_enemy.VideoDetected.transform.position);
                 } else {
                     _randomPosition = Random.insideUnitCircle * _enemy.PatrolRadius;
                     _enemy.NavMeshAgent.SetDestination(_enemy.transform.position + new Vector3(_randomPosition.x, 0, _randomPosition.y));
