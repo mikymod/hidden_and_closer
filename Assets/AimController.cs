@@ -55,14 +55,16 @@ namespace HNC
             input.fireStarted -= OnFireStarted;
         }
 
-        private void Start()
-        {
-            CreatePhysicsScene();
-        }
-
         private void Update()
         {
-            SimulatePath();
+            if (_aiming)
+            {
+                Debug.DrawRay(followTarget.position, followTarget.forward * 10);
+                if (Physics.Raycast(followTarget.position, followTarget.forward, out RaycastHit hit, 10, layer))
+                {
+                    aimLookAt.position = hit.point;
+                }
+            }
         }
 
         private void OnAimStarted()
@@ -81,6 +83,8 @@ namespace HNC
             _bulletRB.useGravity = false;
 
             EnableAimAnimationLayer();
+
+            Cursor.visible = false;
         }
 
         private void OnAimCanceled()
@@ -132,88 +136,88 @@ namespace HNC
         private void EnableAimAnimationLayer() => _animator.SetLayerWeight(1, 1);
         private void DisableAimAnimationLayer() => _animator.SetLayerWeight(1, 0);
 
-        private void CreatePhysicsScene()
-        {
-            // _physicsScene = SceneManager.CreateScene("physics-scene", new CreateSceneParameters(LocalPhysicsMode.Physics3D));
+        // private void CreatePhysicsScene()
+        // {
+        //     _physicsScene = SceneManager.CreateScene("physics-scene", new CreateSceneParameters(LocalPhysicsMode.Physics3D));
 
-            // var root = Instantiate(SceneManager.GetActiveScene().GetRootGameObjects()[0]);
-            // root.GetComponentInChildren<AimController>().enabled = false;
-            // var texts = root.GetComponentsInChildren<TMP_Text>();
-            // foreach (var text in texts)
-            // {
-            //     text.enabled = false;
-            // }
-            // var renderers = root.GetComponentsInChildren<Renderer>();
-            // foreach (var renderer in renderers)
-            // {
-            //     renderer.enabled = false;
-            // }
+        //     var root = Instantiate(SceneManager.GetActiveScene().GetRootGameObjects()[0]);
+        //     root.GetComponentInChildren<AimController>().enabled = false;
+        //     var texts = root.GetComponentsInChildren<TMP_Text>();
+        //     foreach (var text in texts)
+        //     {
+        //         text.enabled = false;
+        //     }
+        //     var renderers = root.GetComponentsInChildren<Renderer>();
+        //     foreach (var renderer in renderers)
+        //     {
+        //         renderer.enabled = false;
+        //     }
 
-            // var newRoot = new GameObject("Physics Root");
-            // var physicsObjects = root.GetComponentsInChildren<Collider>();
-            // foreach (var obj in physicsObjects)
-            // {
-            //     // Remove companion from this list
-            //     if (obj.GetComponent<CompanionController>() != null)
-            //     {
-            //         continue;
-            //     }
+        //     var newRoot = new GameObject("Physics Root");
+        //     var physicsObjects = root.GetComponentsInChildren<Collider>();
+        //     foreach (var obj in physicsObjects)
+        //     {
+        //         // Remove companion from this list
+        //         if (obj.GetComponent<CompanionController>() != null)
+        //         {
+        //             continue;
+        //         }
 
-            //     obj.transform.SetParent(newRoot.transform);
-            // }
+        //         obj.transform.SetParent(newRoot.transform);
+        //     }
 
-            // SceneManager.MoveGameObjectToScene(newRoot, _physicsScene);
+        //     SceneManager.MoveGameObjectToScene(newRoot, _physicsScene);
 
-            // Destroy(root);
-        }
+        //     Destroy(root);
+        // }
 
-        private void SimulatePath()
-        {
-            // if (_bulletLineRenderer == null)
-            // {
-            //     return;
-            // }
+        // private void SimulatePath()
+        // {
+        //     if (_bulletLineRenderer == null)
+        //     {
+        //         return;
+        //     }
 
-            // if (!_aiming)
-            // {
-            //     _bulletLineRenderer.positionCount = 0;
-            //     return;
-            // }
+        //     if (!_aiming)
+        //     {
+        //         _bulletLineRenderer.positionCount = 0;
+        //         return;
+        //     }
 
-            // _bulletLineRenderer.positionCount = 0;
+        //     _bulletLineRenderer.positionCount = 0;
 
-            // // Create simulated bullet and add to physics scene
-            // var simBullet = Instantiate(physicsBulletPrefab, _bullet.transform.position, _bullet.transform.rotation);
-            // SceneManager.MoveGameObjectToScene(simBullet, _physicsScene);
-            // simBullet.SetActive(true);
+        //     // Create simulated bullet and add to physics scene
+        //     var simBullet = Instantiate(physicsBulletPrefab, _bullet.transform.position, _bullet.transform.rotation);
+        //     SceneManager.MoveGameObjectToScene(simBullet, _physicsScene);
+        //     simBullet.SetActive(true);
 
-            // // Simulate a specific number of frames into the future
-            // var simBulletRB = simBullet.GetComponent<Rigidbody>();
-            // simBulletRB.isKinematic = false;
-            // simBulletRB.useGravity = true;
-            // simBulletRB.AddForce(followTarget.forward * fireForce, ForceMode.Impulse);
+        //     // Simulate a specific number of frames into the future
+        //     var simBulletRB = simBullet.GetComponent<Rigidbody>();
+        //     simBulletRB.isKinematic = false;
+        //     simBulletRB.useGravity = true;
+        //     simBulletRB.AddForce(followTarget.forward * fireForce, ForceMode.Impulse);
 
 
-            // // Draw
-            // _bulletLineRenderer.enabled = true;
-            // _bulletLineRenderer.positionCount = simSteps;
-            // for (int i = 0; i < simSteps; i++)
-            // {
-            //     _physicsScene.GetPhysicsScene().Simulate(Time.fixedDeltaTime);
-            //     Collider[] colliders = new Collider[1];
-            //     _bulletLineRenderer.SetPosition(i, simBullet.transform.position);
-            //     if (_physicsScene.GetPhysicsScene().OverlapSphere(simBullet.transform.position, 0.1f, colliders, layer, QueryTriggerInteraction.Ignore) > 0)
-            //     {
-            //         _bulletLineRenderer.positionCount = i;
-            //         aimLookAt.transform.rotation = simBullet.transform.rotation;
-            //         aimLookAt.transform.position = simBullet.transform.position;
-            //         aimCamera.LookAt = aimLookAt;
-            //         break;
-            //     }
-            // }
+        //     // Draw
+        //     _bulletLineRenderer.enabled = true;
+        //     _bulletLineRenderer.positionCount = simSteps;
+        //     for (int i = 0; i < simSteps; i++)
+        //     {
+        //         _physicsScene.GetPhysicsScene().Simulate(Time.fixedDeltaTime);
+        //         Collider[] colliders = new Collider[1];
+        //         _bulletLineRenderer.SetPosition(i, simBullet.transform.position);
+        //         if (_physicsScene.GetPhysicsScene().OverlapSphere(simBullet.transform.position, 0.1f, colliders, layer, QueryTriggerInteraction.Ignore) > 0)
+        //         {
+        //             _bulletLineRenderer.positionCount = i;
+        //             aimLookAt.transform.rotation = simBullet.transform.rotation;
+        //             aimLookAt.transform.position = simBullet.transform.position;
+        //             aimCamera.LookAt = aimLookAt;
+        //             break;
+        //         }
+        //     }
 
-            // Destroy(simBullet);
-        }
+        //     Destroy(simBullet);
+        // }
     }
 
 }
