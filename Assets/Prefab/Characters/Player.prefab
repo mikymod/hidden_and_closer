@@ -1199,11 +1199,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   input: {fileID: 11400000, guid: 41954bc1138fb734c8ee8824ae8c8e24, type: 2}
-  followTarget: {fileID: 4536244782654098760}
-  rotationSpeed: 1
-  rotationDelta: 0.1
-  moveSpeed: 1
-  crouchSpeed: 1
+  MoveSpeed: 2
+  SprintSpeed: 5.335
+  RotationSmoothTime: 0.12
+  SpeedChangeRate: 10
+  CinemachineCameraTarget: {fileID: 8320087239320615734}
+  TopClamp: 70
+  BottomClamp: -30
+  CameraAngleOverride: 0
+  LockCameraPosition: 0
+  AnimLayerAim: Aim
+  AnimIDMove: Move
+  AnimIDSpeed: Speed
+  AnimIDCrouch: Crouch
+  AnimIDAim: Aim
+  AnimIDShoot: Shoot
+  AnimIDDeath: Death
   companionSpot: {fileID: 1383982822}
 --- !u!114 &1528290127447410840
 MonoBehaviour:
@@ -2050,7 +2061,7 @@ MonoBehaviour:
   CameraCollisionFilter:
     serializedVersion: 2
     m_Bits: 0
-  IgnoreTag: 
+  IgnoreTag: Player
   CameraRadius: 0.2
 --- !u!1 &6973731647541965489
 GameObject:
@@ -2173,7 +2184,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8548895340667223121}
-  m_LocalRotation: {x: 0.08739774, y: 0.02200171, z: -0.0019307606, w: 0.9959287}
+  m_LocalRotation: {x: 0.36737534, y: -0.2626448, z: 0.10896092, w: 0.8855397}
   m_LocalPosition: {x: 1.1185083, y: 2.056, z: -3.5180006}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
