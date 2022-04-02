@@ -16,51 +16,26 @@ namespace HNC
         [SerializeField] private Image[] circlesImages; 
         [SerializeField] private Sprite emptyCircle;
         [SerializeField] private Sprite fullCircle;
-        public static UnityAction OnZombieChangeStateUp;
-        public static UnityAction OnZombieChangeStateDown;
-        public static UnityAction OnZombieSearchState;
-
-        private int level = 0;
+        public static UnityAction OnZombieChangeState;
 
         private void Start()
         {
-            level = 0;
             ResetUI();
         }
 
         private void OnEnable()
         {
-            OnZombieChangeStateUp += ChangeStateUp;
-            OnZombieChangeStateDown += ChangeStateDown;
-            OnZombieSearchState += SearchState;
+            OnZombieChangeState += ChangeState;
         }
 
         private void OnDisable()
         {
-            OnZombieChangeStateUp -= ChangeStateUp;
-            OnZombieChangeStateDown -= ChangeStateDown;
-            OnZombieSearchState -= SearchState;
+            OnZombieChangeState -= ChangeState;
         }
 
-        private void SearchState()
+        private void ChangeState()
         {
-            for (int i = 0; i < circlesImages.Length; i++)
-            {
-                circlesImages[i].enabled = false;
-            }
-            bigEye.sprite = searchEye;
-        }
-
-        private void ChangeStateUp()
-        {
-            circlesImages[level].sprite = fullCircle; 
-            level++;
-        }
-
-        private void ChangeStateDown()
-        {
-            circlesImages[level].sprite = emptyCircle;
-            level--;
+            
         }
 
         private void ResetUI() 
