@@ -2,9 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
-using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace HNC
 {
@@ -15,30 +13,26 @@ namespace HNC
         [SerializeField] private CinemachineVirtualCamera moveCamera;
         [SerializeField] private CinemachineVirtualCamera aimCamera;
         [SerializeField] private Transform bulletTransform;
-        [SerializeField] private Transform handTransform;
         [SerializeField] private GameObject bulletPrefab;
-        [SerializeField] private GameObject physicsBulletPrefab;
-        [SerializeField] private Transform followTarget;
-        [SerializeField] private float fireForce = 5f;
-        [SerializeField] private int simSteps = 120;
-        [SerializeField] private LayerMask layer;
-        [SerializeField] private Transform aimLookAt;
+        [SerializeField] private GameObject trajectoryCollisionPoint;
+        [SerializeField] private int trajectoryLinePointsCount = 50;
+
 
         private Animator _animator;
         private Pooler _pooler;
-        private GameObject _bullet;
+        private LineRenderer _lineRenderer;
         private Rigidbody _bulletRB;
-        private LineRenderer _bulletLineRenderer;
         private bool _aiming;
         private bool _fire;
-
-        private Scene _physicsScene;
+        private Vector2 _look;
+        private Vector3 _throwForce;
+        private List<Vector3> _trajectorylinePoints = new List<Vector3>();
 
         private void Awake()
         {
             _animator = GetComponent<Animator>();
-
             _pooler = GetComponent<Pooler>();
+            _lineRenderer = GetComponent<LineRenderer>();
         }
 
         private void OnEnable()
@@ -46,6 +40,7 @@ namespace HNC
             input.aimStarted += OnAimStarted;
             input.aimCanceled += OnAimCanceled;
             input.fireStarted += OnFireStarted;
+            input.look += OnLook;
         }
 
         private void OnDisable()
@@ -53,17 +48,27 @@ namespace HNC
             input.aimStarted -= OnAimStarted;
             input.aimCanceled -= OnAimCanceled;
             input.fireStarted -= OnFireStarted;
+            input.look -= OnLook;
         }
 
         private void Update()
         {
             if (_aiming)
             {
-                Debug.DrawRay(followTarget.position, followTarget.forward * 10);
-                if (Physics.Raycast(followTarget.position, followTarget.forward, out RaycastHit hit, 10, layer))
-                {
-                    aimLookAt.position = hit.point;
-                }
+                // Rotate around
+                transform.rotation *= Quaternion.Euler(0, _look.x, 0);
+
+                // Change distance
+                range += _look.y;
+                range = Mathf.Clamp(range, 200, 500); // FIXME: avoid magic values
+
+                _throwForce = (transform.up + transform.forward) * range;
+                ShowTrajectory(_throwForce, bulletTransform.position);
+            }
+            else
+            {
+                range = 350;
+                HideTrajectory();
             }
         }
 
@@ -73,16 +78,9 @@ namespace HNC
 
             CameraSwitch(_aiming);
 
-            // Active bullet and bind to player's right hand
-            _bullet = _pooler.Get();
-            _bulletRB = _bullet.GetComponent<Rigidbody>();
-            _bulletLineRenderer = _bullet.GetComponent<LineRenderer>();
-            _bullet.transform.parent = handTransform;
-            _bullet.transform.position = bulletTransform.position;
-            _bulletRB.isKinematic = true;
-            _bulletRB.useGravity = false;
-
             EnableAimAnimationLayer();
+
+            trajectoryCollisionPoint.SetActive(true);
 
             Cursor.visible = false;
         }
@@ -94,13 +92,19 @@ namespace HNC
             CameraSwitch(_aiming);
 
             DisableAimAnimationLayer();
-            _bullet.SetActive(false);
+
+            trajectoryCollisionPoint.SetActive(false);
+        }
+
+        float range = 350;
+        private void OnLook(Vector2 look)
+        {
+            _look = look;
         }
 
         private void OnFireStarted()
         {
             _fire = true;
-            _bulletLineRenderer.enabled = false;
             StartCoroutine(ShootCoroutine());
         }
 
@@ -114,11 +118,16 @@ namespace HNC
         {
             _animator.SetTrigger("Shoot");
 
+            // Get bullet
+            var bullet = _pooler.Get();
+            bullet.transform.parent = null;
+            bullet.transform.position = bulletTransform.position;
+
             // Shoot the bullet
-            _bullet.transform.parent = null;
-            _bulletRB.isKinematic = false;
-            _bulletRB.useGravity = true;
-            _bulletRB.AddForce(followTarget.forward * fireForce, ForceMode.Impulse);
+            var bulletRB = bullet.GetComponent<Rigidbody>();
+            bulletRB.isKinematic = false;
+            bulletRB.useGravity = true;
+            bulletRB.AddForce(_throwForce);
 
             // Wait till animation end
             var state = _animator.GetCurrentAnimatorStateInfo(1);
@@ -131,94 +140,66 @@ namespace HNC
 
             CameraSwitch(_aiming);
             DisableAimAnimationLayer();
+            trajectoryCollisionPoint.SetActive(false);
         }
 
         private void EnableAimAnimationLayer() => _animator.SetLayerWeight(1, 1);
         private void DisableAimAnimationLayer() => _animator.SetLayerWeight(1, 0);
 
-        // private void CreatePhysicsScene()
-        // {
-        //     _physicsScene = SceneManager.CreateScene("physics-scene", new CreateSceneParameters(LocalPhysicsMode.Physics3D));
 
-        //     var root = Instantiate(SceneManager.GetActiveScene().GetRootGameObjects()[0]);
-        //     root.GetComponentInChildren<AimController>().enabled = false;
-        //     var texts = root.GetComponentsInChildren<TMP_Text>();
-        //     foreach (var text in texts)
-        //     {
-        //         text.enabled = false;
-        //     }
-        //     var renderers = root.GetComponentsInChildren<Renderer>();
-        //     foreach (var renderer in renderers)
-        //     {
-        //         renderer.enabled = false;
-        //     }
+        private RaycastHit _lastTrajectoryHit;
+        private void ShowTrajectory(Vector3 force, Vector3 start)
+        {
+            var mass = 1.0f;
+            Vector3 velocity = (force / mass) * Time.fixedDeltaTime;
+            float flightDuration = (2 * velocity.y) / Physics.gravity.y;
+            float step = flightDuration / trajectoryLinePointsCount;
 
-        //     var newRoot = new GameObject("Physics Root");
-        //     var physicsObjects = root.GetComponentsInChildren<Collider>();
-        //     foreach (var obj in physicsObjects)
-        //     {
-        //         // Remove companion from this list
-        //         if (obj.GetComponent<CompanionController>() != null)
-        //         {
-        //             continue;
-        //         }
+            _trajectorylinePoints.Clear();
 
-        //         obj.transform.SetParent(newRoot.transform);
-        //     }
+            _trajectorylinePoints.Add(start);
 
-        //     SceneManager.MoveGameObjectToScene(newRoot, _physicsScene);
+            for (int i = 1; i < trajectoryLinePointsCount; i++)
+            {
+                float timePassed = step * i;
 
-        //     Destroy(root);
-        // }
+                Vector3 move = new Vector3(
+                    velocity.x * timePassed,
+                    velocity.y * timePassed - 0.5f * Physics.gravity.y * (timePassed * timePassed),
+                    velocity.z * timePassed
+                );
 
-        // private void SimulatePath()
-        // {
-        //     if (_bulletLineRenderer == null)
-        //     {
-        //         return;
-        //     }
+                var previousPoint = _trajectorylinePoints[i - 1];
+                var newPoint = start - move;
+                var distance = (newPoint - previousPoint).magnitude;
+                if (Physics.Raycast(previousPoint, newPoint - previousPoint, out _lastTrajectoryHit, distance))
+                {
+                    _trajectorylinePoints.Add(_lastTrajectoryHit.point);
+                    _lineRenderer.positionCount = _trajectorylinePoints.Count;
+                    _lineRenderer.SetPositions(_trajectorylinePoints.ToArray());
+                    trajectoryCollisionPoint.transform.position = _lastTrajectoryHit.point;
+                    trajectoryCollisionPoint.transform.rotation = Quaternion.LookRotation(-_lastTrajectoryHit.normal, Vector3.up);
+                    return;
+                }
 
-        //     if (!_aiming)
-        //     {
-        //         _bulletLineRenderer.positionCount = 0;
-        //         return;
-        //     }
+                _trajectorylinePoints.Add(newPoint);
+            }
 
-        //     _bulletLineRenderer.positionCount = 0;
+            var lastDirection = (_trajectorylinePoints[_trajectorylinePoints.Count - 1] - _trajectorylinePoints[_trajectorylinePoints.Count - 2]).normalized;
+            var lastPoint = _trajectorylinePoints[_trajectorylinePoints.Count - 1];
+            if (Physics.Raycast(lastPoint, lastDirection, out _lastTrajectoryHit))
+            {
+                trajectoryCollisionPoint.transform.position = _lastTrajectoryHit.point;
+                trajectoryCollisionPoint.transform.rotation = Quaternion.LookRotation(-_lastTrajectoryHit.normal, Vector3.up);
+                _trajectorylinePoints.Add(_lastTrajectoryHit.point);
 
-        //     // Create simulated bullet and add to physics scene
-        //     var simBullet = Instantiate(physicsBulletPrefab, _bullet.transform.position, _bullet.transform.rotation);
-        //     SceneManager.MoveGameObjectToScene(simBullet, _physicsScene);
-        //     simBullet.SetActive(true);
+            }
 
-        //     // Simulate a specific number of frames into the future
-        //     var simBulletRB = simBullet.GetComponent<Rigidbody>();
-        //     simBulletRB.isKinematic = false;
-        //     simBulletRB.useGravity = true;
-        //     simBulletRB.AddForce(followTarget.forward * fireForce, ForceMode.Impulse);
+            _lineRenderer.positionCount = _trajectorylinePoints.Count;
+            _lineRenderer.SetPositions(_trajectorylinePoints.ToArray());
+        }
 
-
-        //     // Draw
-        //     _bulletLineRenderer.enabled = true;
-        //     _bulletLineRenderer.positionCount = simSteps;
-        //     for (int i = 0; i < simSteps; i++)
-        //     {
-        //         _physicsScene.GetPhysicsScene().Simulate(Time.fixedDeltaTime);
-        //         Collider[] colliders = new Collider[1];
-        //         _bulletLineRenderer.SetPosition(i, simBullet.transform.position);
-        //         if (_physicsScene.GetPhysicsScene().OverlapSphere(simBullet.transform.position, 0.1f, colliders, layer, QueryTriggerInteraction.Ignore) > 0)
-        //         {
-        //             _bulletLineRenderer.positionCount = i;
-        //             aimLookAt.transform.rotation = simBullet.transform.rotation;
-        //             aimLookAt.transform.position = simBullet.transform.position;
-        //             aimCamera.LookAt = aimLookAt;
-        //             break;
-        //         }
-        //     }
-
-        //     Destroy(simBullet);
-        // }
+        private void HideTrajectory() => _lineRenderer.positionCount = 0;
     }
-
 }
 
