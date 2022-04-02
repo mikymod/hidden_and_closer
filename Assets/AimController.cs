@@ -7,6 +7,7 @@ using UnityEngine;
 namespace HNC
 {
     [RequireComponent(typeof(Pooler))]
+    [RequireComponent(typeof(LineRenderer))]
     public class AimController : MonoBehaviour
     {
         [SerializeField] private InputHandler input;
@@ -25,7 +26,7 @@ namespace HNC
         private CharacterController _controller;
         private Rigidbody _bulletRB;
         private bool _aiming;
-        private bool _fire;
+        private bool _canFire = true;
         private Vector2 _look;
         private Vector2 _move;
         private Vector3 _throwForce;
@@ -124,7 +125,11 @@ namespace HNC
 
         private void OnFireStarted()
         {
-            _fire = true;
+            if (!_aiming || !_canFire)
+            {
+                return;
+            }
+
             StartCoroutine(ShootCoroutine());
         }
 
@@ -136,6 +141,8 @@ namespace HNC
 
         private IEnumerator ShootCoroutine()
         {
+            _canFire = false;
+
             _animator.SetTrigger("Shoot");
 
             // Get bullet
@@ -153,15 +160,10 @@ namespace HNC
             var state = _animator.GetCurrentAnimatorStateInfo(1);
             // Retrieve only the decimal part. See this: https://docs.unity3d.com/ScriptReference/AnimatorStateInfo-normalizedTime.html
             var time = state.normalizedTime - Math.Truncate(state.normalizedTime);
+            yield return new WaitForSeconds(state.length + 1);
 
-            _aiming = false;
-
-            yield return new WaitForSeconds(state.length);
-
-            CameraSwitch(_aiming);
-            DisableAimAnimationLayer();
             _lineRenderer.positionCount = 0;
-            trajectoryCollisionPoint.SetActive(false);
+            _canFire = true;
         }
 
         private void EnableAimAnimationLayer()
