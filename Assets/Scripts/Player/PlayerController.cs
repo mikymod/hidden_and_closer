@@ -65,7 +65,7 @@ namespace HNC
         // input
         private Vector2 _move;
         private Vector2 _look;
-        private bool _aim;
+        // private bool _aim;
         private bool _crouch;
 
         // animation Layer
@@ -95,12 +95,6 @@ namespace HNC
                 //_mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
                 _mainCamera = Camera.main.gameObject;
             }
-        }
-
-        private void OnEnable()
-        {
-            input.DisableAllInput();
-            input.EnablePlayerInput();
 
             input.move += OnMove;
             input.look += OnLook;
@@ -112,7 +106,7 @@ namespace HNC
             DeadEvent += OnDeath;
         }
 
-        private void OnDisable()
+        private void OnDestroy()
         {
             input.move -= OnMove;
             input.look -= OnLook;
@@ -122,6 +116,16 @@ namespace HNC
             input.companionSwitch -= OnCompanionControllingStarted;
 
             DeadEvent -= OnDeath;
+        }
+
+        private void OnEnable()
+        {
+            input.DisableAllInput();
+            input.EnablePlayerInput();
+        }
+
+        private void OnDisable()
+        {
         }
 
         private void Start()
@@ -217,10 +221,11 @@ namespace HNC
 
             // note: Vector2's != operator uses approximation so is not floating point error prone, and is cheaper than magnitude
             // if there is a move input rotate player when the player is moving
-            if (_move != Vector2.zero || _aim)
+            if (_move != Vector2.zero)
             {
                 _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + _mainCamera.transform.eulerAngles.y;
-                float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _aim ? _mainCamera.transform.eulerAngles.y : _targetRotation, ref _rotationVelocity, RotationSmoothTime);
+                // float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _aim ? _mainCamera.transform.eulerAngles.y : _targetRotation, ref _rotationVelocity, RotationSmoothTime);
+                float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity, RotationSmoothTime);
 
                 // rotate to face input direction relative to camera position
                 transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
@@ -269,22 +274,24 @@ namespace HNC
 
         private void OnAimStarted()
         {
-            _aim = true;
-            if (_hasAnimator)
-            {
-                _animator.SetBool(_animIDAim, _aim);
-                _animator.SetLayerWeight(_animLayerAim, 1);
-            }
+            // _aim = true;
+            // if (_hasAnimator)
+            // {
+            //     _animator.SetBool(_animIDAim, _aim);
+            //     _animator.SetLayerWeight(_animLayerAim, 1);
+            // }
+            enabled = false;
         }
 
         private void OnAimCanceled()
         {
-            _aim = false;
-            if (_hasAnimator)
-            {
-                _animator.SetBool(_animIDAim, _aim);
-                _animator.SetLayerWeight(_animLayerAim, 0);
-            }
+            // _aim = false;
+            // if (_hasAnimator)
+            // {
+            //     _animator.SetBool(_animIDAim, _aim);
+            //     _animator.SetLayerWeight(_animLayerAim, 0);
+            // }
+            enabled = true;
         }
 
         private void OnCrouchStarted()
