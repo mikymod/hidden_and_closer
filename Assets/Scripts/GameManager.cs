@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -18,11 +15,15 @@ namespace HNC
         private void OnEnable()
         {
             input.pause += ScenePauseResume;
+
+            UIManager.PauseMenuClosed += SceneResume;
         }
 
         private void OnDisable()
         {
             input.pause -= ScenePauseResume;
+
+            UIManager.PauseMenuClosed -= SceneResume;
         }
 
         private void ScenePauseResume()
@@ -31,14 +32,17 @@ namespace HNC
 
             if (GamePaused)
             {
-                Time.timeScale = 0;
                 OnGamePaused?.Invoke();
             }
             else
             {
-                Time.timeScale = 1;
                 OnGameResumed?.Invoke();
             }
+        }
+
+        private void SceneResume()
+        {
+            GamePaused = false;
         }
     }
 }

@@ -125,7 +125,10 @@ namespace HNC
 
         public void OnPause(InputAction.CallbackContext context)
         {
-            pause?.Invoke();
+            if (context.started)
+            {
+                pause?.Invoke();
+            }
         }
 
         public void OnCompanionMove(InputAction.CallbackContext context)
@@ -135,31 +138,37 @@ namespace HNC
         }
         public void OnCompanionSwitch(InputAction.CallbackContext context)
         {
-            companionSwitch?.Invoke();
+            if (context.started)
+            {
+                companionSwitch?.Invoke();
+            }
         }
         public void OnPlayerSwitch(InputAction.CallbackContext context)
         {
-            playerSwitch?.Invoke();
+            if (context.started)
+            {
+                playerSwitch?.Invoke();
+            }
         }
-        public void OnNavigate(InputAction.CallbackContext context) => throw new System.NotImplementedException();
+        public void OnNavigate(InputAction.CallbackContext context) { }
 
-        public void OnSubmit(InputAction.CallbackContext context) => throw new System.NotImplementedException();
+        public void OnSubmit(InputAction.CallbackContext context) { }
 
-        public void OnCancel(InputAction.CallbackContext context) => throw new System.NotImplementedException();
+        public void OnCancel(InputAction.CallbackContext context) { }
 
-        public void OnPoint(InputAction.CallbackContext context) => throw new System.NotImplementedException();
+        public void OnPoint(InputAction.CallbackContext context) { }
 
-        public void OnClick(InputAction.CallbackContext context) => throw new System.NotImplementedException();
+        public void OnClick(InputAction.CallbackContext context) { }
 
-        public void OnScrollWheel(InputAction.CallbackContext context) => throw new System.NotImplementedException();
+        public void OnScrollWheel(InputAction.CallbackContext context) { }
 
-        public void OnMiddleClick(InputAction.CallbackContext context) => throw new System.NotImplementedException();
+        public void OnMiddleClick(InputAction.CallbackContext context) { }
 
-        public void OnRightClick(InputAction.CallbackContext context) => throw new System.NotImplementedException();
+        public void OnRightClick(InputAction.CallbackContext context) { }
 
-        public void OnTrackedDevicePosition(InputAction.CallbackContext context) => throw new System.NotImplementedException();
+        public void OnTrackedDevicePosition(InputAction.CallbackContext context) { }
 
-        public void OnTrackedDeviceOrientation(InputAction.CallbackContext context) => throw new System.NotImplementedException();
+        public void OnTrackedDeviceOrientation(InputAction.CallbackContext context) { }
     }
 }
 
