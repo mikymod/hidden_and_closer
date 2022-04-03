@@ -53,8 +53,7 @@ namespace HNC
         private void OnCompanionControllingStarted(Transform spawn)
         {
             isControllingCompanion = true;
-            transform.position = spawn.position;
-            transform.rotation = spawn.rotation;
+            transform.SetPositionAndRotation(spawn.position, spawn.rotation);
 
             foreach (var rend in _renderers)
             {

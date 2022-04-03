@@ -4,6 +4,15 @@ using TMPro;
 
 namespace HNC
 {
+    public enum EnemyFSMState {
+        Idle,
+        Suspicious,
+        Alert,
+        Attack,
+        Search,
+        Death
+    }
+
     [RequireComponent(typeof(Detector))]
     [RequireComponent(typeof(NavMeshAgent))]
     public class EnemyController : MonoBehaviour
@@ -36,9 +45,6 @@ namespace HNC
         [Space(10)]
         [Tooltip("Time in Alert State")]
         public float AlertTime;
-        [Space(10)]
-        [Tooltip("Time in Search State")]
-        public float SearchTime;
 
         [Header("NavMesh")]
         [Tooltip("Treshoold of patrol")]
@@ -60,6 +66,7 @@ namespace HNC
 
         //State Machine
         private StateMachine _stateMachine;
+        [HideInInspector] public EnemyFSMState CurrentState;
         private readonly float life = 20;
         [HideInInspector] public NavMeshAgent NavMeshAgent;
         [HideInInspector] public Quaternion Rotation;
@@ -77,7 +84,7 @@ namespace HNC
         public GameObject AudioDetected { get; private set; }
         [HideInInspector] public float SuspiciousTimer;
         [HideInInspector] public float AlertTimer;
-        [HideInInspector] public float SearchTimer;
+        //[HideInInspector] public float SearchTimer;
 
         private void Awake()
         {
@@ -91,15 +98,14 @@ namespace HNC
 
             SuspiciousTimer = SuspiciousTime + 1;
             AlertTimer = AlertTime + 1;
-            SearchTimer = SearchTime + 1;
 
             _stateMachine = new StateMachine();
-            EnemyIdleState idleState = new EnemyIdleState(this);
-            EnemySuspiciousState suspiciousState = new EnemySuspiciousState(this);
-            EnemyAlertState alertState = new EnemyAlertState(this);
-            EnemyAttackState attackState = new EnemyAttackState(this);
-            EnemySearchState searchState = new EnemySearchState(this);
-            EnemyDeathState deathState = new EnemyDeathState(this);
+            EnemyIdleState idleState = new EnemyIdleState(this, EnemyFSMState.Idle);
+            EnemySuspiciousState suspiciousState = new EnemySuspiciousState(this, EnemyFSMState.Suspicious);
+            EnemyAlertState alertState = new EnemyAlertState(this, EnemyFSMState.Alert);
+            EnemyAttackState attackState = new EnemyAttackState(this, EnemyFSMState.Attack);
+            EnemySearchState searchState = new EnemySearchState(this, EnemyFSMState.Search);
+            EnemyDeathState deathState = new EnemyDeathState(this, EnemyFSMState.Death);
 
             _stateMachine.AddAnyTransition(deathState, () => life <= 0);
 
@@ -140,11 +146,6 @@ namespace HNC
             {
                 /*Debug.Log($"Attack to Search {detected == null}");*/
                 return VideoDetected == null;
-            });
-            _stateMachine.AddTransition(searchState, idleState, () =>
-            {
-                /*Debug.Log($"Search to Idle {SearchTimer <= 0}");*/
-                return SearchTimer <= 0;
             });
             _stateMachine.AddTransition(searchState, suspiciousState, () =>
             {
@@ -195,29 +196,29 @@ namespace HNC
                 //Non ho un target
                 //OPPURE
                 //Lo considero solo se sono in Susp
-                if (VideoDetected == null || SuspiciousTimer >= SuspiciousTime && SuspiciousTimer < 0)
+                if (VideoDetected == null || SuspiciousTimer <= SuspiciousTime && SuspiciousTimer > 0)
                 {
                     //Setto detected e target
                     VideoDetected = detected;
                     DetectedVideoGO.SetActive(true);
 
                     //Attivo il suspTimer
-                    SuspiciousTimer = SuspiciousTime;
+                    //SuspiciousTimer = SuspiciousTime;
                 }
             }
         }
 
         private void OnVideoDetectionExit(GameObject detecter, GameObject detected)
         {
-            //Ho rilevato io e stavo gi� rilevando detected
+            //Ho rilevato io e stavo già rilevando detected
             if (detecter == gameObject && VideoDetected != null && VideoDetected == detected)
             {
+                if(CurrentState == EnemyFSMState.Attack) {
+                    Debug.Log("Perdo oggetto");
+                }
                 //Rimuovo il detected
                 VideoDetected = null;
                 DetectedVideoGO.SetActive(false);
-
-                //Attivo il searchTimer
-                SearchTimer = SearchTime;
             }
 
         }
@@ -230,29 +231,26 @@ namespace HNC
                 //Non ho un target
                 //OPPURE
                 //Lo considero solo se sono in Susp
-                if (AudioDetected == null || SuspiciousTimer >= SuspiciousTime && SuspiciousTimer < 0)
+                if (AudioDetected == null || SuspiciousTimer <= SuspiciousTime && SuspiciousTimer > 0)
                 {
                     //Setto detected e target
                     AudioDetected = detected;
                     DetectedAudioGO.SetActive(true);
 
                     //Attivo il suspTimer
-                    SuspiciousTimer = SuspiciousTime;
+                    //SuspiciousTimer = SuspiciousTime;
                 }
             }
         }
 
         private void OnAudioDetectionExit(GameObject detecter, GameObject detected)
         {
-            //Ho rilevato io e stavo gi� rilevando detected
+            //Ho rilevato io e stavo già rilevando detected
             if (detecter == gameObject && AudioDetected != null && AudioDetected == detected)
             {
                 //Rimuovo il detected
                 AudioDetected = null;
                 DetectedAudioGO.SetActive(false);
-
-                //Attivo il searchTimer
-                SearchTimer = SearchTime;
             }
 
         }

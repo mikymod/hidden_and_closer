@@ -1,30 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+namespace HNC {
+    public class EnemyDeathState : EnemyState {
+        public EnemyDeathState(EnemyController enemy, EnemyFSMState state) : base(enemy, state) { }
 
-namespace HNC
-{
-    public class EnemyDeathState : IState
-    {
-        private EnemyController _enemy;
+        public override void Enter() => base.Enter();
 
-        public EnemyDeathState(EnemyController enemy)
-        {
-            _enemy = enemy;
-        }
-
-        public void Enter()
-        {
-            // _enemy.debugTest.text = "Death State";
-        }
-
-        public void Exit()
-        {
+        public override void Exit() {
 
         }
 
-        public void Update()
-        {
+        public override void Update() {
 
         }
     }

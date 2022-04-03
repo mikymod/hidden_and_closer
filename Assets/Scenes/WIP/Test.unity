@@ -149,7 +149,6 @@ MonoBehaviour:
   PatrolRadius: 2
   SuspiciousTime: 3
   AlertTime: 3
-  SearchTime: 5
   PatrolTreshoold: 0.2
   SuspiciousTreshoold: 0.2
   AlertTreshoold: 0.2
@@ -157,6 +156,7 @@ MonoBehaviour:
   _speedParamName: Speed
   _screamParamName: Scream
   _attackParamName: Attack
+  CurrentState: 0
   NavMeshAgent: {fileID: 0}
   Rotation: {x: 0, y: 0, z: 0, w: 0}
   AnimatorComponent: {fileID: 0}
@@ -165,7 +165,6 @@ MonoBehaviour:
   AnimAttackHash: 0
   SuspiciousTimer: 0
   AlertTimer: 0
-  SearchTimer: 0
 --- !u!114 &9402572
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3025,3 +3024,30 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 913c1a03b88d1ca4e9cfbe70c5cd0a27, type: 3}
+--- !u!1 &9183654281343332447 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2690870031210988221, guid: 913c1a03b88d1ca4e9cfbe70c5cd0a27, type: 3}
+  m_PrefabInstance: {fileID: 9183654281343332446}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &9183654281343332448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9183654281343332447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16f99d6051bfdcb4bbce98f077faad3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  walkStandClipsBank: {fileID: 11400000, guid: f23992df9e091804b8b96058857c8292, type: 2}
+  walkStandConfiguration: {fileID: 11400000, guid: b4ff52c2dbd89f9478661cf2d7f1862d, type: 2}
+  walkCrouchClipsBank: {fileID: 11400000, guid: f23992df9e091804b8b96058857c8292, type: 2}
+  walkCrouchConfiguration: {fileID: 11400000, guid: e11ede56e9c07cb418dd8a33e54f268f, type: 2}
+  shootClipsBank: {fileID: 0}
+  shootConfiguration: {fileID: 0}
+  hitClipsBank: {fileID: 0}
+  hitConfiguration: {fileID: 0}
+  deathClipsBank: {fileID: 0}
+  deathConfiguration: {fileID: 0}

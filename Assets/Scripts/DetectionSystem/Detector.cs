@@ -91,18 +91,21 @@ namespace HNC {
                             }
                         } else {
                             if (_playerState == DetectedState.FirstNotified) {
+                                Debug.Log("DETECTION: Transform is not the same");
                                 DetectionSystemEvents.OnVisionDetectExit?.Invoke(gameObject, _playerTransform.gameObject);
                                 _playerState = DetectedState.LastNotified;
                             }
                         }
                     } else {
                         if (_playerState == DetectedState.FirstNotified) {
+                            Debug.Log("DETECTION: Not Raycast");
                             DetectionSystemEvents.OnVisionDetectExit?.Invoke(gameObject, _playerTransform.gameObject);
                             _playerState = DetectedState.LastNotified;
                         }
                     }
                 } else {
                     if (_playerState == DetectedState.FirstNotified) {
+                        Debug.Log("DETECTION: Too match distance");
                         DetectionSystemEvents.OnVisionDetectExit?.Invoke(gameObject, _playerTransform.gameObject);
                         _playerState = DetectedState.LastNotified;
                     }
@@ -141,8 +144,10 @@ namespace HNC {
         }
 
         private void OnTriggerExit(Collider other) {
+            Debug.Log($"DETECTION TRIGGER: Exit", other.gameObject);
             if (_playerTransform != null && other.transform == _playerTransform) {
                 if (_playerState == DetectedState.FirstNotified) {
+                    Debug.Log("DETECTION: Out of collider");
                     DetectionSystemEvents.OnVisionDetectExit?.Invoke(gameObject, _playerTransform.gameObject);
                 }
                 _playerTransform = null;
