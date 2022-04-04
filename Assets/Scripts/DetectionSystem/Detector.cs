@@ -67,6 +67,7 @@ namespace HNC {
                 _raycastEnd.y = DetectedCenter.position.y;
                 _raycastDirection = _raycastEnd - DetectedCenter.position;
                 if (Mathf.Acos(Vector3.Dot(_raycastDirection.normalized, transform.forward)) * Mathf.Rad2Deg <= VisionAngle * 0.5f) {
+                    //if (Vector3.Angle(transform.position, _raycastDirection) <= VisionAngle) {
                     _ray = new Ray(DetectedCenter.position, _raycastDirection);
                     Debug.DrawLine(_ray.origin, _ray.origin + _raycastDirection, Color.green);
                     if (Physics.Raycast(_ray, out _hit, _radius, VisionLayerMask)) {
@@ -105,7 +106,7 @@ namespace HNC {
                     }
                 } else {
                     if (_playerState == DetectedState.FirstNotified) {
-                        Debug.Log("DETECTION: Too match distance");
+                        Debug.Log("DETECTION: Out of vision angle");
                         DetectionSystemEvents.OnVisionDetectExit?.Invoke(gameObject, _playerTransform.gameObject);
                         _playerState = DetectedState.LastNotified;
                     }
@@ -144,7 +145,10 @@ namespace HNC {
         }
 
         private void OnTriggerExit(Collider other) {
-            Debug.Log($"DETECTION TRIGGER: Exit", other.gameObject);
+            if (other is CharacterController) {
+                return;
+            }
+            Debug.Log($"DETECTION TRIGGER: Exit {other}", other.gameObject);
             if (_playerTransform != null && other.transform == _playerTransform) {
                 if (_playerState == DetectedState.FirstNotified) {
                     Debug.Log("DETECTION: Out of collider");

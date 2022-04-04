@@ -213,7 +213,7 @@ namespace HNC
             //Ho rilevato io e stavo già rilevando detected
             if (detecter == gameObject && VideoDetected != null && VideoDetected == detected)
             {
-                if(CurrentState == EnemyFSMState.Attack) {
+                if (CurrentState == EnemyFSMState.Attack) {
                     Debug.Log("Perdo oggetto");
                 }
                 //Rimuovo il detected
