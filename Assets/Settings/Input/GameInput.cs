@@ -82,6 +82,15 @@ namespace HNC
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""07fd1358-9f19-401a-949c-4765c2ea75c5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -370,6 +379,28 @@ namespace HNC
                     ""action"": ""CompanionSwitch"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d25cada2-8372-431c-8595-ca38389d5d5d"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0cb26bd3-8ecd-417f-84da-40382482a65d"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -399,6 +430,15 @@ namespace HNC
                     ""name"": ""PlayerSwitch"",
                     ""type"": ""Button"",
                     ""id"": ""c5acfac5-264f-4bc4-89fa-ef841bcf8fad"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""d9465486-41ea-49f0-b11b-ca66cc8e328b"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -592,6 +632,28 @@ namespace HNC
                     ""action"": ""PlayerSwitch"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c043a641-d10f-4159-a113-d9b5ce78d601"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""154bd16a-1fa2-47a9-ba4f-659a514f262d"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -685,6 +747,15 @@ namespace HNC
                     ""type"": ""PassThrough"",
                     ""id"": ""e298d876-43ce-4ba1-85af-590e669d7152"",
                     ""expectedControlType"": ""Quaternion"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""07da68df-cdbd-495e-8763-75738052e65b"",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -1108,6 +1179,28 @@ namespace HNC
                     ""action"": ""TrackedDeviceOrientation"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7882c9db-f187-4072-a026-012e91af36fb"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a2c9db02-cf9e-4b69-bed6-c08e1b74057d"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -1183,11 +1276,13 @@ namespace HNC
             m_Player_Aim = m_Player.FindAction("Aim", throwIfNotFound: true);
             m_Player_Crouch = m_Player.FindAction("Crouch", throwIfNotFound: true);
             m_Player_CompanionSwitch = m_Player.FindAction("CompanionSwitch", throwIfNotFound: true);
+            m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
             // Companion
             m_Companion = asset.FindActionMap("Companion", throwIfNotFound: true);
             m_Companion_CompanionMove = m_Companion.FindAction("CompanionMove", throwIfNotFound: true);
             m_Companion_CompanionLook = m_Companion.FindAction("CompanionLook", throwIfNotFound: true);
             m_Companion_PlayerSwitch = m_Companion.FindAction("PlayerSwitch", throwIfNotFound: true);
+            m_Companion_Pause = m_Companion.FindAction("Pause", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1200,6 +1295,7 @@ namespace HNC
             m_UI_RightClick = m_UI.FindAction("RightClick", throwIfNotFound: true);
             m_UI_TrackedDevicePosition = m_UI.FindAction("TrackedDevicePosition", throwIfNotFound: true);
             m_UI_TrackedDeviceOrientation = m_UI.FindAction("TrackedDeviceOrientation", throwIfNotFound: true);
+            m_UI_Pause = m_UI.FindAction("Pause", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -1265,6 +1361,7 @@ namespace HNC
         private readonly InputAction m_Player_Aim;
         private readonly InputAction m_Player_Crouch;
         private readonly InputAction m_Player_CompanionSwitch;
+        private readonly InputAction m_Player_Pause;
         public struct PlayerActions
         {
             private @GameInput m_Wrapper;
@@ -1275,6 +1372,7 @@ namespace HNC
             public InputAction @Aim => m_Wrapper.m_Player_Aim;
             public InputAction @Crouch => m_Wrapper.m_Player_Crouch;
             public InputAction @CompanionSwitch => m_Wrapper.m_Player_CompanionSwitch;
+            public InputAction @Pause => m_Wrapper.m_Player_Pause;
             public InputActionMap Get() { return m_Wrapper.m_Player; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -1302,6 +1400,9 @@ namespace HNC
                     @CompanionSwitch.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCompanionSwitch;
                     @CompanionSwitch.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCompanionSwitch;
                     @CompanionSwitch.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCompanionSwitch;
+                    @Pause.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
+                    @Pause.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
+                    @Pause.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
                 }
                 m_Wrapper.m_PlayerActionsCallbackInterface = instance;
                 if (instance != null)
@@ -1324,6 +1425,9 @@ namespace HNC
                     @CompanionSwitch.started += instance.OnCompanionSwitch;
                     @CompanionSwitch.performed += instance.OnCompanionSwitch;
                     @CompanionSwitch.canceled += instance.OnCompanionSwitch;
+                    @Pause.started += instance.OnPause;
+                    @Pause.performed += instance.OnPause;
+                    @Pause.canceled += instance.OnPause;
                 }
             }
         }
@@ -1335,6 +1439,7 @@ namespace HNC
         private readonly InputAction m_Companion_CompanionMove;
         private readonly InputAction m_Companion_CompanionLook;
         private readonly InputAction m_Companion_PlayerSwitch;
+        private readonly InputAction m_Companion_Pause;
         public struct CompanionActions
         {
             private @GameInput m_Wrapper;
@@ -1342,6 +1447,7 @@ namespace HNC
             public InputAction @CompanionMove => m_Wrapper.m_Companion_CompanionMove;
             public InputAction @CompanionLook => m_Wrapper.m_Companion_CompanionLook;
             public InputAction @PlayerSwitch => m_Wrapper.m_Companion_PlayerSwitch;
+            public InputAction @Pause => m_Wrapper.m_Companion_Pause;
             public InputActionMap Get() { return m_Wrapper.m_Companion; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -1360,6 +1466,9 @@ namespace HNC
                     @PlayerSwitch.started -= m_Wrapper.m_CompanionActionsCallbackInterface.OnPlayerSwitch;
                     @PlayerSwitch.performed -= m_Wrapper.m_CompanionActionsCallbackInterface.OnPlayerSwitch;
                     @PlayerSwitch.canceled -= m_Wrapper.m_CompanionActionsCallbackInterface.OnPlayerSwitch;
+                    @Pause.started -= m_Wrapper.m_CompanionActionsCallbackInterface.OnPause;
+                    @Pause.performed -= m_Wrapper.m_CompanionActionsCallbackInterface.OnPause;
+                    @Pause.canceled -= m_Wrapper.m_CompanionActionsCallbackInterface.OnPause;
                 }
                 m_Wrapper.m_CompanionActionsCallbackInterface = instance;
                 if (instance != null)
@@ -1373,6 +1482,9 @@ namespace HNC
                     @PlayerSwitch.started += instance.OnPlayerSwitch;
                     @PlayerSwitch.performed += instance.OnPlayerSwitch;
                     @PlayerSwitch.canceled += instance.OnPlayerSwitch;
+                    @Pause.started += instance.OnPause;
+                    @Pause.performed += instance.OnPause;
+                    @Pause.canceled += instance.OnPause;
                 }
             }
         }
@@ -1391,6 +1503,7 @@ namespace HNC
         private readonly InputAction m_UI_RightClick;
         private readonly InputAction m_UI_TrackedDevicePosition;
         private readonly InputAction m_UI_TrackedDeviceOrientation;
+        private readonly InputAction m_UI_Pause;
         public struct UIActions
         {
             private @GameInput m_Wrapper;
@@ -1405,6 +1518,7 @@ namespace HNC
             public InputAction @RightClick => m_Wrapper.m_UI_RightClick;
             public InputAction @TrackedDevicePosition => m_Wrapper.m_UI_TrackedDevicePosition;
             public InputAction @TrackedDeviceOrientation => m_Wrapper.m_UI_TrackedDeviceOrientation;
+            public InputAction @Pause => m_Wrapper.m_UI_Pause;
             public InputActionMap Get() { return m_Wrapper.m_UI; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -1444,6 +1558,9 @@ namespace HNC
                     @TrackedDeviceOrientation.started -= m_Wrapper.m_UIActionsCallbackInterface.OnTrackedDeviceOrientation;
                     @TrackedDeviceOrientation.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnTrackedDeviceOrientation;
                     @TrackedDeviceOrientation.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnTrackedDeviceOrientation;
+                    @Pause.started -= m_Wrapper.m_UIActionsCallbackInterface.OnPause;
+                    @Pause.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnPause;
+                    @Pause.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnPause;
                 }
                 m_Wrapper.m_UIActionsCallbackInterface = instance;
                 if (instance != null)
@@ -1478,6 +1595,9 @@ namespace HNC
                     @TrackedDeviceOrientation.started += instance.OnTrackedDeviceOrientation;
                     @TrackedDeviceOrientation.performed += instance.OnTrackedDeviceOrientation;
                     @TrackedDeviceOrientation.canceled += instance.OnTrackedDeviceOrientation;
+                    @Pause.started += instance.OnPause;
+                    @Pause.performed += instance.OnPause;
+                    @Pause.canceled += instance.OnPause;
                 }
             }
         }
@@ -1535,12 +1655,14 @@ namespace HNC
             void OnAim(InputAction.CallbackContext context);
             void OnCrouch(InputAction.CallbackContext context);
             void OnCompanionSwitch(InputAction.CallbackContext context);
+            void OnPause(InputAction.CallbackContext context);
         }
         public interface ICompanionActions
         {
             void OnCompanionMove(InputAction.CallbackContext context);
             void OnCompanionLook(InputAction.CallbackContext context);
             void OnPlayerSwitch(InputAction.CallbackContext context);
+            void OnPause(InputAction.CallbackContext context);
         }
         public interface IUIActions
         {
@@ -1554,6 +1676,7 @@ namespace HNC
             void OnRightClick(InputAction.CallbackContext context);
             void OnTrackedDevicePosition(InputAction.CallbackContext context);
             void OnTrackedDeviceOrientation(InputAction.CallbackContext context);
+            void OnPause(InputAction.CallbackContext context);
         }
     }
 }
