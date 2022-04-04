@@ -18,11 +18,6 @@ namespace HNC
     public class EnemyController : MonoBehaviour
     {
         [Header("Debug")]
-        public GameObject IdleGO;
-        public GameObject SuspGO;
-        public GameObject AlertGO;
-        public GameObject AttackGO;
-        public GameObject SearchGO;
         public GameObject DetectedVideoGO;
         public GameObject DetectedAudioGO;
         //public bool PullAvatarTowardsAgent;
@@ -63,6 +58,8 @@ namespace HNC
         [SerializeField] private string _screamParamName;
         [Tooltip("Attack trigger name")]
         [SerializeField] private string _attackParamName;
+
+        public ZombieUI UI;
 
         //State Machine
         private StateMachine _stateMachine;

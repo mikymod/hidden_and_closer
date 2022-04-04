@@ -8,7 +8,11 @@ namespace HNC {
             _state = state;
         }
 
-        public virtual void Enter() => _enemy.CurrentState = _state;
+        public virtual void Enter()
+        {
+            _enemy.CurrentState = _state;
+            _enemy.UI.OnZombieChangeState?.Invoke(_state);
+        }
 
         public abstract void Exit();
         public abstract void Update();

@@ -12,8 +12,6 @@ namespace HNC
         [SerializeField] private Sprite carBlackAndWhite;
         private Image carImage;
 
-        public static UnityAction<bool> OnChangeCarImage;
-        public static UnityAction<bool> OnControllingCar;
 
         private void Awake()
         {
@@ -27,30 +25,30 @@ namespace HNC
 
         private void OnEnable()
         {
-            OnChangeCarImage += ChangeCarImage;
-            OnControllingCar += IsControllingCar;
+            //TODO event car destroy
+            PlayerController.CompanionControl += IsControllingCar;
         }
 
         private void OnDisable()
         {
-            OnChangeCarImage -= ChangeCarImage;
-            OnControllingCar -= IsControllingCar;
+            //TODO event car destroy
+            PlayerController.CompanionControl -= IsControllingCar;
         }
 
-        private void IsControllingCar(bool control)
+        private void IsControllingCar(Transform transform)
         {
-            carImage.enabled = control; 
+            carImage.enabled = !carImage.enabled;
         } 
 
         private void ChangeCarImage(bool isCarUsable)
         {
             if (isCarUsable)
             {
-                carImage.sprite = carBlackAndWhite;
+                carImage.sprite = car;
             }
             else
             {
-                carImage.sprite = car;
+                carImage.sprite = carBlackAndWhite;
             }
         }
     }

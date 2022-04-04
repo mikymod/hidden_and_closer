@@ -9,7 +9,7 @@ namespace HNC
     public class LightingUI : MonoBehaviour
     {
         private Image bulbImage;
-        public static UnityAction<bool> OnLighting;
+        public static UnityAction OnLighting;
 
         private void Awake()
         {
@@ -31,9 +31,9 @@ namespace HNC
             OnLighting -= IsInLight;
         }
 
-        private void IsInLight(bool light)
+        private void IsInLight()
         {
-            bulbImage.enabled = light;       
+            bulbImage.enabled = !bulbImage.enabled;       
         }
     }
 }

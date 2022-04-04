@@ -8,7 +8,6 @@ namespace HNC {
 
         public override void Enter() {
             base.Enter();
-            _enemy.SearchGO.SetActive(true);
             //_enemy.SearchTimer = _enemy.SearchTime;
         }
 
@@ -31,6 +30,6 @@ namespace HNC {
             }
         }
 
-        public override void Exit() => _enemy.SearchGO.SetActive(false);//_enemy.SearchTimer = _enemy.SearchTime + 1;
+        public override void Exit() { }//_enemy.SearchTimer = _enemy.SearchTime + 1;
     }
 }

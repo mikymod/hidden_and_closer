@@ -7,12 +7,10 @@ namespace HNC {
         public override void Enter() {
             base.Enter();
             _enemy.AlertTimer = _enemy.AlertTime;
-            _enemy.AlertGO.SetActive(true);
             CheckDistance();
         }
 
         public override void Exit() {
-            _enemy.AlertGO.SetActive(false);
             _enemy.AlertTimer = _enemy.AlertTime + 1;
         }
 
