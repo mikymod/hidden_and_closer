@@ -10,13 +10,17 @@ namespace HNC
     public class ZombieUI : MonoBehaviour
     {
         
-        [SerializeField] private Sprite idleEye;
-        [SerializeField] private Sprite searchEye;
+        [SerializeField] private Sprite idleEyeSprite;
+        [SerializeField] private Sprite searchEyeSprite;
+        [SerializeField] private Sprite attackEyeSprite;
+        [SerializeField] private Sprite emptyCircleSprite;
+        [SerializeField] private Sprite fullCircleSprite;
+
+
         [SerializeField] private Image bigEye;
         [SerializeField] private Image[] circlesImages; 
-        [SerializeField] private Sprite emptyCircle;
-        [SerializeField] private Sprite fullCircle;
-        public static UnityAction OnZombieChangeState;
+        
+        //public static UnityAction<EnemyFSMState> OnZombieChangeState;
 
         private void Start()
         {
@@ -25,26 +29,71 @@ namespace HNC
 
         private void OnEnable()
         {
-            OnZombieChangeState += ChangeState;
+            //OnZombieChangeState += ChangeState;
         }
 
         private void OnDisable()
         {
-            OnZombieChangeState -= ChangeState;
+            //OnZombieChangeState -= ChangeState;
         }
 
-        private void ChangeState()
-        {
-            
-        }
+        //private void ChangeState(EnemyFSMState currentState)
+        //{
+        //    switch (currentState)
+        //    {
+        //        case EnemyFSMState.Idle:
+        //            ResetUI();
+        //            break;
+        //        case EnemyFSMState.Suspicious:
+        //            bigEye.sprite = idleEyeSprite;
+        //            for (int i = 0; i < 0; i++)
+        //            {
+        //                circlesImages[i].enabled = true;
+        //                circlesImages[i].sprite = fullCircleSprite;
+        //            }
+        //            break;
+        //        case EnemyFSMState.Alert:
+        //            bigEye.sprite = idleEyeSprite;
+        //            for (int i = 0; i < 1; i++)
+        //            {
+        //                circlesImages[i].enabled = true;
+        //                circlesImages[i].sprite = fullCircleSprite;
+        //            }
+        //            break;
+        //        case EnemyFSMState.Attack:
+        //            bigEye.sprite = attackEyeSprite;
+        //            for (int i = 0; i < circlesImages.Length; i++)
+        //            {
+        //                circlesImages[i].enabled = true;
+        //                circlesImages[i].sprite = fullCircleSprite;
+        //            }
+        //            break;
+        //        case EnemyFSMState.Search:
+        //            bigEye.sprite = searchEyeSprite;
+        //            for (int i = 0; i < circlesImages.Length; i++)
+        //            {
+        //                circlesImages[i].enabled = false;
+        //            }
+        //            break;
+        //        case EnemyFSMState.Death:
+        //            bigEye.enabled = false;
+        //            for (int i = 0; i < circlesImages.Length; i++)
+        //            {
+        //                circlesImages[i].enabled = false;
+        //            }
+        //            break;
+        //        default:
+        //            break;
+        //    }
+        //}
 
         private void ResetUI() 
         {
-            bigEye.sprite = idleEye;
+            bigEye.sprite = idleEyeSprite;
             for (int i = 0; i < circlesImages.Length; i++)
             {
                 circlesImages[i].enabled = true;
-                circlesImages[i].sprite = emptyCircle;
+                circlesImages[i].sprite = emptyCircleSprite;
             }
         }
     }
