@@ -67,6 +67,7 @@ namespace HNC {
                 _raycastEnd.y = DetectedCenter.position.y;
                 _raycastDirection = _raycastEnd - DetectedCenter.position;
                 if (Mathf.Acos(Vector3.Dot(_raycastDirection.normalized, transform.forward)) * Mathf.Rad2Deg <= VisionAngle * 0.5f) {
+                    //if (Vector3.Angle(transform.position, _raycastDirection) <= VisionAngle) {
                     _ray = new Ray(DetectedCenter.position, _raycastDirection);
                     Debug.DrawLine(_ray.origin, _ray.origin + _raycastDirection, Color.green);
                     if (Physics.Raycast(_ray, out _hit, _radius, VisionLayerMask)) {
@@ -91,18 +92,21 @@ namespace HNC {
                             }
                         } else {
                             if (_playerState == DetectedState.FirstNotified) {
+                                Debug.Log("DETECTION: Transform is not the same");
                                 DetectionSystemEvents.OnVisionDetectExit?.Invoke(gameObject, _playerTransform.gameObject);
                                 _playerState = DetectedState.LastNotified;
                             }
                         }
                     } else {
                         if (_playerState == DetectedState.FirstNotified) {
+                            Debug.Log("DETECTION: Not Raycast");
                             DetectionSystemEvents.OnVisionDetectExit?.Invoke(gameObject, _playerTransform.gameObject);
                             _playerState = DetectedState.LastNotified;
                         }
                     }
                 } else {
                     if (_playerState == DetectedState.FirstNotified) {
+                        Debug.Log("DETECTION: Out of vision angle");
                         DetectionSystemEvents.OnVisionDetectExit?.Invoke(gameObject, _playerTransform.gameObject);
                         _playerState = DetectedState.LastNotified;
                     }
@@ -141,8 +145,13 @@ namespace HNC {
         }
 
         private void OnTriggerExit(Collider other) {
+            if (other is CharacterController) {
+                return;
+            }
+            Debug.Log($"DETECTION TRIGGER: Exit {other}", other.gameObject);
             if (_playerTransform != null && other.transform == _playerTransform) {
                 if (_playerState == DetectedState.FirstNotified) {
+                    Debug.Log("DETECTION: Out of collider");
                     DetectionSystemEvents.OnVisionDetectExit?.Invoke(gameObject, _playerTransform.gameObject);
                 }
                 _playerTransform = null;
