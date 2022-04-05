@@ -16,6 +16,8 @@ namespace HNC {
         public float VisionAngle = 45;
         public LayerMask VisionLayerMask;
         public string PlayerLayerName;
+        [Range(0, 1f)]
+        public float AudioVolumeThreshold = 0.5f;
 
         private float _radius;
         private SphereCollider _collider;
@@ -113,7 +115,9 @@ namespace HNC {
                 }
             }
             //Audio detected
+            Debug.Log("Ho questi suoni ora");
             for (int i = 0; i < _soundEmittersTransform.Count; i++) {
+                Debug.Log(_soundEmittersTransform[i]);
                 //Check distance
                 _audioDistance = _soundEmittersTransform[i].position - DetectedCenter.position;
                 if (_audioDistance.sqrMagnitude < _radius * _radius) {
@@ -159,7 +163,12 @@ namespace HNC {
             }
         }
 
-        private void AddSoundEmitter(AudioClipsBankSO uslessACB, AudioConfigurationSO uslessAC, Transform emitter, float uslessF) {
+        private void AddSoundEmitter(AudioClipsBankSO uslessACB, AudioConfigurationSO audioConfigurationSO, Transform emitter, float uslessF) {
+            Debug.Log($"T'HO SENTITO {audioConfigurationSO}! Avevi un volume di {audioConfigurationSO.volume}");
+            if (audioConfigurationSO.volume < AudioVolumeThreshold) {
+                return;
+            }
+            Debug.Log($"TI HO REGISTRATO {audioConfigurationSO}!");
             if (_soundEmittersTransform.Contains(emitter)) {
                 return;
             }
@@ -167,7 +176,7 @@ namespace HNC {
             _soundEmittersState.Add(emitter, DetectedState.Releved);
         }
 
-        private void RemoveSoundEmitter(AudioClipsBankSO uslessACB, Transform emitter, float usless) {
+        private void RemoveSoundEmitter(AudioClipsBankSO uslessACB, Transform emitter, float uslessF) {
             if (!_soundEmittersTransform.Contains(emitter)) {
                 return;
             }

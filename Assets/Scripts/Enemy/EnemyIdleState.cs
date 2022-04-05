@@ -17,7 +17,6 @@ namespace HNC {
 
         public override void Enter() {
             base.Enter();
-            _enemy.IdleGO.SetActive(true);
             GetRandomTarget();
         }
 
@@ -30,7 +29,7 @@ namespace HNC {
             }
         }
 
-        public override void Exit() => _enemy.IdleGO.SetActive(false);
+        public override void Exit() { }
 
         public override void Update() {
             //_screamTimer -= Time.deltaTime;

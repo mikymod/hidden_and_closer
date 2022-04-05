@@ -9,7 +9,6 @@ namespace HNC {
             if (_enemy.HasAnimator) {
                 _enemy.AnimatorComponent.SetTrigger(_enemy.AnimScreamHash);
             }
-            _enemy.SuspGO.SetActive(true);
             _enemy.SuspiciousTimer = _enemy.SuspiciousTime;
             _enemy.NavMeshAgent.destination = _enemy.Detected.transform.position;
             if (_enemy.HasAnimator) {
@@ -18,7 +17,6 @@ namespace HNC {
         }
 
         public override void Exit() {
-            _enemy.SuspGO.SetActive(false);
             _enemy.SuspiciousTimer = _enemy.SuspiciousTime + 1;
         }
 

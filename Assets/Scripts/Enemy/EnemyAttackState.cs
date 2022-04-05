@@ -4,11 +4,10 @@ namespace HNC {
 
         public override void Enter() {
             base.Enter();
-            _enemy.AttackGO.SetActive(true);
             CheckDistance();
         }
 
-        public override void Exit() => _enemy.AttackGO.SetActive(false);
+        public override void Exit() { }
 
         public override void Update() {
             if (_enemy.HasAnimator && _enemy.NavMeshAgent.remainingDistance <= _enemy.AttackTreshoold) {

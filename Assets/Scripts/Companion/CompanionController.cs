@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace HNC
 {
@@ -21,6 +22,9 @@ namespace HNC
         private Renderer[] _renderers;
         private Vector2 _move;
         private Vector2 _look;
+
+        public static UnityAction OnCompanionControlStarted;
+        public static UnityAction OnCompanionControlFinish;
 
         private void Awake()
         {
@@ -63,6 +67,7 @@ namespace HNC
             _collider.enabled = true;
 
             CameraSwitch();
+            OnCompanionControlStarted?.Invoke();
         }
 
         private void OnCompanionControllingFinished()
@@ -79,6 +84,7 @@ namespace HNC
             _collider.enabled = false;
 
             CameraSwitch();
+            OnCompanionControlFinish?.Invoke();
         }
 
         private void CameraSwitch()
