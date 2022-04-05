@@ -50,6 +50,8 @@ namespace HNC
             gameInput.Player.Enable();
             gameInput.Companion.Disable();
             gameInput.UI.Disable();
+
+            Cursor.visible = false;
         }
 
         public void EnableCompanionInput()
@@ -57,6 +59,8 @@ namespace HNC
             gameInput.Player.Disable();
             gameInput.Companion.Enable();
             gameInput.UI.Disable();
+
+            Cursor.visible = false;
         }
 
         public void EnableUIInput()
@@ -64,6 +68,8 @@ namespace HNC
             gameInput.Player.Disable();
             gameInput.Companion.Disable();
             gameInput.UI.Enable();
+
+            Cursor.visible = true;
         }
 
         public void OnAim(InputAction.CallbackContext context)

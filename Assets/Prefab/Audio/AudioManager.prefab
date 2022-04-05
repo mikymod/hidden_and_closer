@@ -44,8 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 649b4e28b2dfffd42a2685e02091aa43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioMixer: {fileID: 0}
-  audioMixerSnapShots: []
+  audioMixer: {fileID: 24100000, guid: 3687cbbf467ff7c40929b6ce31efc34c, type: 2}
+  audioMixerSnapshots: {fileID: 3240008389054799881, guid: 3687cbbf467ff7c40929b6ce31efc34c, type: 2}
 --- !u!114 &7286632536255259986
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58,5 +58,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e620957a659b50147829015c202cccfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soundEmitter: {fileID: 8506172153664772167, guid: a45dd1c19969ded4a9cde6cef3b86565, type: 3}
-  soundEmittersCount: 10
+  prefab: {fileID: 0}
+  poolCount: 0

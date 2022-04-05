@@ -1,48 +1,48 @@
-using UnityEngine;
-using UnityEngine.Events;
+// using UnityEngine;
+// using UnityEngine.Events;
 
-namespace HNC
-{
-    public class GameManager : MonoBehaviour
-    {
-        [SerializeField] private InputHandler input = default;
+// namespace HNC
+// {
+//     public class GameManager : MonoBehaviour
+//     {
+//         [SerializeField] private InputHandler input = default;
 
-        public static UnityAction OnGameResumed;
-        public static UnityAction OnGamePaused;
+//         public static UnityAction OnGameResumed;
+//         public static UnityAction OnGamePaused;
 
-        public bool GamePaused { get; private set; } = false;
+//         public bool GamePaused { get; private set; } = false;
 
-        private void OnEnable()
-        {
-            input.pause += ScenePauseResume;
+//         private void OnEnable()
+//         {
+//             input.pause += ScenePauseResume;
 
-            UIManager.PauseMenuClosed += SceneResume;
-        }
+//             UIManager.PauseMenuClosed += SceneResume;
+//         }
 
-        private void OnDisable()
-        {
-            input.pause -= ScenePauseResume;
+//         private void OnDisable()
+//         {
+//             input.pause -= ScenePauseResume;
 
-            UIManager.PauseMenuClosed -= SceneResume;
-        }
+//             UIManager.PauseMenuClosed -= SceneResume;
+//         }
 
-        private void ScenePauseResume()
-        {
-            GamePaused = !GamePaused;
+//         private void ScenePauseResume()
+//         {
+//             GamePaused = !GamePaused;
 
-            if (GamePaused)
-            {
-                OnGamePaused?.Invoke();
-            }
-            else
-            {
-                OnGameResumed?.Invoke();
-            }
-        }
+//             if (GamePaused)
+//             {
+//                 OnGamePaused?.Invoke();
+//             }
+//             else
+//             {
+//                 OnGameResumed?.Invoke();
+//             }
+//         }
 
-        private void SceneResume()
-        {
-            GamePaused = false;
-        }
-    }
-}
+//         private void SceneResume()
+//         {
+//             GamePaused = false;
+//         }
+//     }
+// }
