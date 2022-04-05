@@ -20,22 +20,25 @@ namespace HNC
 
         private void Start()
         {
+            carImage.enabled = true;
             carImage.sprite = car;
         }
 
         private void OnEnable()
         {
             //TODO event car destroy
-            PlayerController.CompanionControl += IsControllingCar;
+            CompanionController.OnCompanionControlStarted += EnableDisableUILight;
+            CompanionController.OnCompanionControlFinish += EnableDisableUILight;
         }
 
         private void OnDisable()
         {
             //TODO event car destroy
-            PlayerController.CompanionControl -= IsControllingCar;
+            CompanionController.OnCompanionControlStarted -= EnableDisableUILight;
+            CompanionController.OnCompanionControlFinish -= EnableDisableUILight;
         }
 
-        private void IsControllingCar(Transform transform)
+        private void EnableDisableUILight()
         {
             carImage.enabled = !carImage.enabled;
         } 
@@ -53,3 +56,4 @@ namespace HNC
         }
     }
 }
+
