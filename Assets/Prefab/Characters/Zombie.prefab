@@ -1696,6 +1696,7 @@ GameObject:
   - component: {fileID: 6429192911138864386}
   - component: {fileID: 6429192911138864384}
   - component: {fileID: 6431122028237304123}
+  - component: {fileID: 1666335596}
   m_Layer: 0
   m_Name: Zombie
   m_TagString: Untagged
@@ -1710,7 +1711,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6431122028237304122}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1783,6 +1784,7 @@ MonoBehaviour:
   _speedParamName: Speed
   _screamParamName: Scream
   _attackParamName: Attack
+  _deathParamName: Hitted
   UI: {fileID: 6431122028237304123}
   CurrentState: 0
   NavMeshAgent: {fileID: 0}
@@ -1791,6 +1793,7 @@ MonoBehaviour:
   AnimSpeedHash: 0
   AnimScreamHash: 0
   AnimAttackHash: 0
+  AnimDeathHash: 0
   SuspiciousTimer: 0
   AlertTimer: 0
 --- !u!114 &6429192911138864386
@@ -1856,6 +1859,20 @@ MonoBehaviour:
   - {fileID: 6485554125234037623}
   - {fileID: 9160252220463072967}
   - {fileID: 7983855527047596888}
+--- !u!136 &1666335596
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6431122028237304122}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.25710297
+  m_Height: 1.8107582
+  m_Direction: 1
+  m_Center: {x: -0.00000032782555, y: 0.88819593, z: 0}
 --- !u!1 &6431135922189178722
 GameObject:
   m_ObjectHideFlags: 0
@@ -1984,11 +2001,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 022bcf09b7857824ba3c26c1a70bc31f, type: 3}
---- !u!224 &3375323900882101175 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 8938757558725801582, guid: 022bcf09b7857824ba3c26c1a70bc31f, type: 3}
-  m_PrefabInstance: {fileID: 5970462040228550105}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &827306910629523827 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6458294731478312106, guid: 022bcf09b7857824ba3c26c1a70bc31f, type: 3}
@@ -2033,6 +2045,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!224 &3375323900882101175 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 8938757558725801582, guid: 022bcf09b7857824ba3c26c1a70bc31f, type: 3}
+  m_PrefabInstance: {fileID: 5970462040228550105}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6429192911751978133
 PrefabInstance:
   m_ObjectHideFlags: 0

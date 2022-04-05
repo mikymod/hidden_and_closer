@@ -14,6 +14,10 @@ namespace HNC
         }
         private void OnCollisionEnter(Collision other)
         {
+            if (other.gameObject.TryGetComponent<EnemyController>(out EnemyController enemy))
+            {
+                enemy.Damaged();
+            }
             Debug.Log("On Collision enter");
             StartCoroutine(Reset());
             transform.GetComponent<AudioRockController>().PlayHitSound();

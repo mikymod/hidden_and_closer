@@ -58,13 +58,15 @@ namespace HNC
         [SerializeField] private string _screamParamName;
         [Tooltip("Attack trigger name")]
         [SerializeField] private string _attackParamName;
+        [Tooltip("Death float name")]
+        [SerializeField] private string _deathParamName;
 
         public ZombieUI UI;
 
         //State Machine
         private StateMachine _stateMachine;
         [HideInInspector] public EnemyFSMState CurrentState;
-        private readonly float life = 20;
+        private float life = 20;
         [HideInInspector] public NavMeshAgent NavMeshAgent;
         [HideInInspector] public Quaternion Rotation;
 
@@ -73,6 +75,7 @@ namespace HNC
         [HideInInspector] public int AnimSpeedHash;
         [HideInInspector] public int AnimScreamHash;
         [HideInInspector] public int AnimAttackHash;
+        [HideInInspector] public int AnimDeathHash;
 
 
         //Detection
@@ -83,6 +86,7 @@ namespace HNC
         [HideInInspector] public float AlertTimer;
         //[HideInInspector] public float SearchTimer;
 
+        EnemyDeathState deathState;
         private void Awake()
         {
             NavMeshAgent = GetComponent<NavMeshAgent>();
@@ -92,6 +96,7 @@ namespace HNC
             AnimSpeedHash = Animator.StringToHash(_speedParamName);
             AnimScreamHash = Animator.StringToHash(_screamParamName);
             AnimAttackHash = Animator.StringToHash(_attackParamName);
+            AnimDeathHash = Animator.StringToHash(_deathParamName);
 
             SuspiciousTimer = SuspiciousTime + 1;
             AlertTimer = AlertTime + 1;
@@ -102,8 +107,7 @@ namespace HNC
             EnemyAlertState alertState = new EnemyAlertState(this, EnemyFSMState.Alert);
             EnemyAttackState attackState = new EnemyAttackState(this, EnemyFSMState.Attack);
             EnemySearchState searchState = new EnemySearchState(this, EnemyFSMState.Search);
-            EnemyDeathState deathState = new EnemyDeathState(this, EnemyFSMState.Death);
-
+            deathState = new EnemyDeathState(this, EnemyFSMState.Death);
             _stateMachine.AddAnyTransition(deathState, () => life <= 0);
 
             _stateMachine.AddTransition(idleState, suspiciousState, () =>
@@ -254,5 +258,9 @@ namespace HNC
 
         private void Update() => _stateMachine.Update();//transform.rotation = Quaternion.Slerp(transform.rotation, Rotation, RotationSpeed * Time.deltaTime);//transform.position = Vector3.Lerp(transform.position, Target, MovementSpeed * Time.deltaTime);
 
+        public void Damaged()
+        {
+            life = 0;
+        }
     }
 }
