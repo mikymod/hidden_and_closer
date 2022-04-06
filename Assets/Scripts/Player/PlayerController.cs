@@ -327,7 +327,7 @@ namespace HNC
             {
                 if (_interact)
                 {
-                    Debug.Log("INTERACT");
+                    Debug.Log("INTERACT ENTER");
                 }
             }
         }
@@ -338,19 +338,11 @@ namespace HNC
             {
                 if (_interact)
                 {
-                    Debug.Log("INTERACT");
-
-                    SaveSystem.PlayerSave?.Invoke(SceneManager.GetActiveScene(), transform, true);
+                    var interactable = other.gameObject.GetComponentInParent<Interactable>();
+                    interactable.Interact();
                 }
             }
         }
 
-        private void OnTriggerExit(Collider other)
-        {
-            if (other.gameObject.layer == LayerMask.NameToLayer("Interactable"))
-            {
-                _canInteract = false;
-            }
-        }
     }
 }
