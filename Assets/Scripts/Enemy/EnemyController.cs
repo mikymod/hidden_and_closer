@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 using TMPro;
+using System.Collections;
 
 namespace HNC
 {
@@ -255,11 +256,26 @@ namespace HNC
 
         }
 
+        public void IsFighting()
+        {
+            StartCoroutine(AttackRoutine(3f));
+            
+        }
+
         private void Update() => _stateMachine.Update();//transform.rotation = Quaternion.Slerp(transform.rotation, Rotation, RotationSpeed * Time.deltaTime);//transform.position = Vector3.Lerp(transform.position, Target, MovementSpeed * Time.deltaTime);
 
         public void Damaged()
         {
             life = 0;
+        }
+
+        private IEnumerator AttackRoutine(float time)
+        {
+            yield return new WaitForSeconds(time);
+            if (Physics.CheckCapsule(transform.position, transform.forward, 1))
+            {
+                PlayerController.DeadEvent?.Invoke();
+            }
         }
     }
 }

@@ -264,8 +264,9 @@ namespace HNC
         [SerializeField] private Transform companionSpot;
 
         #region Public Action
-        public event UnityAction DeadEvent;
+        public static UnityAction DeadEvent;
         public static UnityAction<Transform> CompanionControl;
+        private bool isDeath = false;
         #endregion
 
         private void OnMove(Vector2 move) => _move = move;
@@ -305,9 +306,13 @@ namespace HNC
 
         private void OnDeath()
         {
-            if (_hasAnimator)
+            if (_hasAnimator && !isDeath)
             {
                 _animator.SetTrigger(_animIDDeath);
+                input.DisableAllInput();
+                isDeath = true;
+                //TODO abilitare il menu di game over
+                //TODO evento che stoppa il searching degli zombies
             }
         }
 
