@@ -917,7 +917,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 7856511154673763320}
         m_TargetAssemblyTypeName: HNC.SettingsMenu, Assembly-CSharp
-        m_MethodName: ChangeMusicVolume
+        m_MethodName: ChangeMasterVolume
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

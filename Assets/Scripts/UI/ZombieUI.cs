@@ -51,6 +51,14 @@ namespace HNC
                     circlesImages[i].enabled = false;
                 }
             }
+            else if (currentState == EnemyFSMState.Death)
+            {
+                bigEye.enabled = false;
+                for (int i = 0; i < circlesImages.Length; i++)
+                {
+                    circlesImages[i].enabled = false;
+                }
+            }
             else
             {
                 if (currentState == EnemyFSMState.Attack)
@@ -60,7 +68,7 @@ namespace HNC
                 else
                 {
                     bigEye.sprite = idleEyeSprite;
-                }                
+                }
                 for (int i = 0; i < (int)currentState; i++)
                 {
                     circlesImages[i].enabled = true;
