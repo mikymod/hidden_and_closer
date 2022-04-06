@@ -86,7 +86,6 @@ namespace HNC
         [HideInInspector] public float AlertTimer;
         //[HideInInspector] public float SearchTimer;
 
-        EnemyDeathState deathState;
         private void Awake()
         {
             NavMeshAgent = GetComponent<NavMeshAgent>();
@@ -107,7 +106,7 @@ namespace HNC
             EnemyAlertState alertState = new EnemyAlertState(this, EnemyFSMState.Alert);
             EnemyAttackState attackState = new EnemyAttackState(this, EnemyFSMState.Attack);
             EnemySearchState searchState = new EnemySearchState(this, EnemyFSMState.Search);
-            deathState = new EnemyDeathState(this, EnemyFSMState.Death);
+            EnemyDeathState deathState = new EnemyDeathState(this, EnemyFSMState.Death);
             _stateMachine.AddAnyTransition(deathState, () => life <= 0);
 
             _stateMachine.AddTransition(idleState, suspiciousState, () =>
