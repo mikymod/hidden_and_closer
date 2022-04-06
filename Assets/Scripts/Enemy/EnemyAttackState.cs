@@ -13,6 +13,7 @@ namespace HNC {
             if (_enemy.HasAnimator && _enemy.NavMeshAgent.remainingDistance <= _enemy.AttackTreshoold) {
                 _enemy.AnimatorComponent.SetFloat(_enemy.AnimSpeedHash, 0);
                 _enemy.AnimatorComponent.SetTrigger(_enemy.AnimAttackHash);
+                CheckHit();
             }
             CheckDistance();
         }
@@ -24,6 +25,11 @@ namespace HNC {
                     _enemy.AnimatorComponent.SetFloat(_enemy.AnimSpeedHash, 1);
                 }
             }
+        }
+
+        private void CheckHit()
+        {
+            _enemy.IsFighting();
         }
     }
 }
