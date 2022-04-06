@@ -5,6 +5,7 @@ using HNC.Save;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Linq;
+using UnityEngine.Events;
 
 [CreateAssetMenu(fileName = "SaveSystem", menuName = "HNC/Save System")]
 public class SaveSystem : ScriptableObject
@@ -20,29 +21,63 @@ public class SaveSystem : ScriptableObject
     // Companion Used Event
     // Settings Changed Event
 
+    public static UnityAction<bool, bool> GraphicSettingsSave;
+    public static UnityAction<float, float, float> AudioSettingsSave;
+    public static UnityAction<Scene, Transform, bool> PlayerSave;
+
     private void OnEnable()
     {
-        SceneManager.sceneLoaded += LevelStarted;
+        PlayerSave += OnPlayerSave;
+        GraphicSettingsSave += OnGraphicSettingsSave;
+        AudioSettingsSave += OnAudioSettingsSave;
     }
 
     private void OnDisable()
     {
-        SceneManager.sceneLoaded -= LevelStarted;
+        PlayerSave -= OnPlayerSave;
+        GraphicSettingsSave -= OnGraphicSettingsSave;
+        AudioSettingsSave += OnAudioSettingsSave;
     }
 
-    private void LevelStarted(Scene scene, LoadSceneMode sceneMode)
+    private void OnPlayerSave(Scene scene, Transform player, bool CompanionAvailable)
     {
-        var level = saveData.Levels.FirstOrDefault((level) => scene.name == level.Name);
-        if (level != null)
+        saveData.Player = new Player
         {
-            // stub
-        }
-        else
+            Scene = scene.name,
+            Position = player.position,
+            CompanionAvailable = CompanionAvailable,
+        };
+
+        saveData.UpdatedAt = DateTime.Now;
+
+        SaveGameDataToDisk();
+    }
+
+    private void OnGraphicSettingsSave(bool fullscreen, bool vsync)
+    {
+        saveData.Settings.Graphic = new GraphicSettings
         {
-            var lvl = new Level { Name = scene.name, Completed = false };
-            saveData.Levels.Add(lvl);
-            SaveGameDataToDisk();
-        }
+            Fullscreen = fullscreen,
+            VerticalSync = vsync,
+        };
+
+        saveData.UpdatedAt = DateTime.Now;
+
+        SaveGameDataToDisk();
+    }
+
+    private void OnAudioSettingsSave(float master, float music, float sfx)
+    {
+        saveData.Settings.Audio = new HNC.Save.AudioSettings
+        {
+            Master = master,
+            Music = music,
+            SFX = sfx,
+        };
+
+        saveData.UpdatedAt = DateTime.Now;
+
+        SaveGameDataToDisk();
     }
 
     // API
@@ -50,12 +85,13 @@ public class SaveSystem : ScriptableObject
     {
         if (FileManager.FileExists(saveFilename))
         {
-            // Delete
+            DeleteGameData();
         }
 
         if (FileManager.WriteToFile(saveFilename, ""))
         {
             saveData = new SaveData();
+            saveData.CreatedAt = DateTime.Now;
         }
     }
 
@@ -75,12 +111,13 @@ public class SaveSystem : ScriptableObject
         {
             // FIXME: this should be called inside main menu
             CreateNewGameFile();
-
             // // Currently disable 
             // return false;
         }
 
+        saveData.UpdatedAt = DateTime.Now;
         var json = saveData.ToJson();
+
         if (FileManager.WriteToFile(saveFilename, json))
         {
             return true;
