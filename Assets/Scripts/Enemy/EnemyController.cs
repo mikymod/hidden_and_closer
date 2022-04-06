@@ -13,7 +13,6 @@ namespace HNC
         Death
     }
 
-    [RequireComponent(typeof(Detector))]
     [RequireComponent(typeof(NavMeshAgent))]
     public class EnemyController : MonoBehaviour
     {
