@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6787879926559611257}
   - component: {fileID: 6177005841493485149}
   - component: {fileID: 9121696561665709627}
-  m_Layer: 2
+  m_Layer: 10
   m_Name: Detector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -62,7 +62,7 @@ MonoBehaviour:
   VisionAngle: 180
   VisionLayerMask:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 321
   PlayerLayerName: Player
   AudioVolumeThreshold: 0.5
 --- !u!1 &6429192910701895986
@@ -74,7 +74,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6429192910701895987}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: DetectedCenter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1844,6 +1844,8 @@ MonoBehaviour:
   AnimScreamHash: 0
   AnimAttackHash: 0
   AnimDeathHash: 0
+  Collider: {fileID: 0}
+  Detector: {fileID: 1563151896224920675}
   SuspiciousTimer: 0
   AlertTimer: 0
 --- !u!195 &6429192911138864384
@@ -2094,7 +2096,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1301249040183012, guid: e753da79003749749b94196d32a4afa9, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4995479371958632, guid: e753da79003749749b94196d32a4afa9, type: 3}
       propertyPath: m_RootOrder
@@ -2165,7 +2167,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1712988021913898, guid: 0936e03d0548ba644ae76e310e15769b, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4913566742086296, guid: 0936e03d0548ba644ae76e310e15769b, type: 3}
       propertyPath: m_RootOrder

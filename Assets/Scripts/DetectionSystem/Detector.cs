@@ -97,30 +97,30 @@ namespace HNC {
                             }
                         } else {
                             if (_playerState == DetectedState.FirstNotified) {
-                                Debug.Log("DETECTION: Transform is not the same");
+                                //Debug.Log("DETECTION: Transform is not the same");
                                 DetectionSystemEvents.OnVisionDetectExit?.Invoke(zombie, _playerTransform.gameObject);
                                 _playerState = DetectedState.LastNotified;
                             }
                         }
                     } else {
                         if (_playerState == DetectedState.FirstNotified) {
-                            Debug.Log("DETECTION: Not Raycast");
+                            //Debug.Log("DETECTION: Not Raycast");
                             DetectionSystemEvents.OnVisionDetectExit?.Invoke(zombie, _playerTransform.gameObject);
                             _playerState = DetectedState.LastNotified;
                         }
                     }
                 } else {
                     if (_playerState == DetectedState.FirstNotified) {
-                        Debug.Log("DETECTION: Out of vision angle");
+                        //Debug.Log("DETECTION: Out of vision angle");
                         DetectionSystemEvents.OnVisionDetectExit?.Invoke(zombie, _playerTransform.gameObject);
                         _playerState = DetectedState.LastNotified;
                     }
                 }
             }
             //Audio detected
-            Debug.Log("Ho questi suoni ora");
+            //Debug.Log("Ho questi suoni ora");
             for (int i = 0; i < _soundEmittersTransform.Count; i++) {
-                Debug.Log(_soundEmittersTransform[i]);
+                //Debug.Log(_soundEmittersTransform[i]);
                 //Check distance
                 _audioDistance = _soundEmittersTransform[i].position - DetectedCenter.position;
                 if (_audioDistance.sqrMagnitude < _radius * _radius) {
@@ -155,10 +155,10 @@ namespace HNC {
             if (other is CharacterController) {
                 return;
             }
-            Debug.Log($"DETECTION TRIGGER: Exit {other}", other.gameObject);
+            //Debug.Log($"DETECTION TRIGGER: Exit {other}", other.gameObject);
             if (_playerTransform != null && other.transform == _playerTransform) {
                 if (_playerState == DetectedState.FirstNotified) {
-                    Debug.Log("DETECTION: Out of collider");
+                    //Debug.Log("DETECTION: Out of collider");
                     DetectionSystemEvents.OnVisionDetectExit?.Invoke(zombie, _playerTransform.gameObject);
                 }
                 _playerTransform = null;
@@ -167,11 +167,11 @@ namespace HNC {
         }
 
         private void AddSoundEmitter(AudioClipsBankSO uslessACB, AudioConfigurationSO audioConfigurationSO, Transform emitter, float uslessF) {
-            Debug.Log($"T'HO SENTITO {audioConfigurationSO}! Avevi un volume di {audioConfigurationSO.volume}");
+            //Debug.Log($"T'HO SENTITO {audioConfigurationSO}! Avevi un volume di {audioConfigurationSO.volume}");
             if (audioConfigurationSO.volume < AudioVolumeThreshold) {
                 return;
             }
-            Debug.Log($"TI HO REGISTRATO {audioConfigurationSO}!");
+            //Debug.Log($"TI HO REGISTRATO {audioConfigurationSO}!");
             if (_soundEmittersTransform.Contains(emitter)) {
                 return;
             }

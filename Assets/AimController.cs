@@ -19,6 +19,7 @@ namespace HNC
         [SerializeField] private int trajectoryLinePointsCount = 50;
         [Tooltip("Crouch speed of the character in m/s")]
         [SerializeField] float CrouchSpeed = 2.0f;
+        [SerializeField] LayerMask AimLayer;
 
         private Animator _animator;
         private Pooler _pooler;
@@ -201,7 +202,7 @@ namespace HNC
                 var previousPoint = _trajectorylinePoints[i - 1];
                 var newPoint = start - move;
                 var distance = (newPoint - previousPoint).magnitude;
-                if (Physics.Raycast(previousPoint, newPoint - previousPoint, out _lastTrajectoryHit, distance))
+                if (Physics.Raycast(previousPoint, newPoint - previousPoint, out _lastTrajectoryHit, distance, AimLayer))
                 {
                     _trajectorylinePoints.Add(_lastTrajectoryHit.point);
                     _lineRenderer.positionCount = _trajectorylinePoints.Count;
@@ -216,7 +217,7 @@ namespace HNC
 
             var lastDirection = (_trajectorylinePoints[_trajectorylinePoints.Count - 1] - _trajectorylinePoints[_trajectorylinePoints.Count - 2]).normalized;
             var lastPoint = _trajectorylinePoints[_trajectorylinePoints.Count - 1];
-            if (Physics.Raycast(lastPoint, lastDirection, out _lastTrajectoryHit))
+            if (Physics.Raycast(lastPoint, lastDirection, out _lastTrajectoryHit, float.PositiveInfinity, AimLayer))
             {
                 trajectoryCollisionPoint.transform.position = _lastTrajectoryHit.point;
                 trajectoryCollisionPoint.transform.rotation = Quaternion.LookRotation(-_lastTrajectoryHit.normal, Vector3.up);

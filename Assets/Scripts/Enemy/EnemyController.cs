@@ -1,10 +1,8 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
-using TMPro;
-using System.Collections;
 
-namespace HNC
-{
+namespace HNC {
     public enum EnemyFSMState {
         Idle,
         Suspicious,
@@ -15,8 +13,7 @@ namespace HNC
     }
 
     [RequireComponent(typeof(NavMeshAgent))]
-    public class EnemyController : MonoBehaviour
-    {
+    public class EnemyController : MonoBehaviour {
         [Header("Debug")]
         public GameObject DetectedVideoGO;
         public GameObject DetectedAudioGO;
@@ -77,17 +74,17 @@ namespace HNC
         [HideInInspector] public int AnimAttackHash;
         [HideInInspector] public int AnimDeathHash;
 
+        [HideInInspector] public CapsuleCollider Collider;
 
         //Detection
+        public GameObject Detector;
         public GameObject Detected { get; private set; }
         public GameObject VideoDetected { get; private set; }
         public GameObject AudioDetected { get; private set; }
         [HideInInspector] public float SuspiciousTimer;
         [HideInInspector] public float AlertTimer;
-        //[HideInInspector] public float SearchTimer;
 
-        private void Awake()
-        {
+        private void Awake() {
             NavMeshAgent = GetComponent<NavMeshAgent>();
             NavMeshAgent.updatePosition = false;
 
@@ -100,6 +97,8 @@ namespace HNC
             SuspiciousTimer = SuspiciousTime + 1;
             AlertTimer = AlertTime + 1;
 
+            Collider = GetComponent<CapsuleCollider>();
+
             _stateMachine = new StateMachine();
             EnemyIdleState idleState = new EnemyIdleState(this, EnemyFSMState.Idle);
             EnemySuspiciousState suspiciousState = new EnemySuspiciousState(this, EnemyFSMState.Suspicious);
@@ -109,46 +108,36 @@ namespace HNC
             EnemyDeathState deathState = new EnemyDeathState(this, EnemyFSMState.Death);
             _stateMachine.AddAnyTransition(deathState, () => life <= 0);
 
-            _stateMachine.AddTransition(idleState, suspiciousState, () =>
-            {
+            _stateMachine.AddTransition(idleState, suspiciousState, () => {
                 /*Debug.Log($"Idle to Susp {detected != null}");*/
-                if (VideoDetected != null)
-                {
+                if (VideoDetected != null) {
                     Detected = VideoDetected;
-                }
-                else if (AudioDetected != null)
-                {
+                } else if (AudioDetected != null) {
                     Detected = AudioDetected;
                 }
                 return VideoDetected != null || AudioDetected != null;
             });
-            _stateMachine.AddTransition(suspiciousState, alertState, () =>
-            {
+            _stateMachine.AddTransition(suspiciousState, alertState, () => {
                 /*Debug.Log($"Susp to Alert {SuspiciousTimer <= 0 && detected != null}");*/
                 return SuspiciousTimer <= 0 && VideoDetected != null;
             });
-            _stateMachine.AddTransition(suspiciousState, searchState, () =>
-            {
+            _stateMachine.AddTransition(suspiciousState, searchState, () => {
                 /*Debug.Log($"Susp to Search {SuspiciousTimer <= 0 && detected == null}");*/
                 return SuspiciousTimer <= 0 && VideoDetected == null;
             });
-            _stateMachine.AddTransition(alertState, attackState, () =>
-            {
+            _stateMachine.AddTransition(alertState, attackState, () => {
                 /*Debug.Log($"Alert to Attack {AlertTimer <= 0 && detected != null}");*/
                 return AlertTimer <= 0 && VideoDetected != null;
             });
-            _stateMachine.AddTransition(alertState, searchState, () =>
-            {
+            _stateMachine.AddTransition(alertState, searchState, () => {
                 /*Debug.Log($"Alert to Search {AlertTimer <= 0 && detected == null}");*/
                 return AlertTimer <= 0 && VideoDetected == null;
             });
-            _stateMachine.AddTransition(attackState, searchState, () =>
-            {
+            _stateMachine.AddTransition(attackState, searchState, () => {
                 /*Debug.Log($"Attack to Search {detected == null}");*/
                 return VideoDetected == null;
             });
-            _stateMachine.AddTransition(searchState, suspiciousState, () =>
-            {
+            _stateMachine.AddTransition(searchState, suspiciousState, () => {
                 /*Debug.Log($"Search to Idle {SearchTimer <= 0}");*/
                 return VideoDetected != null || AudioDetected != null;
             });
@@ -156,30 +145,26 @@ namespace HNC
             _stateMachine.SetInitialState(idleState);
         }
 
-        private void OnEnable()
-        {
+        private void OnEnable() {
             DetectionSystemEvents.OnAudioDetectEnter += OnAudioDetectionEnter;
             DetectionSystemEvents.OnVisionDetectEnter += OnVideoDetectionEnter;
             DetectionSystemEvents.OnAudioDetectExit += OnAudioDetectionExit;
             DetectionSystemEvents.OnVisionDetectExit += OnVideoDetectionExit;
         }
 
-        private void OnDisable()
-        {
+        private void OnDisable() {
             DetectionSystemEvents.OnAudioDetectEnter -= OnAudioDetectionEnter;
             DetectionSystemEvents.OnVisionDetectEnter -= OnVideoDetectionEnter;
             DetectionSystemEvents.OnAudioDetectExit -= OnAudioDetectionExit;
             DetectionSystemEvents.OnVisionDetectExit -= OnVideoDetectionExit;
         }
 
-        private void OnAnimatorMove()
-        {
+        private void OnAnimatorMove() {
             Vector3 position = AnimatorComponent.rootPosition;
             position.y = NavMeshAgent.nextPosition.y;
             transform.position = position;
 
-            if (Vector3.Distance(transform.position, NavMeshAgent.nextPosition) > NavMeshAgent.radius)
-            {
+            if (Vector3.Distance(transform.position, NavMeshAgent.nextPosition) > NavMeshAgent.radius) {
                 //if (PullAvatarTowardsAgent) {
                 //    transform.position += (NavMeshAgent.nextPosition - transform.position) * 0.1f;
                 //} else if (PullAgentTowardsAvatar) {
@@ -188,16 +173,13 @@ namespace HNC
             }
         }
 
-        private void OnVideoDetectionEnter(GameObject detecter, GameObject detected)
-        {
+        private void OnVideoDetectionEnter(GameObject detecter, GameObject detected) {
             //Ho rilevato io
-            if (detecter == gameObject)
-            {
+            if (detecter == gameObject) {
                 //Non ho un target
                 //OPPURE
                 //Lo considero solo se sono in Susp
-                if (VideoDetected == null || SuspiciousTimer <= SuspiciousTime && SuspiciousTimer > 0)
-                {
+                if (VideoDetected == null || SuspiciousTimer <= SuspiciousTime && SuspiciousTimer > 0) {
                     //Setto detected e target
                     VideoDetected = detected;
                     DetectedVideoGO.SetActive(true);
@@ -208,11 +190,9 @@ namespace HNC
             }
         }
 
-        private void OnVideoDetectionExit(GameObject detecter, GameObject detected)
-        {
+        private void OnVideoDetectionExit(GameObject detecter, GameObject detected) {
             //Ho rilevato io e stavo già rilevando detected
-            if (detecter == gameObject && VideoDetected != null && VideoDetected == detected)
-            {
+            if (detecter == gameObject && VideoDetected != null && VideoDetected == detected) {
                 if (CurrentState == EnemyFSMState.Attack) {
                     Debug.Log("Perdo oggetto");
                 }
@@ -223,16 +203,13 @@ namespace HNC
 
         }
 
-        private void OnAudioDetectionEnter(GameObject detecter, GameObject detected)
-        {
+        private void OnAudioDetectionEnter(GameObject detecter, GameObject detected) {
             //Ho rilevato io
-            if (detecter == gameObject)
-            {
+            if (detecter == gameObject) {
                 //Non ho un target
                 //OPPURE
                 //Lo considero solo se sono in Susp
-                if (AudioDetected == null || SuspiciousTimer <= SuspiciousTime && SuspiciousTimer > 0)
-                {
+                if (AudioDetected == null || SuspiciousTimer <= SuspiciousTime && SuspiciousTimer > 0) {
                     //Setto detected e target
                     AudioDetected = detected;
                     DetectedAudioGO.SetActive(true);
@@ -243,11 +220,9 @@ namespace HNC
             }
         }
 
-        private void OnAudioDetectionExit(GameObject detecter, GameObject detected)
-        {
+        private void OnAudioDetectionExit(GameObject detecter, GameObject detected) {
             //Ho rilevato io e stavo già rilevando detected
-            if (detecter == gameObject && AudioDetected != null && AudioDetected == detected)
-            {
+            if (detecter == gameObject && AudioDetected != null && AudioDetected == detected) {
                 //Rimuovo il detected
                 AudioDetected = null;
                 DetectedAudioGO.SetActive(false);
@@ -255,24 +230,15 @@ namespace HNC
 
         }
 
-        public void IsFighting()
-        {
-            StartCoroutine(AttackRoutine(3f));
-            
-        }
+        public void IsFighting() => StartCoroutine(AttackRoutine(3f));
 
         private void Update() => _stateMachine.Update();//transform.rotation = Quaternion.Slerp(transform.rotation, Rotation, RotationSpeed * Time.deltaTime);//transform.position = Vector3.Lerp(transform.position, Target, MovementSpeed * Time.deltaTime);
 
-        public void Damaged()
-        {
-            life = 0;
-        }
+        public void Damaged() => life = 0;
 
-        private IEnumerator AttackRoutine(float time)
-        {
+        private IEnumerator AttackRoutine(float time) {
             yield return new WaitForSeconds(time);
-            if (Physics.CheckCapsule(transform.position, transform.forward, 1))
-            {
+            if (Physics.CheckCapsule(transform.position, transform.forward, 1)) {
                 PlayerController.DeadEvent?.Invoke();
             }
         }
