@@ -13,6 +13,6 @@ namespace HNC.Save
         public DateTime UpdatedAt { get; set; } = DateTime.Now;
 
         public string ToJson() => JsonConvert.SerializeObject(this);
-        public void FromJson(string json) => JsonConvert.DeserializeObject<SaveData>(json);
+        public static SaveData FromJson(string json) => JsonConvert.DeserializeObject<SaveData>(json);
     }
 }

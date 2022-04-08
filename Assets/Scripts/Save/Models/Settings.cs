@@ -8,7 +8,7 @@ namespace HNC.Save
         public AudioSettings Audio { get; set; } = new AudioSettings();
 
         public string ToJson() => JsonConvert.SerializeObject(this);
-        public void FromJson(string json) => JsonConvert.DeserializeObject<Settings>(json);
+        public Settings FromJson(string json) => JsonConvert.DeserializeObject<Settings>(json);
     }
 
     public class GraphicSettings
@@ -17,7 +17,7 @@ namespace HNC.Save
         public bool VerticalSync { get; set; } = default;
 
         public string ToJson() => JsonConvert.SerializeObject(this);
-        public void FromJson(string json) => JsonConvert.DeserializeObject<GraphicSettings>(json);
+        public GraphicSettings FromJson(string json) => JsonConvert.DeserializeObject<GraphicSettings>(json);
     }
 
     public class AudioSettings
@@ -27,6 +27,6 @@ namespace HNC.Save
         public float SFX { get; set; } = default;
 
         public string ToJson() => JsonConvert.SerializeObject(this);
-        public void FromJson(string json) => JsonConvert.DeserializeObject<AudioSettings>(json);
+        public static AudioSettings FromJson(string json) => JsonConvert.DeserializeObject<AudioSettings>(json);
     }
 }

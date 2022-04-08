@@ -9,6 +9,6 @@ namespace HNC.Save
         public Vector3 Position { get; set; }
 
         public string ToJson() => JsonConvert.SerializeObject(this);
-        public void FromJson(string json) => JsonConvert.DeserializeObject<Enemy>(json);
+        public static Enemy FromJson(string json) => JsonConvert.DeserializeObject<Enemy>(json);
     }
 }

@@ -1,10 +1,7 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using HNC.Save;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using System.Linq;
 using UnityEngine.Events;
 
 [CreateAssetMenu(fileName = "SaveSystem", menuName = "HNC/Save System")]
@@ -12,22 +9,20 @@ public class SaveSystem : ScriptableObject
 {
     [SerializeField] private string saveFilename = "save.hnc";
     private SaveData saveData = new SaveData();
+    public SaveData SaveData { get => saveData; }
+    public bool CanLoadPlayer { get => saveData.Levels.Count > 0; }
 
-    // Events
-    // 
-    // Level Started Event
-    // Level Completed Event
-    // Checkpoint Reached Event
-    // Companion Used Event
-    // Settings Changed Event
-
-    public static UnityAction<bool, bool> GraphicSettingsSave;
-    public static UnityAction<float, float, float> AudioSettingsSave;
     public static UnityAction<Scene, Transform, bool> PlayerSave;
+    public static UnityAction<Scene, Transform> LevelStarted;
+    public static UnityAction<Scene> LevelFinished;
+    public static UnityAction<float, float, float> AudioSettingsSave;
+    public static UnityAction<bool, bool> GraphicSettingsSave;
 
     private void OnEnable()
     {
         PlayerSave += OnPlayerSave;
+        LevelStarted += OnLevelStarted;
+        LevelFinished += OnLevelFinished;
         GraphicSettingsSave += OnGraphicSettingsSave;
         AudioSettingsSave += OnAudioSettingsSave;
     }
@@ -35,8 +30,10 @@ public class SaveSystem : ScriptableObject
     private void OnDisable()
     {
         PlayerSave -= OnPlayerSave;
+        LevelStarted -= OnLevelStarted;
+        LevelFinished -= OnLevelFinished;
         GraphicSettingsSave -= OnGraphicSettingsSave;
-        AudioSettingsSave += OnAudioSettingsSave;
+        AudioSettingsSave -= OnAudioSettingsSave;
     }
 
     private void OnPlayerSave(Scene scene, Transform player, bool CompanionAvailable)
@@ -44,11 +41,39 @@ public class SaveSystem : ScriptableObject
         saveData.Player = new Player
         {
             Scene = scene.name,
-            Position = player.position,
+            Position = player.position + Vector3.forward * 2,
             CompanionAvailable = CompanionAvailable,
         };
 
-        saveData.UpdatedAt = DateTime.Now;
+        SaveGameDataToDisk();
+    }
+
+    private void OnLevelStarted(Scene scene, Transform spawnPoint)
+    {
+        if (saveData.Levels.ContainsKey(scene.name))
+        {
+            saveData.Levels[scene.name].Name = scene.name;
+        }
+        else
+        {
+            saveData.Levels.Add(scene.name, new Level
+            {
+                Name = scene.name,
+                Completed = false,
+            });
+        }
+
+        SaveGameDataToDisk();
+    }
+
+    private void OnLevelFinished(Scene scene)
+    {
+        if (!saveData.Levels.ContainsKey(scene.name))
+        {
+            throw new Exception("Level not found");
+        }
+
+        saveData.Levels[scene.name].Completed = true;
 
         SaveGameDataToDisk();
     }
@@ -61,8 +86,6 @@ public class SaveSystem : ScriptableObject
             VerticalSync = vsync,
         };
 
-        saveData.UpdatedAt = DateTime.Now;
-
         SaveGameDataToDisk();
     }
 
@@ -74,8 +97,6 @@ public class SaveSystem : ScriptableObject
             Music = music,
             SFX = sfx,
         };
-
-        saveData.UpdatedAt = DateTime.Now;
 
         SaveGameDataToDisk();
     }
@@ -135,7 +156,7 @@ public class SaveSystem : ScriptableObject
 
         if (FileManager.LoadFromFile(saveFilename, out var json))
         {
-            saveData.FromJson(json);
+            saveData = SaveData.FromJson(json);
             return true;
         }
 

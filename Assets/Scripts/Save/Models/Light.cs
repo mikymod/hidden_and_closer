@@ -8,6 +8,6 @@ namespace HNC.Save
         public bool Enabled { get; set; }
 
         public string ToJson() => JsonConvert.SerializeObject(this);
-        public void FromJson(string json) => JsonConvert.DeserializeObject<Light>(json);
+        public static Light FromJson(string json) => JsonConvert.DeserializeObject<Light>(json);
     }
 }
