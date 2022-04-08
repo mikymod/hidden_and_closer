@@ -15,6 +15,8 @@ namespace HNC
         public event UnityAction crouchCanceled = delegate { };
         public event UnityAction fireStarted = delegate { };
         public event UnityAction fireCanceled = delegate { };
+        public event UnityAction interactStarted = delegate { };
+        public event UnityAction interactCanceled = delegate { };
 
         public event UnityAction<Vector2> companionMove = delegate { };
         public event UnityAction<Vector2> companionLook = delegate { };
@@ -108,6 +110,19 @@ namespace HNC
             if (context.canceled)
             {
                 fireCanceled?.Invoke();
+            }
+        }
+
+        public void OnInteract(InputAction.CallbackContext context)
+        {
+            if (context.started)
+            {
+                interactStarted?.Invoke();
+            }
+
+            if (context.canceled)
+            {
+                interactCanceled?.Invoke();
             }
         }
 

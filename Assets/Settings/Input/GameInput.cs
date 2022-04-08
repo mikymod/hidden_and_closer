@@ -91,6 +91,15 @@ namespace HNC
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Interact"",
+                    ""type"": ""Button"",
+                    ""id"": ""540f1ff5-2b84-411f-807f-9d54ad2a4ffb"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -360,22 +369,22 @@ namespace HNC
                 },
                 {
                     ""name"": """",
-                    ""id"": ""4046e011-2d35-408e-b03f-f3d676490223"",
-                    ""path"": ""<Keyboard>/f"",
+                    ""id"": ""7150c006-356c-44be-97ba-a3c4f50bf8bb"",
+                    ""path"": ""<Gamepad>/buttonWest"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
+                    ""groups"": ""Gamepad"",
                     ""action"": ""CompanionSwitch"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""7150c006-356c-44be-97ba-a3c4f50bf8bb"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""id"": ""4046e011-2d35-408e-b03f-f3d676490223"",
+                    ""path"": ""<Keyboard>/f"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Gamepad"",
+                    ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""CompanionSwitch"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -399,6 +408,28 @@ namespace HNC
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2d72b5ae-a028-4951-90c6-a4ecdd58fe8d"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7adcd20a-b7dd-480a-a80b-189d25e384d6"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1277,6 +1308,7 @@ namespace HNC
             m_Player_Crouch = m_Player.FindAction("Crouch", throwIfNotFound: true);
             m_Player_CompanionSwitch = m_Player.FindAction("CompanionSwitch", throwIfNotFound: true);
             m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
+            m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
             // Companion
             m_Companion = asset.FindActionMap("Companion", throwIfNotFound: true);
             m_Companion_CompanionMove = m_Companion.FindAction("CompanionMove", throwIfNotFound: true);
@@ -1362,6 +1394,7 @@ namespace HNC
         private readonly InputAction m_Player_Crouch;
         private readonly InputAction m_Player_CompanionSwitch;
         private readonly InputAction m_Player_Pause;
+        private readonly InputAction m_Player_Interact;
         public struct PlayerActions
         {
             private @GameInput m_Wrapper;
@@ -1373,6 +1406,7 @@ namespace HNC
             public InputAction @Crouch => m_Wrapper.m_Player_Crouch;
             public InputAction @CompanionSwitch => m_Wrapper.m_Player_CompanionSwitch;
             public InputAction @Pause => m_Wrapper.m_Player_Pause;
+            public InputAction @Interact => m_Wrapper.m_Player_Interact;
             public InputActionMap Get() { return m_Wrapper.m_Player; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -1403,6 +1437,9 @@ namespace HNC
                     @Pause.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
                     @Pause.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
                     @Pause.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
+                    @Interact.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
+                    @Interact.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
+                    @Interact.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
                 }
                 m_Wrapper.m_PlayerActionsCallbackInterface = instance;
                 if (instance != null)
@@ -1428,6 +1465,9 @@ namespace HNC
                     @Pause.started += instance.OnPause;
                     @Pause.performed += instance.OnPause;
                     @Pause.canceled += instance.OnPause;
+                    @Interact.started += instance.OnInteract;
+                    @Interact.performed += instance.OnInteract;
+                    @Interact.canceled += instance.OnInteract;
                 }
             }
         }
@@ -1656,6 +1696,7 @@ namespace HNC
             void OnCrouch(InputAction.CallbackContext context);
             void OnCompanionSwitch(InputAction.CallbackContext context);
             void OnPause(InputAction.CallbackContext context);
+            void OnInteract(InputAction.CallbackContext context);
         }
         public interface ICompanionActions
         {

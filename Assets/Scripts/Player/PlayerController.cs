@@ -1,5 +1,7 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 namespace HNC
 {
@@ -68,6 +70,9 @@ namespace HNC
         // private bool _aim;
         private bool _crouch;
 
+        private bool _interact;
+        private bool _canInteract;
+
         // animation Layer
         private int _animLayerAim;
 
@@ -101,6 +106,8 @@ namespace HNC
             input.crouchStarted += OnCrouchStarted;
             input.aimStarted += OnAimStarted;
             input.aimCanceled += OnAimCanceled;
+            input.interactStarted += OnInteractStarted;
+            input.interactCanceled += OnInteractCanceled;
             input.companionSwitch += OnCompanionControllingStarted;
 
             DeadEvent += OnDeath;
@@ -113,6 +120,8 @@ namespace HNC
             input.crouchStarted -= OnCrouchStarted;
             input.aimStarted -= OnAimStarted;
             input.aimCanceled -= OnAimCanceled;
+            input.interactStarted -= OnInteractStarted;
+            input.interactCanceled -= OnInteractCanceled;
             input.companionSwitch -= OnCompanionControllingStarted;
 
             DeadEvent -= OnDeath;
@@ -273,27 +282,13 @@ namespace HNC
 
         private void OnLook(Vector2 look) => _look = new Vector2(look.x, -look.y);
 
-        private void OnAimStarted()
-        {
-            // _aim = true;
-            // if (_hasAnimator)
-            // {
-            //     _animator.SetBool(_animIDAim, _aim);
-            //     _animator.SetLayerWeight(_animLayerAim, 1);
-            // }
-            enabled = false;
-        }
+        private void OnAimStarted() => enabled = false;
 
-        private void OnAimCanceled()
-        {
-            // _aim = false;
-            // if (_hasAnimator)
-            // {
-            //     _animator.SetBool(_animIDAim, _aim);
-            //     _animator.SetLayerWeight(_animLayerAim, 0);
-            // }
-            enabled = true;
-        }
+        private void OnAimCanceled() => enabled = true;
+
+        private void OnInteractStarted() => _interact = true;
+
+        private void OnInteractCanceled() => _interact = false;
 
         private void OnCrouchStarted()
         {
@@ -325,5 +320,29 @@ namespace HNC
         }
 
         #endregion
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.gameObject.layer == LayerMask.NameToLayer("Interactable"))
+            {
+                if (_interact)
+                {
+                    Debug.Log("INTERACT ENTER");
+                }
+            }
+        }
+
+        private void OnTriggerStay(Collider other)
+        {
+            if (other.gameObject.layer == LayerMask.NameToLayer("Interactable"))
+            {
+                if (_interact)
+                {
+                    var interactable = other.gameObject.GetComponentInParent<Interactable>();
+                    interactable.Interact();
+                }
+            }
+        }
+
     }
 }
