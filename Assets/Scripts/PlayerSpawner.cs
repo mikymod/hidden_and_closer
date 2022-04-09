@@ -10,7 +10,9 @@ namespace HNC
 
         private void Start()
         {
-            if (saveSystem.SaveData.Player.Scene != null && saveSystem.SaveData.Player.Scene != "")
+            if (saveSystem.SaveData.Player.Scene != null &&
+                saveSystem.SaveData.Player.Scene != "" &&
+                saveSystem.SaveData.Player.Scene == SceneManager.GetActiveScene().name)
             {
                 Spawn(saveSystem.SaveData.Player.Position, Quaternion.identity);
             }
