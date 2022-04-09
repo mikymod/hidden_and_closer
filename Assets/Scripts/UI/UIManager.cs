@@ -10,6 +10,12 @@ namespace HNC
         [SerializeField] private InputHandler input;
         [SerializeField] private PauseMenu pauseMenu;
         [SerializeField] private SettingsMenu settingsMenu;
+        [SerializeField] private GameObject gameUI;
+
+        private void Awake()
+        {
+            gameUI.SetActive(true);
+        }
 
         private void OnEnable()
         {

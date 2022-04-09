@@ -8,18 +8,13 @@ namespace HNC
 {
     public class LightingUI : MonoBehaviour
     {
-        private Image bulbImage;
+        [SerializeField] private Image bulbImage;
         public static UnityAction<bool> OnLighting;
 
-        private void Awake()
-        {
-            bulbImage = GetComponentInChildren<Image>();
-        }
-
-        private void Start()
-        {
-            bulbImage.enabled = false;
-        }
+        //private void Start()
+        //{
+        //    bulbImage.enabled = false;
+        //}
 
         private void OnEnable()
         {
