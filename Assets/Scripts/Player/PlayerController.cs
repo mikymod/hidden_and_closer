@@ -313,9 +313,6 @@ namespace HNC
 
         private void OnCompanionControllingStarted()
         {
-            input.DisableAllInput();
-            input.EnableCompanionInput();
-
             CompanionControl?.Invoke(companionSpot);
         }
 

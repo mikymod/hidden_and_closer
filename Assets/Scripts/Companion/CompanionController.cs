@@ -12,7 +12,6 @@ namespace HNC
         [SerializeField] private InputHandler input;
         [SerializeField] private float moveSpeed = 5;
         [SerializeField] private float rotationSpeed = 5;
-        [SerializeField] private CinemachineVirtualCamera moveCamera;
         [SerializeField] private CinemachineVirtualCamera companionCamera;
         [SerializeField] private Transform followTarget;
         private bool isControllingCompanion;
@@ -57,6 +56,9 @@ namespace HNC
         private void OnCompanionControllingStarted(Transform spawn)
         {
             isControllingCompanion = true;
+
+            input.EnableCompanionInput();
+
             transform.SetPositionAndRotation(spawn.position, spawn.rotation);
 
             foreach (var rend in _renderers)
@@ -74,7 +76,6 @@ namespace HNC
         {
             isControllingCompanion = false;
 
-            input.DisableAllInput();
             input.EnablePlayerInput();
 
             foreach (var rend in _renderers)
@@ -89,23 +90,13 @@ namespace HNC
 
         private void CameraSwitch()
         {
-            moveCamera.Priority = isControllingCompanion ? -1 : 1;
-            companionCamera.Priority = isControllingCompanion ? 1 : -1;
+            companionCamera.Priority = isControllingCompanion ? 20 : -20;
         }
 
         private void Update()
         {
             followTarget.transform.rotation *= Quaternion.AngleAxis(_look.x * rotationSpeed, Vector3.up);
-            followTarget.transform.rotation *= Quaternion.AngleAxis(_look.y * rotationSpeed, Vector3.left);
             var angles = followTarget.transform.localEulerAngles;
-            if (angles.x > 50 && angles.x < 180)
-            {
-                angles.x = 50;
-            }
-            else if (angles.x > 180 && angles.x < 330)
-            {
-                angles.x = 330;
-            }
             angles.z = 0;
             followTarget.transform.localEulerAngles = angles;
 
@@ -114,7 +105,7 @@ namespace HNC
                 transform.rotation = Quaternion.Euler(0, followTarget.transform.rotation.eulerAngles.y, 0);
                 followTarget.transform.localEulerAngles = new Vector3(angles.x, 0, 0);
             }
-            else if(_move == Vector2.zero)
+            else if (_move == Vector2.zero)
             {
                 followTarget.transform.localEulerAngles = new Vector3(0, angles.y, 0);
             }
