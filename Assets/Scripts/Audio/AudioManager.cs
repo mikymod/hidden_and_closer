@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.Events;
 
-namespace HNC
+namespace HNC.Audio
 {
     public class AudioManager : MonoBehaviour
     {

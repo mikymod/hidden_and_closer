@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace HNC
+namespace HNC.Audio
 {
     public class AudioRockController : MonoBehaviour
     {

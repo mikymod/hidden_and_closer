@@ -1,16 +1,20 @@
 using System.Collections.Generic;
+using HNC.Audio;
 using UnityEngine;
 
-internal enum DetectedState {
+internal enum DetectedState
+{
     None,
     Releved,
     FirstNotified,
     LastNotified,
 }
 
-namespace HNC {
+namespace HNC
+{
     [RequireComponent(typeof(SphereCollider))]
-    public class Detector : MonoBehaviour {
+    public class Detector : MonoBehaviour
+    {
         public Transform DetectedCenter;
         [Range(0.0f, 360f)]
         public float VisionAngle = 45;
@@ -36,7 +40,8 @@ namespace HNC {
 
         private GameObject zombie;
 
-        private void Awake() {
+        private void Awake()
+        {
             _soundEmittersTransform = new List<Transform>();
             _soundEmittersState = new Dictionary<Transform, DetectedState>();
 
@@ -46,43 +51,53 @@ namespace HNC {
             zombie = transform.parent.gameObject;
         }
 
-        private void OnEnable() {
+        private void OnEnable()
+        {
             AudioManager.OnSoundPlay += AddSoundEmitter;
             AudioManager.OnSoundStop += RemoveSoundEmitter;
         }
 
 
-        private void OnDisable() {
+        private void OnDisable()
+        {
             AudioManager.OnSoundPlay -= AddSoundEmitter;
             AudioManager.OnSoundStop -= RemoveSoundEmitter;
         }
 
-        private void OnTriggerEnter(Collider other) {
+        private void OnTriggerEnter(Collider other)
+        {
             //Save reference to Player Transform
-            if (other.gameObject.layer == LayerMask.NameToLayer(PlayerLayerName) && _playerTransform == null) {
+            if (other.gameObject.layer == LayerMask.NameToLayer(PlayerLayerName) && _playerTransform == null)
+            {
                 _playerTransform = other.transform;
                 _playerState = DetectedState.Releved;
             }
         }
 
-        private void Update() {
+        private void Update()
+        {
             //Vision detected
-            if (_playerTransform != null) {
+            if (_playerTransform != null)
+            {
                 _raycastEnd = _playerTransform.position;
                 _raycastEnd.y = DetectedCenter.position.y;
                 _raycastDirection = _raycastEnd - DetectedCenter.position;
-                if (Mathf.Acos(Vector3.Dot(_raycastDirection.normalized, transform.forward)) * Mathf.Rad2Deg <= VisionAngle * 0.5f) {
+                if (Mathf.Acos(Vector3.Dot(_raycastDirection.normalized, transform.forward)) * Mathf.Rad2Deg <= VisionAngle * 0.5f)
+                {
                     //if (Vector3.Angle(transform.position, _raycastDirection) <= VisionAngle) {
                     _ray = new Ray(DetectedCenter.position, _raycastDirection);
                     Debug.DrawLine(_ray.origin, _ray.origin + _raycastDirection, Color.green);
-                    if (Physics.Raycast(_ray, out _hit, _radius, VisionLayerMask)) {
-                        if (_hit.collider.transform == _playerTransform) {
-                            switch (_playerState) {
+                    if (Physics.Raycast(_ray, out _hit, _radius, VisionLayerMask))
+                    {
+                        if (_hit.collider.transform == _playerTransform)
+                        {
+                            switch (_playerState)
+                            {
                                 case DetectedState.None:
                                     Debug.LogWarning("Error in detection System, not releved player was shoot by raycast", zombie);
                                     break;
                                 case DetectedState.Releved:
-                                  DetectionSystemEvents.OnVisionDetectEnter?.Invoke(zombie, _playerTransform.gameObject);
+                                    DetectionSystemEvents.OnVisionDetectEnter?.Invoke(zombie, _playerTransform.gameObject);
                                     _playerState = DetectedState.FirstNotified;
                                     break;
                                 case DetectedState.FirstNotified:
@@ -95,22 +110,31 @@ namespace HNC {
                                 default:
                                     break;
                             }
-                        } else {
-                            if (_playerState == DetectedState.FirstNotified) {
+                        }
+                        else
+                        {
+                            if (_playerState == DetectedState.FirstNotified)
+                            {
                                 //Debug.Log("DETECTION: Transform is not the same");
                                 DetectionSystemEvents.OnVisionDetectExit?.Invoke(zombie, _playerTransform.gameObject);
                                 _playerState = DetectedState.LastNotified;
                             }
                         }
-                    } else {
-                        if (_playerState == DetectedState.FirstNotified) {
+                    }
+                    else
+                    {
+                        if (_playerState == DetectedState.FirstNotified)
+                        {
                             //Debug.Log("DETECTION: Not Raycast");
                             DetectionSystemEvents.OnVisionDetectExit?.Invoke(zombie, _playerTransform.gameObject);
                             _playerState = DetectedState.LastNotified;
                         }
                     }
-                } else {
-                    if (_playerState == DetectedState.FirstNotified) {
+                }
+                else
+                {
+                    if (_playerState == DetectedState.FirstNotified)
+                    {
                         //Debug.Log("DETECTION: Out of vision angle");
                         DetectionSystemEvents.OnVisionDetectExit?.Invoke(zombie, _playerTransform.gameObject);
                         _playerState = DetectedState.LastNotified;
@@ -119,12 +143,15 @@ namespace HNC {
             }
             //Audio detected
             //Debug.Log("Ho questi suoni ora");
-            for (int i = 0; i < _soundEmittersTransform.Count; i++) {
+            for (int i = 0; i < _soundEmittersTransform.Count; i++)
+            {
                 //Debug.Log(_soundEmittersTransform[i]);
                 //Check distance
                 _audioDistance = _soundEmittersTransform[i].position - DetectedCenter.position;
-                if (_audioDistance.sqrMagnitude < _radius * _radius) {
-                    switch (_soundEmittersState[_soundEmittersTransform[i]]) {
+                if (_audioDistance.sqrMagnitude < _radius * _radius)
+                {
+                    switch (_soundEmittersState[_soundEmittersTransform[i]])
+                    {
                         case DetectedState.None:
                             Debug.LogWarning("Error in detection System, sound NONE was releved", zombie);
                             break;
@@ -142,8 +169,11 @@ namespace HNC {
                         default:
                             break;
                     }
-                } else {
-                    if (_soundEmittersState[_soundEmittersTransform[i]] == DetectedState.FirstNotified) {
+                }
+                else
+                {
+                    if (_soundEmittersState[_soundEmittersTransform[i]] == DetectedState.FirstNotified)
+                    {
                         DetectionSystemEvents.OnAudioDetectExit?.Invoke(zombie, _soundEmittersTransform[i].gameObject);
                         _soundEmittersState[_soundEmittersTransform[i]] = DetectedState.LastNotified;
                     }
@@ -151,13 +181,17 @@ namespace HNC {
             }
         }
 
-        private void OnTriggerExit(Collider other) {
-            if (other is CharacterController) {
+        private void OnTriggerExit(Collider other)
+        {
+            if (other is CharacterController)
+            {
                 return;
             }
             //Debug.Log($"DETECTION TRIGGER: Exit {other}", other.gameObject);
-            if (_playerTransform != null && other.transform == _playerTransform) {
-                if (_playerState == DetectedState.FirstNotified) {
+            if (_playerTransform != null && other.transform == _playerTransform)
+            {
+                if (_playerState == DetectedState.FirstNotified)
+                {
                     //Debug.Log("DETECTION: Out of collider");
                     DetectionSystemEvents.OnVisionDetectExit?.Invoke(zombie, _playerTransform.gameObject);
                 }
@@ -166,24 +200,30 @@ namespace HNC {
             }
         }
 
-        private void AddSoundEmitter(AudioClipsBankSO uslessACB, AudioConfigurationSO audioConfigurationSO, Transform emitter, float uslessF) {
+        private void AddSoundEmitter(AudioClipsBankSO uslessACB, AudioConfigurationSO audioConfigurationSO, Transform emitter, float uslessF)
+        {
             //Debug.Log($"T'HO SENTITO {audioConfigurationSO}! Avevi un volume di {audioConfigurationSO.volume}");
-            if (audioConfigurationSO.volume < AudioVolumeThreshold) {
+            if (audioConfigurationSO.volume < AudioVolumeThreshold)
+            {
                 return;
             }
             //Debug.Log($"TI HO REGISTRATO {audioConfigurationSO}!");
-            if (_soundEmittersTransform.Contains(emitter)) {
+            if (_soundEmittersTransform.Contains(emitter))
+            {
                 return;
             }
             _soundEmittersTransform.Add(emitter);
             _soundEmittersState.Add(emitter, DetectedState.Releved);
         }
 
-        private void RemoveSoundEmitter(AudioClipsBankSO uslessACB, Transform emitter, float uslessF) {
-            if (!_soundEmittersTransform.Contains(emitter)) {
+        private void RemoveSoundEmitter(AudioClipsBankSO uslessACB, Transform emitter, float uslessF)
+        {
+            if (!_soundEmittersTransform.Contains(emitter))
+            {
                 return;
             }
-            if (_soundEmittersState[emitter] == DetectedState.FirstNotified) {
+            if (_soundEmittersState[emitter] == DetectedState.FirstNotified)
+            {
                 DetectionSystemEvents.OnAudioDetectExit?.Invoke(zombie, emitter.gameObject);
                 _soundEmittersState[emitter] = DetectedState.LastNotified;
             }

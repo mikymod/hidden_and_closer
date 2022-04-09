@@ -1,4 +1,7 @@
-public interface Interactable
+namespace HNC
 {
-    void Interact();
+    public interface Interactable
+    {
+        void Interact();
+    }
 }

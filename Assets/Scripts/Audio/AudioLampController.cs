@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace HNC
+namespace HNC.Audio
 {
     public class AudioLampController : MonoBehaviour
     {
@@ -12,7 +12,7 @@ namespace HNC
         [SerializeField] private AudioConfigurationSO hitConfiguration;
         [SerializeField] private AudioClipsBankSO brokenGlassClipsBank;
         [SerializeField] private AudioConfigurationSO brokenGlassConfiguration;
-      
+
         public void PlayBuzzingSound() => AudioManager.OnSoundPlay?.Invoke(buzzingClipsBank, buzzingConfiguration, transform, 0f);
         public void StopBuzzingSound() => AudioManager.OnSoundStop?.Invoke(buzzingClipsBank, transform, 0f);
         public void PlayHitSound()
