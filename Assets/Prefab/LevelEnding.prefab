@@ -140,4 +140,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   saveSystem: {fileID: 11400000, guid: 34ac9551b494e2342a39c9d72c1e3e92, type: 2}
-  sceneToLoad: SaveTestScene
+  sceneToLoad: 

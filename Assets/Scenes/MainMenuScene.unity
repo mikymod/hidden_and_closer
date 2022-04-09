@@ -299,17 +299,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
---- !u!114 &345852823 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7702150906160154723, guid: 88c0f1de84460fb41aa3dd64a7508d5c, type: 3}
-  m_PrefabInstance: {fileID: 568691828286826843}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7b397f90c328294daf9479706c43312, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1024245773
 GameObject:
   m_ObjectHideFlags: 0
@@ -385,17 +374,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1416929915 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 568691827359551846, guid: 88c0f1de84460fb41aa3dd64a7508d5c, type: 3}
-  m_PrefabInstance: {fileID: 568691828286826843}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 092981241fee3fb47ba38ba470b698e2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &568691828286826843
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -407,26 +385,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: MainMenu
       objectReference: {fileID: 0}
-    - target: {fileID: 568691828467171510, guid: 88c0f1de84460fb41aa3dd64a7508d5c, type: 3}
-      propertyPath: input
-      value: 
-      objectReference: {fileID: 11400000, guid: 41954bc1138fb734c8ee8824ae8c8e24, type: 2}
-    - target: {fileID: 568691828467171510, guid: 88c0f1de84460fb41aa3dd64a7508d5c, type: 3}
-      propertyPath: startMenu
-      value: 
-      objectReference: {fileID: 1416929915}
-    - target: {fileID: 568691828467171510, guid: 88c0f1de84460fb41aa3dd64a7508d5c, type: 3}
-      propertyPath: firstScene
-      value: SaveTestScene
-      objectReference: {fileID: 0}
-    - target: {fileID: 568691828467171510, guid: 88c0f1de84460fb41aa3dd64a7508d5c, type: 3}
-      propertyPath: saveSystem
-      value: 
-      objectReference: {fileID: 11400000, guid: 34ac9551b494e2342a39c9d72c1e3e92, type: 2}
-    - target: {fileID: 568691828467171510, guid: 88c0f1de84460fb41aa3dd64a7508d5c, type: 3}
-      propertyPath: settingsMenu
-      value: 
-      objectReference: {fileID: 345852823}
     - target: {fileID: 568691828467171511, guid: 88c0f1de84460fb41aa3dd64a7508d5c, type: 3}
       propertyPath: m_Pivot.x
       value: 0
