@@ -13,10 +13,7 @@ namespace HNC
 
         private void Start()
         {
-            // Should be called at the start of the game
-            saveSystem.LoadGameDataFromDisk();
-
-            if (saveSystem.CanLoadPlayer)
+            if (saveSystem.SaveData.Player.Scene != null && saveSystem.SaveData.Player.Scene != "")
             {
                 Instantiate(playerPrefab, saveSystem.SaveData.Player.Position, Quaternion.identity);
             }

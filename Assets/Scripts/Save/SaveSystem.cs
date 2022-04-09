@@ -10,7 +10,7 @@ public class SaveSystem : ScriptableObject
     [SerializeField] private string saveFilename = "save.hnc";
     private SaveData saveData = new SaveData();
     public SaveData SaveData { get => saveData; }
-    public bool CanLoadPlayer { get => saveData.Levels.Count > 0; }
+    // public bool CanLoadPlayer { get => saveData.Player.Scene != null && saveData.Player.Scene != ""; }
 
     public static UnityAction<Scene, Transform, bool> PlayerSave;
     public static UnityAction<Scene, Transform> LevelStarted;
