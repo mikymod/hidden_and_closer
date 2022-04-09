@@ -15,7 +15,7 @@ namespace HNC
         private void Start()
         {
             texture = new Texture2D(32, 32, TextureFormat.RGB24, false);
-            //rt = new RenderTexture(32, 32, 0, RenderTextureFormat.);
+            CheckForLight();
         }
 
         private void OnEnable()

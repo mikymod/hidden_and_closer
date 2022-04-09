@@ -10,13 +10,7 @@ namespace HNC
     {
         [SerializeField] private Sprite car;
         [SerializeField] private Sprite carBlackAndWhite;
-        private Image carImage;
-
-
-        private void Awake()
-        {
-            carImage = GetComponentInChildren<Image>();    
-        }
+        [SerializeField] private Image carImage;
 
         private void Start()
         {
