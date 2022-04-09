@@ -28,7 +28,7 @@ namespace HNC
         }
 
         private void OpenPauseMenu()
-        {            
+        {
             input.pause -= OpenPauseMenu;
 
             input.pause += ClosePauseMenu;
@@ -40,8 +40,9 @@ namespace HNC
             Time.timeScale = 0;
 
             pauseMenu.gameObject.SetActive(true);
+            pauseMenu.SetMenuScreen();
 
-            input.EnableUIInput();            
+            input.EnableUIInput();
         }
 
         private void ClosePauseMenu()
@@ -93,7 +94,7 @@ namespace HNC
         private void CloseSettingsMenu()
         {
             pauseMenu.gameObject.SetActive(true);
-            pauseMenu.InitPauseMenu();
+            // pauseMenu.InitPauseMenu();
 
             input.pause -= CloseSettingsMenu;
             settingsMenu.SettingsClosed -= CloseSettingsMenu;

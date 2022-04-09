@@ -18,13 +18,9 @@ namespace HNC
         public UnityAction ReturnButtonAction;
         public UnityAction QuitButtonAction;
 
-        public void InitPauseMenu()
-        {
-            EventSystem.current.SetSelectedGameObject(firstElement);
-        }
-
         public void SetMenuScreen()
         {
+            EventSystem.current.SetSelectedGameObject(firstElement);
             resumeButton.Select();
         }
 
