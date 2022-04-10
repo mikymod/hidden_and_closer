@@ -1,14 +1,11 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace HNC
-{
+namespace HNC {
     [RequireComponent(typeof(NavMeshAgent))]
-    public class NewEnemyController : MonoBehaviour
-    {
+    public class NewEnemyController : MonoBehaviour {
         [Header("StateMachine")]
         [Tooltip("Min time range for check next point in Patrol")]
         public float MinTimePatrol;
@@ -19,6 +16,10 @@ namespace HNC
         [Space(10)]
         [Tooltip("Time in Alert State")]
         public float AlertTime;
+        [Space(10)]
+        [Tooltip("Time between attack")]
+        public float TimeBetweenAttack;
+        [Space(10)]
         [Tooltip("Time in Search State")]
         public float SearchTime;
 
@@ -55,23 +56,22 @@ namespace HNC
         private int life = 1;
 
         public Animator Animator;
+        public CapsuleCollider Collider;
 
-        private void OnEnable()
-        {
+        private void OnEnable() {
             DetectionSystem.NoiseDetected += CheckForNoisePosition;
             DetectionSystem.VisibleDetected += PlayerInLOS;
             DetectionSystem.ExitFromVisibleArea += PlayerNotInLOS;
         }
 
-        private void OnDisable()
-        {
+        private void OnDisable() {
             DetectionSystem.NoiseDetected -= CheckForNoisePosition;
             DetectionSystem.VisibleDetected -= PlayerInLOS;
             DetectionSystem.ExitFromVisibleArea -= PlayerNotInLOS;
         }
 
-        private void Awake()
-        {
+        private void Awake() {
+            Collider = GetComponent<CapsuleCollider>();
             Animator = GetComponent<Animator>();
             NavMeshAgent = GetComponent<NavMeshAgent>();
             NavMeshAgent.updatePosition = true;
@@ -93,39 +93,36 @@ namespace HNC
             _stateMachine.SetInitialState(idleState);
         }
 
-        private void Update()
-        {
-            _stateMachine.Update();
-            //Debug.Log(CurrentState);
-        }
+        private void Update() => _stateMachine.Update();//Debug.Log(CurrentState);
 
-        public void CheckForNoisePosition(Vector3 pos)
-        {
-            if (Target != null)
-            {
+        public void CheckForNoisePosition(Vector3 pos) {
+            if (Target != null) {
                 return;
             }
             TransitionToAlertState = true;
             PosToGo = pos;
         }
 
-        private void PlayerInLOS(Transform target)
-        {
+        private void PlayerInLOS(Transform target) {
             TransitionToAlertState = true;
             TransitionToAttackState = true;
             PosToGo = target.position;
             Target = target;
         }
 
-        private void PlayerNotInLOS()
-        {
+        private void PlayerNotInLOS() {
             PosToGo = Target.position;
             Target = null;
         }
 
-        public void Damaged()
-        {
-            life = 0;
+        public void Damaged() => life = 0;
+
+        private IEnumerator AttackRoutine(float time) {
+            yield return new WaitForSeconds(time);
+            if (Physics.CheckCapsule(transform.position, transform.forward, 1)) {
+                PlayerController.DeadEvent?.Invoke();
+            }
         }
+        public void Fight() => StartCoroutine(AttackRoutine(1.5f));
     }
 }

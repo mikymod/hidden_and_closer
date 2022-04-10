@@ -4,8 +4,8 @@ namespace HNC {
 
         public override void Enter() {
             base.Enter();
-            //_enemy.AnimatorComponent.SetTrigger(_enemy.AnimDeathHash);
-            //_enemy.Collider.enabled = false;
+            _enemy.Animator.SetTrigger("Hitted");
+            _enemy.Collider.enabled = false;
             _enemy.DetectionSystem.enabled = false;
         }
 
