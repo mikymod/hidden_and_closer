@@ -14,7 +14,7 @@ namespace HNC
 
         private void OnCollisionEnter(Collision other)
         {
-            if (!_hasCollide && other.gameObject.TryGetComponent(out EnemyController enemy))
+            if (!_hasCollide && other.gameObject.TryGetComponent(out NewEnemyController enemy))
             {
                 enemy.Damaged();
             }
