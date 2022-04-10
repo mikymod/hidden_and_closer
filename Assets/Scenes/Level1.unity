@@ -9462,7 +9462,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh136762
+  m_Name: pb_Mesh28694
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -11618,7 +11618,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.1
   m_BuildHeightMesh: 0
-  m_NavMeshData: {fileID: 23800000, guid: f4de84c4a814de54c9df06225131daae, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 307135806de07dd499b8a7e097f59fc5, type: 2}
 --- !u!1 &1999653727
 GameObject:
   m_ObjectHideFlags: 0

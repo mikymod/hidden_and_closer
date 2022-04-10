@@ -16,6 +16,7 @@ namespace HNC
         [Header("hearing")]
         public float hearingRadius;
         public LayerMask soundMask;
+        public float soundVolumeThreshold = 0.5f;
 
         [Header("Sight")]
         public float viewRadius;
@@ -42,8 +43,11 @@ namespace HNC
             var colliders = Physics.OverlapSphere(transform.position, hearingRadius, soundMask);
             if (colliders.Length > 0)
             {
-                NoiseDetected?.Invoke(colliders[0].transform.position);
-                Debug.Log("Sound detected");
+                if (configuration.volume > soundVolumeThreshold)
+                {
+                    NoiseDetected?.Invoke(colliders[0].transform.position);
+                    Debug.Log("Sound detected");
+                }
             }
         }
 

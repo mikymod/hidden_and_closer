@@ -16,23 +16,19 @@ namespace HNC
         public override void Enter()
         {
             base.Enter();
-            GetRandomTarget();
+
+            MoveToNextPoint();
         }
 
-        private void GetRandomTarget()
+        private void MoveToNextPoint()
         {
+            var destination = _enemy.Patrol.NextPointInPath();
+            _enemy.NavMeshAgent.destination = destination.position;
             _enemy.Animator.SetFloat("Speed", 1);
-            //Caluclate random point
             _timer = Random.Range(_enemy.MinTimePatrol, _enemy.MaxTimePatrol);
-            do
-            {
-                _randomPosition = Random.insideUnitCircle * _enemy.PatrolRadius;
-            } while (!_enemy.NavMeshAgent.CalculatePath(_enemy.transform.position + new Vector3(
-                Mathf.Clamp(_randomPosition.x, 1, _enemy.PatrolRadius), 0, Mathf.Clamp(_randomPosition.y, 1, _enemy.PatrolRadius)), path));
-            _enemy.NavMeshAgent.path = path;
         }
 
-        public override void Exit() 
+        public override void Exit()
         {
             _enemy.TransitionToIdleState = false;
         }
@@ -46,7 +42,7 @@ namespace HNC
 
                 if (_timer <= 0)
                 {
-                    GetRandomTarget();
+                    MoveToNextPoint();
                 }
                 else
                 {
