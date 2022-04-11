@@ -2208,7 +2208,7 @@ MonoBehaviour:
       - m_Target: {fileID: 7856511154673763320}
         m_TargetAssemblyTypeName: HNC.SettingsMenu, Assembly-CSharp
         m_MethodName: ToggleVerticalSync
-        m_Mode: 6
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2622,7 +2622,7 @@ MonoBehaviour:
       - m_Target: {fileID: 7856511154673763320}
         m_TargetAssemblyTypeName: HNC.SettingsMenu, Assembly-CSharp
         m_MethodName: ToggleFullscreen
-        m_Mode: 6
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
