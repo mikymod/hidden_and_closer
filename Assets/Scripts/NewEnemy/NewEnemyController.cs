@@ -1,14 +1,9 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace HNC
-{
+namespace HNC {
     [RequireComponent(typeof(NavMeshAgent))]
-    public class NewEnemyController : MonoBehaviour
-    {
+    public class NewEnemyController : MonoBehaviour {
         [Header("StateMachine")]
         [Tooltip("Min time range for check next point in Patrol")]
         public float MinTimePatrol;
@@ -57,8 +52,7 @@ namespace HNC
 
         public ZombieUI UI;
 
-        private void OnEnable()
-        {
+        private void OnEnable() {
             DetectionSystem.NoiseDetected += CheckForNoisePosition;
             DetectionSystem.VisibleDetected += PlayerInLOS;
             DetectionSystem.ExitFromVisibleArea += PlayerNotInLOS;
@@ -66,16 +60,14 @@ namespace HNC
         }
 
 
-        private void OnDisable()
-        {
+        private void OnDisable() {
             DetectionSystem.NoiseDetected -= CheckForNoisePosition;
             DetectionSystem.VisibleDetected -= PlayerInLOS;
             DetectionSystem.ExitFromVisibleArea -= PlayerNotInLOS;
             LightDetector.PlayerInLight -= ScaleVisionArea;
         }
 
-        private void Awake()
-        {
+        private void Awake() {
             BodyCollider = GetComponent<CapsuleCollider>();
             Animator = GetComponent<Animator>();
             NavMeshAgent = GetComponent<NavMeshAgent>();
@@ -100,41 +92,36 @@ namespace HNC
             _stateMachine.SetInitialState(idleState);
         }
 
-        private void Update()
-        {
+        private void Update() {
             _stateMachine.Update();
             Debug.Log(CurrentState);
-        } 
+            if (Target != null) {
+                PosToGo = Target.position;
+            }
+        }
 
-        public void CheckForNoisePosition(Vector3 pos)
-        {
-            if (Target != null)
-            {
+        public void CheckForNoisePosition(Vector3 pos) {
+            if (Target != null) {
                 return;
             }
             TransitionToAlertState = true;
             PosToGo = pos;
         }
 
-        private void PlayerInLOS(Transform target)
-        {
+        private void PlayerInLOS(Transform target) {
             TransitionToAlertState = true;
             TransitionToAttackState = true;
             PosToGo = target.position;
             Target = target;
         }
 
-        private void PlayerNotInLOS()
-        {
+        private void PlayerNotInLOS() {
             PosToGo = Target.position;
             Target = null;
         }
 
         public void Damaged() => life = 0;
 
-        private void ScaleVisionArea(bool isPlayerInLight)
-        {
-            DetectionSystem.viewRadius = isPlayerInLight ? 8 : 4;
-        }
+        private void ScaleVisionArea(bool isPlayerInLight) => DetectionSystem.viewRadius = isPlayerInLight ? 8 : 4;
     }
 }

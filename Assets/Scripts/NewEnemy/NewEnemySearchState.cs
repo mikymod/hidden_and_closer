@@ -16,6 +16,7 @@ namespace HNC {
         {
             base.Enter();
             _enemy.NavMeshAgent.SetDestination(_enemy.PosToGo);
+            _enemy.NavMeshAgent.isStopped = false;
             _enemy.Animator.SetFloat("Speed", 1);
             _enemy.SearchTimer = _enemy.SearchTime;
             //TODO FIXME
@@ -30,6 +31,7 @@ namespace HNC {
             }
             if (_enemy.NavMeshAgent.remainingDistance <= _enemy.NavMeshAgent.stoppingDistance)
             {
+                _enemy.NavMeshAgent.isStopped = true;
                 //Stop Zombie
                 _enemy.Animator.SetFloat("Speed", 0);
 
@@ -48,6 +50,7 @@ namespace HNC {
         {
             //Caluclate random point
             _enemy.Animator.SetFloat("Speed", 1);
+            _enemy.NavMeshAgent.isStopped = false;
             _timer = Random.Range(_enemy.MinTimePatrol/2, _enemy.MaxTimePatrol/2);
             do
             {

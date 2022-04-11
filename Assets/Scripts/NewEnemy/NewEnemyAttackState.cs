@@ -46,6 +46,7 @@ namespace HNC {
             } else {
                 _timeBetweenAttack = _enemy.TimeBetweenAttack;
             }
+            _enemy.transform.LookAt(_enemy.Target.position, Vector3.up);
         }
     }
 }
