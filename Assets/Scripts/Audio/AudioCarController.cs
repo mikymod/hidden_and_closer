@@ -8,10 +8,22 @@ namespace HNC.Audio
     {
         [SerializeField] private AudioClipsBankSO moveClipsBank;
         [SerializeField] private AudioConfigurationSO moveConfiguration;
+        private bool isPlaying = false;
 
         public void PlayMoveSound()
         {
-            AudioManager.OnSoundPlay?.Invoke(moveClipsBank, moveConfiguration, transform, 0f);
+            if (!isPlaying)
+            {
+                isPlaying = true;
+                AudioManager.OnSoundPlay?.Invoke(moveClipsBank, moveConfiguration, transform, 0f);
+            }
+
+        }
+
+        public void StopMoveSound()
+        {
+            AudioManager.OnSoundStop?.Invoke(moveClipsBank, transform, 0f);
+            isPlaying = false;
         }
     }
 }

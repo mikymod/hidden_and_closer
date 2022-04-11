@@ -16,16 +16,16 @@ namespace HNC
         public override void Enter()
         {
             base.Enter();
-
+            
             MoveToNextPoint();
         }
 
         private void MoveToNextPoint()
         {
+            _timer = Random.Range(_enemy.MinTimePatrol, _enemy.MaxTimePatrol);
             var destination = _enemy.Patrol.NextPointInPath();
             _enemy.NavMeshAgent.destination = destination.position;
             _enemy.Animator.SetFloat("Speed", 1);
-            _timer = Random.Range(_enemy.MinTimePatrol, _enemy.MaxTimePatrol);
         }
 
         public override void Exit()

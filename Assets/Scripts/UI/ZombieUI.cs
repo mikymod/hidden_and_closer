@@ -69,7 +69,7 @@ namespace HNC
                 {
                     bigEye.sprite = idleEyeSprite;
                 }
-                for (int i = 0; i < (int)currentState; i++)
+                for (int i = 0; i < circlesImages.Length; i++)
                 {
                     circlesImages[i].enabled = true;
                     circlesImages[i].sprite = fullCircleSprite;

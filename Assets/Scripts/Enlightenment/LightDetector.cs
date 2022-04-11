@@ -12,6 +12,8 @@ namespace HNC
         private bool newValueIlluminated = false;
         private bool illuminated = false;
 
+        public static UnityAction<bool> PlayerInLight;
+
         private void Start()
         {
             texture = new Texture2D(32, 32, TextureFormat.RGB24, false);
@@ -56,6 +58,7 @@ namespace HNC
         private void CheckForLight()
         {
             LightingUI.OnLighting?.Invoke(illuminated);
+            PlayerInLight?.Invoke(illuminated);
             newValueIlluminated = illuminated;
         }
     }

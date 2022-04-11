@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -25,14 +26,6 @@ namespace HNC
         [Tooltip("Time in Search State")]
         public float SearchTime;
 
-        [Header("NavMesh")]
-        [Tooltip("Treshoold of patrol")]
-        public float PatrolTreshoold;
-        [Tooltip("Treshoold of alert")]
-        public float AlertTreshoold;
-        [Tooltip("Treshoold of attack")]
-        public float AttackTreshoold;
-
         public DetectionSystem DetectionSystem;
 
         private StateMachine _stateMachine;
@@ -42,43 +35,48 @@ namespace HNC
         [HideInInspector] public float AlertTimer;
         [HideInInspector] public float SearchTimer;
 
-        public bool TransitionToIdleState;
-        public bool TransitionToAlertState;
-        public bool TransitionToAttackState;
-        public bool TransitionToSearchState;
+        [HideInInspector] public bool TransitionToIdleState;
+        [HideInInspector] public bool TransitionToAlertState;
+        [HideInInspector] public bool TransitionToAttackState;
+        [HideInInspector] public bool TransitionToSearchState;
 
         [Header("hearing")]
         public float hearingRadius;
         public LayerMask soundMask;
 
-        public Vector3 PosToGo;
-        public Transform Target;
+        [HideInInspector] public Vector3 PosToGo;
+        [HideInInspector] public Transform Target;
 
-        public List<Vector3> SoundsToCheck = new List<Vector3>();
         private int life = 1;
 
-        public Animator Animator;
-        public CapsuleCollider Collider;
+        [HideInInspector] public Animator Animator;
+        [HideInInspector] public CapsuleCollider BodyCollider;
+        [HideInInspector] public CapsuleCollider ArmCollider;
 
         [HideInInspector] public Patrol Patrol;
+
+        public ZombieUI UI;
 
         private void OnEnable()
         {
             DetectionSystem.NoiseDetected += CheckForNoisePosition;
             DetectionSystem.VisibleDetected += PlayerInLOS;
             DetectionSystem.ExitFromVisibleArea += PlayerNotInLOS;
+            LightDetector.PlayerInLight += ScaleVisionArea;
         }
+
 
         private void OnDisable()
         {
             DetectionSystem.NoiseDetected -= CheckForNoisePosition;
             DetectionSystem.VisibleDetected -= PlayerInLOS;
             DetectionSystem.ExitFromVisibleArea -= PlayerNotInLOS;
+            LightDetector.PlayerInLight -= ScaleVisionArea;
         }
 
         private void Awake()
         {
-            Collider = GetComponent<CapsuleCollider>();
+            BodyCollider = GetComponent<CapsuleCollider>();
             Animator = GetComponent<Animator>();
             NavMeshAgent = GetComponent<NavMeshAgent>();
             NavMeshAgent.updatePosition = true;
@@ -102,7 +100,11 @@ namespace HNC
             _stateMachine.SetInitialState(idleState);
         }
 
-        private void Update() => _stateMachine.Update();//Debug.Log(CurrentState);
+        private void Update()
+        {
+            _stateMachine.Update();
+            Debug.Log(CurrentState);
+        } 
 
         public void CheckForNoisePosition(Vector3 pos)
         {
@@ -130,14 +132,9 @@ namespace HNC
 
         public void Damaged() => life = 0;
 
-        private IEnumerator AttackRoutine(float time)
+        private void ScaleVisionArea(bool isPlayerInLight)
         {
-            yield return new WaitForSeconds(time);
-            if (Physics.CheckCapsule(transform.position, transform.forward, 1))
-            {
-                PlayerController.DeadEvent?.Invoke();
-            }
+            DetectionSystem.viewRadius = isPlayerInLight ? 8 : 4;
         }
-        public void Fight() => StartCoroutine(AttackRoutine(1.5f));
     }
 }

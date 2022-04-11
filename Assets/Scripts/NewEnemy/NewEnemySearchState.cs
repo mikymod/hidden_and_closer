@@ -20,7 +20,6 @@ namespace HNC {
             _enemy.SearchTimer = _enemy.SearchTime;
             //TODO FIXME
             _enemy.NavMeshAgent.speed *= 2;
-            Debug.Log("enter in searchstate");
         }
 
         public override void Update() {

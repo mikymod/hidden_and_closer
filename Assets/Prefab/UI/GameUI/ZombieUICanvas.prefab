@@ -312,6 +312,7 @@ GameObject:
   - component: {fileID: 338908420886502961}
   - component: {fileID: 6631286121883664752}
   - component: {fileID: 2743023131451071076}
+  - component: {fileID: 6424237449577801072}
   m_Layer: 5
   m_Name: ZombieUICanvas
   m_TagString: Untagged
@@ -403,3 +404,25 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &6424237449577801072
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8252119654019493737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 554086d3e0c308e4b80ec198b489213e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  idleEyeSprite: {fileID: 21300000, guid: e9d87bc48a9673043b0c039d17e83fea, type: 3}
+  searchEyeSprite: {fileID: 21300000, guid: bc8f542628346514eb1c9653e2fb8b1a, type: 3}
+  attackEyeSprite: {fileID: 21300000, guid: a16747a414a8c9a4d94ee8b2107655e9, type: 3}
+  emptyCircleSprite: {fileID: 21300000, guid: 94553c063c7b03a48abab3c012440111, type: 3}
+  fullCircleSprite: {fileID: 21300000, guid: b6664bd956048784398336d1212e8b21, type: 3}
+  bigEye: {fileID: 6458294731478312106}
+  circlesImages:
+  - {fileID: 637829490539640494}
+  - {fileID: 3297927176483607326}
+  - {fileID: 4329944799100591745}

@@ -4,8 +4,10 @@ namespace HNC {
 
         public override void Enter() {
             base.Enter();
+            _enemy.NavMeshAgent.speed = 0;
+            _enemy.NavMeshAgent.isStopped = true;
             _enemy.Animator.SetTrigger("Hitted");
-            _enemy.Collider.enabled = false;
+            _enemy.BodyCollider.enabled = false;
             _enemy.DetectionSystem.enabled = false;
         }
 

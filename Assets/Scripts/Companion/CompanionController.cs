@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using HNC.Audio;
 
 namespace HNC
 {
@@ -24,12 +25,16 @@ namespace HNC
 
         public static UnityAction OnCompanionControlStarted;
         public static UnityAction OnCompanionControlFinish;
+        public static UnityAction OnCompanionDestroy;
+
+        private AudioCarController audioController;
 
         private void Awake()
         {
             _rb = GetComponent<Rigidbody>();
             _collider = GetComponentInChildren<Collider>();
             _renderers = GetComponentsInChildren<Renderer>();
+            audioController = GetComponent<AudioCarController>();
         }
 
         private void OnEnable()
@@ -39,6 +44,8 @@ namespace HNC
             input.playerSwitch += OnCompanionControllingFinished;
 
             PlayerController.CompanionControl += OnCompanionControllingStarted;
+
+            OnCompanionDestroy += DestroyCar;
         }
 
         private void OnDisable()
@@ -48,6 +55,8 @@ namespace HNC
             input.playerSwitch -= OnCompanionControllingFinished;
 
             PlayerController.CompanionControl -= OnCompanionControllingStarted;
+
+            OnCompanionDestroy -= DestroyCar;
         }
 
         private void OnMove(Vector2 move) => _move = move;
@@ -104,13 +113,22 @@ namespace HNC
             {
                 transform.rotation = Quaternion.Euler(0, followTarget.transform.rotation.eulerAngles.y, 0);
                 followTarget.transform.localEulerAngles = new Vector3(angles.x, 0, 0);
+                audioController.PlayMoveSound();
             }
             else if (_move == Vector2.zero)
             {
                 followTarget.transform.localEulerAngles = new Vector3(0, angles.y, 0);
+                audioController.StopMoveSound();
             }
 
             transform.position += transform.forward * _move.y * moveSpeed * Time.deltaTime;
+        }
+
+
+
+        private void DestroyCar()
+        {
+            gameObject.SetActive(false);
         }
     }
 }

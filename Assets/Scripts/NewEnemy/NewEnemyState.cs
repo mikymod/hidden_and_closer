@@ -14,6 +14,7 @@ namespace HNC
         public virtual void Enter()
         {
             _enemy.CurrentState = _state;
+            _enemy.UI.OnZombieChangeState?.Invoke(_enemy.CurrentState);
             //_enemy.UI.OnZombieChangeState?.Invoke(_state);
         }
 

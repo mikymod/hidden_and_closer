@@ -327,6 +327,11 @@ namespace HNC
                     Debug.Log("INTERACT ENTER");
                 }
             }
+
+            if (other.gameObject.name == "Elbow_R")
+            {
+                DeadEvent?.Invoke();
+            }
         }
 
         private void OnTriggerStay(Collider other)

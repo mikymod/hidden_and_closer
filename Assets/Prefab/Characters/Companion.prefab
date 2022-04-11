@@ -121,7 +121,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2024620048}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.37, z: -2.8200235}
+  m_LocalPosition: {x: 0, y: 1.37, z: -3.3300002}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1302565948}
@@ -175,7 +175,8 @@ GameObject:
   - component: {fileID: 1439450123}
   - component: {fileID: 1439450122}
   - component: {fileID: 1439450121}
-  m_Layer: 0
+  - component: {fileID: 6722843424827479264}
+  m_Layer: 11
   m_Name: Companion
   m_TagString: Companion
   m_Icon: {fileID: 0}
@@ -245,6 +246,20 @@ MonoBehaviour:
   rotationSpeed: 1
   companionCamera: {fileID: 2024620049}
   followTarget: {fileID: 1033704854}
+--- !u!114 &6722843424827479264
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1716425536915631388}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4e41af65770be8499da86ba88483d91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveClipsBank: {fileID: 11400000, guid: 05d00a6821d2024479be10831b2077ac, type: 2}
+  moveConfiguration: {fileID: 11400000, guid: e7f8853fa780edd4a91d38c9090ee6a4, type: 2}
 --- !u!1001 &3212194731163596121
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -255,6 +270,58 @@ PrefabInstance:
     - target: {fileID: 100000, guid: a1289f1698637ab4daa1c732a562edc1, type: 3}
       propertyPath: m_Name
       value: SM_Veh_SchoolBus_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: a1289f1698637ab4daa1c732a562edc1, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: a1289f1698637ab4daa1c732a562edc1, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 100004, guid: a1289f1698637ab4daa1c732a562edc1, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 100006, guid: a1289f1698637ab4daa1c732a562edc1, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 100008, guid: a1289f1698637ab4daa1c732a562edc1, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 100010, guid: a1289f1698637ab4daa1c732a562edc1, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 100012, guid: a1289f1698637ab4daa1c732a562edc1, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 100014, guid: a1289f1698637ab4daa1c732a562edc1, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 100016, guid: a1289f1698637ab4daa1c732a562edc1, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 100018, guid: a1289f1698637ab4daa1c732a562edc1, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 100020, guid: a1289f1698637ab4daa1c732a562edc1, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 100022, guid: a1289f1698637ab4daa1c732a562edc1, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 100024, guid: a1289f1698637ab4daa1c732a562edc1, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: a1289f1698637ab4daa1c732a562edc1, type: 3}
       propertyPath: m_RootOrder
