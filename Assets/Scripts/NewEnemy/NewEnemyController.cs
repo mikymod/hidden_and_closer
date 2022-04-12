@@ -94,7 +94,7 @@ namespace HNC {
 
         private void Update() {
             _stateMachine.Update();
-            Debug.Log(CurrentState);
+            //Debug.Log(CurrentState);
             if (Target != null) {
                 PosToGo = Target.position;
             }

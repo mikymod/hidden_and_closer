@@ -46,7 +46,6 @@ namespace HNC
                 if (configuration.volume > soundVolumeThreshold)
                 {
                     NoiseDetected?.Invoke(colliders[0].transform.position);
-                    Debug.Log("Sound detected");
                 }
             }
         }

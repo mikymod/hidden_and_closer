@@ -23,6 +23,7 @@ namespace HNC
             //TODO event car destroy
             CompanionController.OnCompanionControlStarted += EnableDisableUILight;
             CompanionController.OnCompanionControlFinish += EnableDisableUILight;
+            CompanionController.OnCompanionDestroy += CarDestroy;
         }
 
         private void OnDisable()
@@ -30,12 +31,17 @@ namespace HNC
             //TODO event car destroy
             CompanionController.OnCompanionControlStarted -= EnableDisableUILight;
             CompanionController.OnCompanionControlFinish -= EnableDisableUILight;
+            CompanionController.OnCompanionDestroy -= CarDestroy;
         }
 
         private void EnableDisableUILight()
         {
             carImage.enabled = !carImage.enabled;
-        } 
+        }
+
+        private void CarDestroy() {
+            ChangeCarImage(false);
+        }
 
         private void ChangeCarImage(bool isCarUsable)
         {

@@ -128,6 +128,7 @@ namespace HNC
 
         private void DestroyCar()
         {
+            Debug.Log("Sono super morta");
             gameObject.SetActive(false);
         }
     }
