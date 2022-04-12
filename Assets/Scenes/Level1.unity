@@ -1630,6 +1630,10 @@ PrefabInstance:
       propertyPath: IgnoreTag
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 1439450121, guid: 3d59b54db62c66f40b9b37e2e9b17438, type: 3}
+      propertyPath: destroyAfter
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 2024620050, guid: 3d59b54db62c66f40b9b37e2e9b17438, type: 3}
       propertyPath: m_LocalPosition.y
       value: 1.37

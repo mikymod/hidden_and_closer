@@ -1,20 +1,17 @@
-using Cinemachine;
-using System;
 using System.Collections;
-using System.Collections.Generic;
+using Cinemachine;
+using HNC.Audio;
 using UnityEngine;
 using UnityEngine.Events;
-using HNC.Audio;
 
-namespace HNC
-{
-    public class CompanionController : MonoBehaviour
-    {
+namespace HNC {
+    public class CompanionController : MonoBehaviour {
         [SerializeField] private InputHandler input;
         [SerializeField] private float moveSpeed = 5;
         [SerializeField] private float rotationSpeed = 5;
         [SerializeField] private CinemachineVirtualCamera companionCamera;
         [SerializeField] private Transform followTarget;
+        [SerializeField] private float destroyAfter;
         private bool isControllingCompanion;
 
         private Rigidbody _rb;
@@ -29,49 +26,44 @@ namespace HNC
 
         private AudioCarController audioController;
 
-        private void Awake()
-        {
+        private void Awake() {
             _rb = GetComponent<Rigidbody>();
             _collider = GetComponentInChildren<Collider>();
             _renderers = GetComponentsInChildren<Renderer>();
             audioController = GetComponent<AudioCarController>();
         }
 
-        private void OnEnable()
-        {
+        private void OnEnable() {
             input.companionMove += OnMove;
             input.companionLook += OnLook;
             input.playerSwitch += OnCompanionControllingFinished;
 
             PlayerController.CompanionControl += OnCompanionControllingStarted;
 
-            OnCompanionDestroy += DestroyCar;
+            OnCompanionDestroy += DisableCar;
         }
 
-        private void OnDisable()
-        {
+        private void OnDisable() {
             input.companionMove -= OnMove;
             input.companionLook -= OnLook;
             input.playerSwitch -= OnCompanionControllingFinished;
 
             PlayerController.CompanionControl -= OnCompanionControllingStarted;
 
-            OnCompanionDestroy -= DestroyCar;
+            OnCompanionDestroy -= DisableCar;
         }
 
         private void OnMove(Vector2 move) => _move = move;
         private void OnLook(Vector2 look) => _look = look;
 
-        private void OnCompanionControllingStarted(Transform spawn)
-        {
+        private void OnCompanionControllingStarted(Transform spawn) {
             isControllingCompanion = true;
 
             input.EnableCompanionInput();
 
             transform.SetPositionAndRotation(spawn.position, spawn.rotation);
 
-            foreach (var rend in _renderers)
-            {
+            foreach (Renderer rend in _renderers) {
                 rend.enabled = true;
             }
 
@@ -81,14 +73,12 @@ namespace HNC
             OnCompanionControlStarted?.Invoke();
         }
 
-        private void OnCompanionControllingFinished()
-        {
+        private void OnCompanionControllingFinished() {
             isControllingCompanion = false;
 
             input.EnablePlayerInput();
 
-            foreach (var rend in _renderers)
-            {
+            foreach (Renderer rend in _renderers) {
                 rend.enabled = false;
             }
             _collider.enabled = false;
@@ -97,26 +87,19 @@ namespace HNC
             OnCompanionControlFinish?.Invoke();
         }
 
-        private void CameraSwitch()
-        {
-            companionCamera.Priority = isControllingCompanion ? 20 : -20;
-        }
+        private void CameraSwitch() => companionCamera.Priority = isControllingCompanion ? 20 : -20;
 
-        private void Update()
-        {
+        private void Update() {
             followTarget.transform.rotation *= Quaternion.AngleAxis(_look.x * rotationSpeed, Vector3.up);
-            var angles = followTarget.transform.localEulerAngles;
+            Vector3 angles = followTarget.transform.localEulerAngles;
             angles.z = 0;
             followTarget.transform.localEulerAngles = angles;
 
-            if (_move != Vector2.zero)
-            {
+            if (_move != Vector2.zero) {
                 transform.rotation = Quaternion.Euler(0, followTarget.transform.rotation.eulerAngles.y, 0);
                 followTarget.transform.localEulerAngles = new Vector3(angles.x, 0, 0);
                 audioController.PlayMoveSound();
-            }
-            else if (_move == Vector2.zero)
-            {
+            } else if (_move == Vector2.zero) {
                 followTarget.transform.localEulerAngles = new Vector3(0, angles.y, 0);
                 audioController.StopMoveSound();
             }
@@ -124,12 +107,26 @@ namespace HNC
             transform.position += transform.forward * _move.y * moveSpeed * Time.deltaTime;
         }
 
-
-
-        private void DestroyCar()
-        {
-            Debug.Log("Sono super morta");
-            gameObject.SetActive(false);
+        private void DisableCar() {
+            enabled = false;
+            audioController.enabled = false;
+            StartCoroutine(DestroyCar());
         }
+
+        private IEnumerator DestroyCar() {
+            yield return new WaitForSeconds(destroyAfter);
+            gameObject.SetActive(false);
+
+            isControllingCompanion = false;
+
+            input.EnablePlayerInput();
+
+            foreach (Renderer rend in _renderers) {
+                rend.enabled = false;
+            }
+
+            OnCompanionControlFinish?.Invoke();
+        }
+
     }
 }
