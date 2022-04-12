@@ -15,6 +15,7 @@ namespace HNC
         {
             _enemy.CurrentState = _state;
             _enemy.UI.OnZombieChangeState?.Invoke(_enemy.CurrentState);
+            NewChangeStateEvent.OnChangeState?.Invoke(_enemy.gameObject, _enemy.CurrentState);
             //_enemy.UI.OnZombieChangeState?.Invoke(_state);
         }
 

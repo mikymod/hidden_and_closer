@@ -46,6 +46,5 @@ namespace HNC.Audio
             AudioManager.OnSoundPlay?.Invoke(alertBank, alertConfiguration, transform, 0f);
             alertConfiguration.pitch = alertConfiguration.randomPitch ? Random.Range(0.9f, 1.2f) : 1;
         }
-
     }
 }

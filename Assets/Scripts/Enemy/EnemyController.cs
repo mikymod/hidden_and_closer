@@ -5,11 +5,11 @@ using UnityEngine.AI;
 namespace HNC {
     public enum EnemyFSMState {
         Idle,
-        Suspicious,
         Alert,
-        Attack,
         Search,
-        Death
+        Attack,
+        Death,
+        Suspicious
     }
 
     [RequireComponent(typeof(NavMeshAgent))]
