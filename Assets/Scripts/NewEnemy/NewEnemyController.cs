@@ -63,6 +63,7 @@ namespace HNC
             DetectionSystem.VisibleDetected += PlayerInLOS;
             DetectionSystem.ExitFromVisibleArea += PlayerNotInLOS;
             LightDetector.PlayerInLight += ScaleVisionArea;
+            PlayerController.DeadEvent += ForceIdle;
         }
 
 
@@ -72,6 +73,19 @@ namespace HNC
             DetectionSystem.VisibleDetected -= PlayerInLOS;
             DetectionSystem.ExitFromVisibleArea -= PlayerNotInLOS;
             LightDetector.PlayerInLight -= ScaleVisionArea;
+            PlayerController.DeadEvent -= ForceIdle;
+        }
+
+        private void ForceIdle()
+        {
+            // NavMeshAgent.enabled = false;
+            Patrol.enabled = false;
+            DetectionSystem.enabled = false;
+
+            TransitionToAlertState = false;
+            TransitionToAttackState = false;
+            TransitionToIdleState = true;
+
         }
 
         private void Awake()
@@ -104,7 +118,7 @@ namespace HNC
         {
             _stateMachine.Update();
             Debug.Log(CurrentState);
-        } 
+        }
 
         public void CheckForNoisePosition(Vector3 pos)
         {
