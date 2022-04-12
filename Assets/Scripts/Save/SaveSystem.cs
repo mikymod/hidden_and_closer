@@ -13,6 +13,7 @@ public class SaveSystem : ScriptableObject
     // public bool CanLoadPlayer { get => saveData.Player.Scene != null && saveData.Player.Scene != ""; }
 
     public static UnityAction<Scene, Transform, bool> PlayerSave;
+    public static UnityAction<bool> CompanionSave;
     public static UnityAction<Scene, Transform> LevelStarted;
     public static UnityAction<Scene> LevelFinished;
     public static UnityAction<float, float, float> AudioSettingsSave;
@@ -21,6 +22,7 @@ public class SaveSystem : ScriptableObject
     private void OnEnable()
     {
         PlayerSave += OnPlayerSave;
+        CompanionSave += OnCompanionSave;
         LevelStarted += OnLevelStarted;
         LevelFinished += OnLevelFinished;
         GraphicSettingsSave += OnGraphicSettingsSave;
@@ -30,20 +32,27 @@ public class SaveSystem : ScriptableObject
     private void OnDisable()
     {
         PlayerSave -= OnPlayerSave;
+        CompanionSave -= OnCompanionSave;
         LevelStarted -= OnLevelStarted;
         LevelFinished -= OnLevelFinished;
         GraphicSettingsSave -= OnGraphicSettingsSave;
         AudioSettingsSave -= OnAudioSettingsSave;
     }
 
-    private void OnPlayerSave(Scene scene, Transform player, bool CompanionAvailable)
+    private void OnPlayerSave(Scene scene, Transform player, bool companionAvailable)
     {
         saveData.Player = new Player
         {
             Scene = scene.name,
             Position = player.position + Vector3.forward * 2,
-            CompanionAvailable = CompanionAvailable,
+            CompanionAvailable = companionAvailable,
         };
+
+        SaveGameDataToDisk();
+    }
+
+    private void OnCompanionSave(bool companionAvailable) {
+        saveData.Player.CompanionAvailable = companionAvailable;
 
         SaveGameDataToDisk();
     }

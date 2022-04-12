@@ -108,6 +108,7 @@ namespace HNC {
         }
 
         private void DisableCar() {
+            SaveSystem.CompanionSave?.Invoke(false);
             enabled = false;
             audioController.enabled = false;
             StartCoroutine(DestroyCar());
