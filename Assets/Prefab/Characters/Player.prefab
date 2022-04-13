@@ -1189,6 +1189,7 @@ GameObject:
   - component: {fileID: 337479675}
   - component: {fileID: 1528290127447410840}
   - component: {fileID: 3854491098260680817}
+  - component: {fileID: 6319493667860062177}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -1453,10 +1454,50 @@ MonoBehaviour:
   walkStandConfiguration: {fileID: 11400000, guid: b4ff52c2dbd89f9478661cf2d7f1862d, type: 2}
   walkCrouchClipsBank: {fileID: 11400000, guid: f23992df9e091804b8b96058857c8292, type: 2}
   walkCrouchConfiguration: {fileID: 11400000, guid: e11ede56e9c07cb418dd8a33e54f268f, type: 2}
-  hitClipsBank: {fileID: 11400000, guid: 87d8921cf544e0b449f10e8de07cd6be, type: 2}
-  hitConfiguration: {fileID: 11400000, guid: 2265d994cf7b76644b276d13d768fe2a, type: 2}
   deathClipsBank: {fileID: 11400000, guid: 8efc0bcaf67c3ca45932e5bc28919e92, type: 2}
   deathConfiguration: {fileID: 11400000, guid: 2265d994cf7b76644b276d13d768fe2a, type: 2}
+--- !u!114 &6319493667860062177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1478715308122502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 180ecf9b41d478f468eb3e9083753217, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ImpulseDefinition:
+    m_ImpulseChannel: 1
+    m_RawSignal: {fileID: 11400000, guid: 353acc688be29ac489a42cd8d991dd77, type: 2}
+    m_AmplitudeGain: 1
+    m_FrequencyGain: 1
+    m_RepeatMode: 0
+    m_Randomize: 1
+    m_TimeEnvelope:
+      m_AttackShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_DecayShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_AttackTime: 0
+      m_SustainTime: 0.2
+      m_DecayTime: 0.7
+      m_ScaleWithImpact: 1
+      m_HoldForever: 0
+    m_ImpactRadius: 100
+    m_DirectionMode: 0
+    m_DissipationMode: 2
+    m_DissipationDistance: 1000
+    m_PropagationSpeed: 343
 --- !u!1 &1514987730181720
 GameObject:
   m_ObjectHideFlags: 0
@@ -2248,6 +2289,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4370813015879757656}
   - component: {fileID: 1904851162241739532}
+  - component: {fileID: 8888673582094524321}
   m_Layer: 0
   m_Name: MoveCamera
   m_TagString: Untagged
@@ -2305,6 +2347,21 @@ MonoBehaviour:
         m_Calls: []
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 2678425101215814162}
+--- !u!114 &8888673582094524321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6973731647541965489}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b2d199b96b516448144ab30fb26aed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ChannelMask: 1
+  m_Gain: 1
+  m_Use2DDistance: 0
 --- !u!1 &8320087239320615734
 GameObject:
   m_ObjectHideFlags: 0
@@ -2345,6 +2402,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2593415516852944210}
   - component: {fileID: 7309905222063963226}
+  - component: {fileID: 1770937014352968398}
   m_Layer: 0
   m_Name: AimCamera
   m_TagString: Untagged
@@ -2402,6 +2460,21 @@ MonoBehaviour:
         m_Calls: []
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 5343256549429736462}
+--- !u!114 &1770937014352968398
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8548895340667223121}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b2d199b96b516448144ab30fb26aed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ChannelMask: 1
+  m_Gain: 1
+  m_Use2DDistance: 0
 --- !u!1001 &4230331252433030394
 PrefabInstance:
   m_ObjectHideFlags: 0

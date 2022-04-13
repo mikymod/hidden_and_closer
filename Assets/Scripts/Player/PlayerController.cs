@@ -1,4 +1,5 @@
 using System;
+using Cinemachine;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -100,6 +101,8 @@ namespace HNC
                 //_mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
                 _mainCamera = Camera.main.gameObject;
             }
+
+            _impulseSource = GetComponent<Cinemachine.CinemachineImpulseSource>();
 
             input.move += OnMove;
             input.look += OnLook;
@@ -276,6 +279,7 @@ namespace HNC
         public static UnityAction DeadEvent;
         public static UnityAction<Transform> CompanionControl;
         private bool isDeath = false;
+        private CinemachineImpulseSource _impulseSource;
         #endregion
 
         private void OnMove(Vector2 move) => _move = move;
@@ -306,8 +310,9 @@ namespace HNC
                 _animator.SetTrigger(_animIDDeath);
                 input.DisableAllInput();
                 isDeath = true;
-                //TODO abilitare il menu di game over
-                //TODO evento che stoppa il searching degli zombies
+                UIManager.TransitionGameOver?.Invoke();
+                NewEnemyController.ForceIdleBroadcast?.Invoke();
+                _impulseSource.GenerateImpulse(_mainCamera.transform.forward);
             }
         }
 

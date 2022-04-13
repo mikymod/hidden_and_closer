@@ -1,9 +1,12 @@
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
 
-namespace HNC {
+namespace HNC
+{
     [RequireComponent(typeof(NavMeshAgent))]
-    public class NewEnemyController : MonoBehaviour {
+    public class NewEnemyController : MonoBehaviour
+    {
         [Header("StateMachine")]
         [Tooltip("Min time range for check next point in Patrol")]
         public float MinTimePatrol;
@@ -52,36 +55,38 @@ namespace HNC {
 
         public ZombieUI UI;
 
-        private void OnEnable() {
+        public static UnityAction ForceIdleBroadcast;
+
+        private void OnEnable()
+        {
             DetectionSystem.NoiseDetected += CheckForNoisePosition;
             DetectionSystem.VisibleDetected += PlayerInLOS;
             DetectionSystem.ExitFromVisibleArea += PlayerNotInLOS;
             LightDetector.PlayerInLight += ScaleVisionArea;
-            PlayerController.DeadEvent += ForceIdle;
+            ForceIdleBroadcast += ForceIdle;
         }
 
 
-        private void OnDisable() {
+        private void OnDisable()
+        {
             DetectionSystem.NoiseDetected -= CheckForNoisePosition;
             DetectionSystem.VisibleDetected -= PlayerInLOS;
             DetectionSystem.ExitFromVisibleArea -= PlayerNotInLOS;
             LightDetector.PlayerInLight -= ScaleVisionArea;
-            PlayerController.DeadEvent -= ForceIdle;
+            ForceIdleBroadcast -= ForceIdle;
         }
 
         private void ForceIdle()
         {
-            // NavMeshAgent.enabled = false;
             Patrol.enabled = false;
             DetectionSystem.enabled = false;
-
             TransitionToAlertState = false;
             TransitionToAttackState = false;
             TransitionToIdleState = true;
-
         }
 
-        private void Awake() {
+        private void Awake()
+        {
             BodyCollider = GetComponent<CapsuleCollider>();
             Animator = GetComponent<Animator>();
             NavMeshAgent = GetComponent<NavMeshAgent>();
@@ -106,29 +111,35 @@ namespace HNC {
             _stateMachine.SetInitialState(idleState);
         }
 
-        private void Update() {
+        private void Update()
+        {
             _stateMachine.Update();
-            if (Target != null) {
+            if (Target != null)
+            {
                 PosToGo = Target.position;
             }
         }
 
-        public void CheckForNoisePosition(Vector3 pos) {
-            if (Target != null) {
+        public void CheckForNoisePosition(Vector3 pos)
+        {
+            if (Target != null)
+            {
                 return;
             }
             TransitionToAlertState = true;
             PosToGo = pos;
         }
 
-        private void PlayerInLOS(Transform target) {
+        private void PlayerInLOS(Transform target)
+        {
             TransitionToAlertState = true;
             TransitionToAttackState = true;
             PosToGo = target.position;
             Target = target;
         }
 
-        private void PlayerNotInLOS() {
+        private void PlayerNotInLOS()
+        {
             PosToGo = Target.position;
             Target = null;
         }

@@ -106,6 +106,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2024620050}
   - component: {fileID: 2024620049}
+  - component: {fileID: 3415103918009062663}
   m_Layer: 0
   m_Name: CompanionCamera
   m_TagString: Untagged
@@ -121,7 +122,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2024620048}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.37, z: -3.3300002}
+  m_LocalPosition: {x: 0, y: -0.0063170195, z: 0.012185812}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1302565948}
@@ -163,6 +164,21 @@ MonoBehaviour:
         m_Calls: []
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 1302565948}
+--- !u!114 &3415103918009062663
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2024620048}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b2d199b96b516448144ab30fb26aed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ChannelMask: 1
+  m_Gain: 0.3
+  m_Use2DDistance: 0
 --- !u!1 &1716425536915631388
 GameObject:
   m_ObjectHideFlags: 0
@@ -176,6 +192,7 @@ GameObject:
   - component: {fileID: 1439450122}
   - component: {fileID: 1439450121}
   - component: {fileID: 6722843424827479264}
+  - component: {fileID: 7354529064484135809}
   m_Layer: 11
   m_Name: Companion
   m_TagString: Companion
@@ -246,6 +263,7 @@ MonoBehaviour:
   rotationSpeed: 1
   companionCamera: {fileID: 2024620049}
   followTarget: {fileID: 1033704854}
+  destroyAfter: 0
 --- !u!114 &6722843424827479264
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -260,6 +278,48 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveClipsBank: {fileID: 11400000, guid: 05d00a6821d2024479be10831b2077ac, type: 2}
   moveConfiguration: {fileID: 11400000, guid: e7f8853fa780edd4a91d38c9090ee6a4, type: 2}
+--- !u!114 &7354529064484135809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1716425536915631388}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 180ecf9b41d478f468eb3e9083753217, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ImpulseDefinition:
+    m_ImpulseChannel: 1
+    m_RawSignal: {fileID: 11400000, guid: 353acc688be29ac489a42cd8d991dd77, type: 2}
+    m_AmplitudeGain: 1
+    m_FrequencyGain: 1
+    m_RepeatMode: 0
+    m_Randomize: 1
+    m_TimeEnvelope:
+      m_AttackShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_DecayShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_AttackTime: 0
+      m_SustainTime: 0.2
+      m_DecayTime: 0.7
+      m_ScaleWithImpact: 1
+      m_HoldForever: 0
+    m_ImpactRadius: 100
+    m_DirectionMode: 0
+    m_DissipationMode: 2
+    m_DissipationDistance: 1000
+    m_PropagationSpeed: 343
 --- !u!1001 &3212194731163596121
 PrefabInstance:
   m_ObjectHideFlags: 0
