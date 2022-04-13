@@ -2,7 +2,6 @@ using System;
 using Cinemachine;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.SceneManagement;
 
 namespace HNC
 {
@@ -72,7 +71,7 @@ namespace HNC
         private bool _crouch;
 
         private bool _interact;
-        private bool _canInteract;
+        private readonly bool _canInteract;
 
         // animation Layer
         private int _animLayerAim;
@@ -114,6 +113,7 @@ namespace HNC
             input.companionSwitch += OnCompanionControllingStarted;
 
             DeadEvent += OnDeath;
+            NewChangeStateEvent.OnChangeState += VibrateController;
         }
 
         private void OnDestroy()
@@ -128,6 +128,7 @@ namespace HNC
             input.companionSwitch -= OnCompanionControllingStarted;
 
             DeadEvent -= OnDeath;
+            NewChangeStateEvent.OnChangeState -= VibrateController;
         }
 
         private void OnEnable()
@@ -307,6 +308,7 @@ namespace HNC
         {
             if (_hasAnimator && !isDeath)
             {
+                StartCoroutine(input.StartRumble(0.5f, 1));
                 _animator.SetTrigger(_animIDDeath);
                 input.DisableAllInput();
                 isDeath = true;
@@ -316,10 +318,15 @@ namespace HNC
             }
         }
 
-        private void OnCompanionControllingStarted()
+        private void VibrateController(GameObject enemy, EnemyFSMState state)
         {
-            CompanionControl?.Invoke(companionSpot);
+            if (state == EnemyFSMState.Death)
+            {
+                StartCoroutine(input.StartRumble(0.3f, 0.3f));
+            }
         }
+
+        private void OnCompanionControllingStarted() => CompanionControl?.Invoke(companionSpot);
 
         #endregion
 
@@ -345,7 +352,7 @@ namespace HNC
             {
                 if (_interact)
                 {
-                    var interactable = other.gameObject.GetComponentInParent<Interactable>();
+                    Interactable interactable = other.gameObject.GetComponentInParent<Interactable>();
                     interactable.Interact();
                 }
             }

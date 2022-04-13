@@ -12,8 +12,8 @@ namespace HNC.Audio
         [SerializeField] private AudioMixer audioMixer = default;
         [SerializeField] private AudioMixerSnapshot audioMixerSnapshots = default;
         [Range(0f, 1f)] private float masterVolume = 1f;
-        [Range(0f, 1f)] private readonly float musicVolume = 1f;
-        [Range(0f, 1f)] private readonly float sfxVolume = 1f;
+        [Range(0f, 1f)] private float musicVolume = 1f;
+        [Range(0f, 1f)] private float sfxVolume = 1f;
 
         public static UnityAction<AudioClipsBankSO, AudioConfigurationSO, Transform, float> OnSoundPlay;
         public static UnityAction<AudioClipsBankSO, AudioConfigurationSO, Transform, float> OnSoundPlayEsclusive;
@@ -40,8 +40,8 @@ namespace HNC.Audio
             OnSoundPause += Pause;
             OnSoundResume += Resume;
             OnMasterVolumeChanged += MasterVolumChanged;
-            OnMasterVolumeChanged += MusicVolumChanged;
-            OnMasterVolumeChanged += SFXVolumChanged;
+            OnMusicVolumeChanged += MusicVolumChanged;
+            OnSFXVolumeChanged += SFXVolumChanged;
             OnFadeIn +=FadeIn;
             OnFadeOut += FadeOut;
         }
@@ -54,8 +54,8 @@ namespace HNC.Audio
             OnSoundPause -= Pause;
             OnSoundResume -= Resume;
             OnMasterVolumeChanged -= MasterVolumChanged;
-            OnMasterVolumeChanged -= MusicVolumChanged;
-            OnMasterVolumeChanged -= SFXVolumChanged;
+            OnMusicVolumeChanged -= MusicVolumChanged;
+            OnSFXVolumeChanged -= SFXVolumChanged;
             OnFadeIn -= FadeIn;
             OnFadeOut -= FadeOut;
         }
@@ -124,12 +124,12 @@ namespace HNC.Audio
         }
         private void MusicVolumChanged(float volume)
         {
-            masterVolume = volume;
+            musicVolume = volume;
             audioMixer.SetFloat("Music", NormalizedMixerValue(volume));
         }
         private void SFXVolumChanged(float volume)
         {
-            masterVolume = volume;
+            sfxVolume = volume;
             audioMixer.SetFloat("SFX", NormalizedMixerValue(volume));
         }
 

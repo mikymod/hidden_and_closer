@@ -121,6 +121,7 @@ namespace HNC {
         }
 
         private IEnumerator DestroyCar() {
+            StartCoroutine(input.StartRumble(0.3f, 0.5f));
             yield return new WaitForSeconds(destroyAfter);
             isControllingCompanion = false;
             CameraSwitch();
