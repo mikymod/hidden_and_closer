@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03b96250faa22b14f847fc4bd905e466, type: 3}
   m_Name: SFX_PlayerCrouchWalkAudioConfiguration
   m_EditorClassIdentifier: 
-  audioMixerGroup: {fileID: 0}
+  audioMixerGroup: {fileID: 6797785815938866301, guid: 3687cbbf467ff7c40929b6ce31efc34c, type: 2}
   priority: 128
   loop: 0
   mute: 0

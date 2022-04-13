@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03b96250faa22b14f847fc4bd905e466, type: 3}
   m_Name: SFX_CarAlarmAudioConfiguration
   m_EditorClassIdentifier: 
-  audioMixerGroup: {fileID: 0}
+  audioMixerGroup: {fileID: 6797785815938866301, guid: 3687cbbf467ff7c40929b6ce31efc34c, type: 2}
   priority: 128
   loop: 1
   mute: 0
@@ -21,11 +21,11 @@ MonoBehaviour:
   pitch: 1
   panStereo: 0
   reverbZoneMix: 1
-  spatialBlend: 0
+  spatialBlend: 1
   rolloffMode: 0
-  minDistance: 0.1
-  maxDistance: 50
-  spread: 0
+  minDistance: 1
+  maxDistance: 5
+  spread: 360
   dopplerLevel: 1
   bypasseffects: 0
   bypasslistenereffects: 0
