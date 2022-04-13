@@ -24,6 +24,7 @@ namespace HNC
             CompanionController.OnCompanionControlStarted += EnableDisableUILight;
             CompanionController.OnCompanionControlFinish += EnableDisableUILight;
             CompanionController.OnCompanionDestroy += CarDestroy;
+            CompanionController.OnCompanionRestore += CarRestored;
         }
 
         private void OnDisable()
@@ -32,6 +33,7 @@ namespace HNC
             CompanionController.OnCompanionControlStarted -= EnableDisableUILight;
             CompanionController.OnCompanionControlFinish -= EnableDisableUILight;
             CompanionController.OnCompanionDestroy -= CarDestroy;
+            CompanionController.OnCompanionRestore -= CarRestored;
         }
 
         private void EnableDisableUILight()
@@ -41,6 +43,10 @@ namespace HNC
 
         private void CarDestroy() {
             ChangeCarImage(false);
+        }
+
+        private void CarRestored() {
+            ChangeCarImage(true);
         }
 
         private void ChangeCarImage(bool isCarUsable)

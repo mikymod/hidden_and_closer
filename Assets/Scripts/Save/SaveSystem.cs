@@ -12,7 +12,7 @@ public class SaveSystem : ScriptableObject
     public SaveData SaveData { get => saveData; }
     // public bool CanLoadPlayer { get => saveData.Player.Scene != null && saveData.Player.Scene != ""; }
 
-    public static UnityAction<Scene, Transform, bool> PlayerSave;
+    public static UnityAction<Scene, Transform> PlayerSave;
     public static UnityAction<bool> CompanionSave;
     public static UnityAction<Scene, Transform> LevelStarted;
     public static UnityAction<Scene> LevelFinished;
@@ -39,13 +39,12 @@ public class SaveSystem : ScriptableObject
         AudioSettingsSave -= OnAudioSettingsSave;
     }
 
-    private void OnPlayerSave(Scene scene, Transform player, bool companionAvailable)
+    private void OnPlayerSave(Scene scene, Transform player)
     {
         saveData.Player = new Player
         {
             Scene = scene.name,
             Position = player.position + Vector3.forward * 2,
-            CompanionAvailable = companionAvailable,
         };
 
         SaveGameDataToDisk();

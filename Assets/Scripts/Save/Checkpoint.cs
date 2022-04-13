@@ -22,7 +22,11 @@ namespace HNC.Save
 
         private IEnumerator Interaction()
         {
-            SaveSystem.PlayerSave?.Invoke(SceneManager.GetActiveScene(), transform, true);
+            SaveSystem.PlayerSave?.Invoke(SceneManager.GetActiveScene(), transform);
+
+            SaveSystem.CompanionSave?.Invoke(true);
+
+            CompanionController.OnCompanionRestore?.Invoke();
 
             yield return new WaitForSeconds(2);
 
