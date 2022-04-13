@@ -23,6 +23,7 @@ namespace HNC {
         public static UnityAction OnCompanionControlStarted;
         public static UnityAction OnCompanionControlFinish;
         public static UnityAction OnCompanionDestroy;
+        public static UnityAction OnCompanionRestore;
 
         private AudioCarController audioController;
 
@@ -31,6 +32,11 @@ namespace HNC {
             _collider = GetComponentInChildren<Collider>();
             _renderers = GetComponentsInChildren<Renderer>();
             audioController = GetComponent<AudioCarController>();
+            OnCompanionRestore += RestoreCar;
+        }
+
+        private void OnDestroy() {
+            OnCompanionRestore -= RestoreCar;
         }
 
         private void OnEnable() {
@@ -116,17 +122,25 @@ namespace HNC {
 
         private IEnumerator DestroyCar() {
             yield return new WaitForSeconds(destroyAfter);
+            isControllingCompanion = false;
+            CameraSwitch();
             gameObject.SetActive(false);
 
-            isControllingCompanion = false;
 
             input.EnablePlayerInput();
 
             foreach (Renderer rend in _renderers) {
                 rend.enabled = false;
             }
+            _collider.enabled = false;
 
             OnCompanionControlFinish?.Invoke();
+        }
+
+        private void RestoreCar() {
+            enabled = true;
+            audioController.enabled = true;
+            gameObject.SetActive(true);
         }
 
     }

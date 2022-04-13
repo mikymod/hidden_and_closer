@@ -25,7 +25,8 @@ namespace HNC
         private void Spawn(Vector3 position, Quaternion rotation)
         {
             Instantiate(playerPrefab, position, rotation);
-            SaveSystem.PlayerSave?.Invoke(SceneManager.GetActiveScene(), transform, true); // FIXME: manage companion
+            SaveSystem.PlayerSave?.Invoke(SceneManager.GetActiveScene(), transform);
+            SaveSystem.CompanionSave?.Invoke(true);
             SaveSystem.LevelStarted?.Invoke(SceneManager.GetActiveScene(), transform);
         }
     }
