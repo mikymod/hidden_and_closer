@@ -18,7 +18,10 @@ namespace HNC
 
         public void Play(AudioClipsBankSO audioClipBank, AudioConfigurationSO audioConfig, Transform transform, float fadeTime)
         {
-            audioSource.transform.parent = transform;
+            if (transform != null)
+            {
+                audioSource.transform.parent = transform;
+            }
             audioSource.transform.localPosition = Vector3.zero;
             audioSource.clip = audioClipBank.GetClip();
             audioConfig.ApplyTo(audioSource);
@@ -31,7 +34,7 @@ namespace HNC
             if (!audioSource.loop)
             {
                 float clipLengthRemaining = audioSource.clip.length - audioSource.time;
-                StartCoroutine(AudioClipFinishPlaying(transform, clipLengthRemaining));
+                StartCoroutine(AudioClipFinishPlaying(transform, clipLengthRemaining, fadeTime));
             }
         }
         
@@ -66,6 +69,7 @@ namespace HNC
             {
                 audioSource.volume = 0f;
                 audioSource.transform.parent = originalParent;
+                StopAllCoroutines();
                 audioSource.Stop();
                 audioSource.gameObject.SetActive(false);
             }
@@ -75,14 +79,15 @@ namespace HNC
             }
         } 
         
-        private IEnumerator AudioClipFinishPlaying(Transform transform, float lenght)
+        private IEnumerator AudioClipFinishPlaying(Transform transform, float lenght, float fadeTime)
         {
             yield return new WaitForSeconds(lenght);
-            Stop(transform, lenght);
+            Stop(transform, fadeTime);
         }
 
-        public IEnumerator FadeIn(float fadeTime)
+        private IEnumerator FadeIn(float fadeTime)
         {
+
             float time = 0f;
             float startVolume = audioSource.volume;
             float duration = fadeTime;
@@ -97,7 +102,7 @@ namespace HNC
             audioSource.volume = 1f;
         }
 
-        public IEnumerator FadeOut(float fadeTime)
+        private IEnumerator FadeOut(float fadeTime)
         {
             float time = 0f;
             float startVolume = audioSource.volume;
@@ -112,6 +117,7 @@ namespace HNC
 
             audioSource.volume = 0f;
             audioSource.transform.parent = originalParent;
+            StopAllCoroutines();
             audioSource.Stop();
             audioSource.gameObject.SetActive(false);
         }
@@ -148,6 +154,33 @@ namespace HNC
 
             audioSource.volume = 0f;
             audioSource.Pause();
+        }
+
+        public IEnumerator FadeOutWithoutStop(float fadeTime)
+        {
+            float time = 0f;
+            float startVolume = audioSource.volume;
+            float duration = fadeTime;
+
+            while (time < duration)
+            {
+                audioSource.volume = Mathf.Lerp(startVolume, 0f, time / duration);
+                time += Time.deltaTime;
+                yield return null;
+            }
+            audioSource.volume = 0f;
+        }
+    
+        public void CallFadeIn(float fadeTime)
+        {
+            StopAllCoroutines();
+            StartCoroutine(FadeIn(fadeTime));
+        }
+
+        public void CallFadeOutWithoutStop(float fadeTime)
+        {
+            StopAllCoroutines();
+            StartCoroutine(FadeOutWithoutStop(fadeTime));
         }
     }
 }

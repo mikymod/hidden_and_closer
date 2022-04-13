@@ -28,6 +28,10 @@ namespace HNC
 
         private bool eventSend = true;
 
+        public static UnityAction AudioNoiseDetected;
+        public static UnityAction AudioVisibleDetected;
+        public static UnityAction AudioExitFromVisibleArea;
+
         private void OnEnable()
         {
             AudioManager.OnSoundPlay += OnSoundPlay;
@@ -46,6 +50,7 @@ namespace HNC
                 if (configuration.volume > soundVolumeThreshold)
                 {
                     NoiseDetected?.Invoke(colliders[0].transform.position);
+                    AudioNoiseDetected?.Invoke();
                 }
             }
         }
@@ -81,6 +86,7 @@ namespace HNC
                     {
                         visibleTargets.Add(target);
                         VisibleDetected?.Invoke(target);
+                        AudioVisibleDetected?.Invoke();
                         eventSend = false;
                     }
                 }
@@ -89,6 +95,7 @@ namespace HNC
             if (!eventSend && visibleTargets.Count <= 0)
             {
                 ExitFromVisibleArea?.Invoke();
+                AudioExitFromVisibleArea?.Invoke();
                 eventSend = true;
             }
         }

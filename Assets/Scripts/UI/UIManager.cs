@@ -1,6 +1,5 @@
-using System;
+using System.Collections;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 namespace HNC
@@ -8,9 +7,11 @@ namespace HNC
     public class UIManager : MonoBehaviour
     {
         [SerializeField] private InputHandler input;
+        [SerializeField] private SaveSystem saveSystem;
         [SerializeField] private PauseMenu pauseMenu;
         [SerializeField] private SettingsMenu settingsMenu;
         [SerializeField] private GameObject gameUI;
+        [SerializeField] private GameObject gameOverUI;
 
         private void Awake()
         {
@@ -20,11 +21,26 @@ namespace HNC
         private void OnEnable()
         {
             input.pause += OpenPauseMenu;
+
+            PlayerController.DeadEvent += OnPlayerDeath;
         }
 
         private void OnDisable()
         {
             input.pause -= OpenPauseMenu;
+
+            PlayerController.DeadEvent -= OnPlayerDeath;
+        }
+
+        private void OnPlayerDeath() => StartCoroutine(PlayerDeathCoroutine());
+
+        private IEnumerator PlayerDeathCoroutine()
+        {
+            gameOverUI.SetActive(true);
+
+            yield return new WaitForSeconds(4);
+
+            SceneManager.LoadScene(saveSystem.SaveData.Player.Scene);
         }
 
         private void OpenPauseMenu()

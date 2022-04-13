@@ -22,8 +22,11 @@ namespace HNC.Audio
 
         public void StopMoveSound()
         {
-            AudioManager.OnSoundStop?.Invoke(moveClipsBank, transform, 0f);
-            isPlaying = false;
+            if (isPlaying)
+            {
+                AudioManager.OnSoundStop?.Invoke(moveClipsBank, transform, 0f);
+                isPlaying = false;
+            }
         }
     }
 }

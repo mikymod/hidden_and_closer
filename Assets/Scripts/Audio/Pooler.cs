@@ -52,5 +52,17 @@ namespace HNC
 
             return null;
         }
+
+        public bool IsPlaying(AudioClipsBankSO audioClipBank)
+        {
+            for (int i = 0; i < _objects.Count; i++)
+            {
+                if (_objects[i].activeInHierarchy && _objects[i].GetComponent<AudioSource>().clip == audioClipBank.GetClip())
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }
