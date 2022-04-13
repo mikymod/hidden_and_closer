@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7286632536255260077}
   - component: {fileID: 7286632536255260076}
   - component: {fileID: 7286632536255259986}
+  - component: {fileID: 8794952955345230655}
   m_Layer: 0
   m_Name: AudioManager
   m_TagString: Untagged
@@ -58,5 +59,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e620957a659b50147829015c202cccfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 0}
-  poolCount: 0
+  prefab: {fileID: 8506172153664772167, guid: a45dd1c19969ded4a9cde6cef3b86565, type: 3}
+  poolCount: 10
+--- !u!114 &8794952955345230655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7286632536255260079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36a7bc0c5cf50324c8ae80d40bcbf20f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MusicIdleClipsBank: {fileID: 11400000, guid: 33ce8e7a45a3cae41afeca51e9b52edb, type: 2}
+  MusicAlertClipsBank: {fileID: 11400000, guid: 91ce56ac8b8d69e4baf4e70859e442ad, type: 2}
+  MusicAttackClipsBank: {fileID: 11400000, guid: 352da628b52e14f46bd58ca0cc67ea0f, type: 2}
+  MusicSearchClipsBank: {fileID: 11400000, guid: d99bd9b47afd2954c97a3e93f538991a, type: 2}
+  StingerIdleClipsBank: {fileID: 11400000, guid: c653a9a92421f0049b53201bb09c005f, type: 2}
+  StingerAlertClipsBank: {fileID: 11400000, guid: ca352c9fab4a6b241910534554ee8d92, type: 2}
+  StingerAttackClipsBank: {fileID: 11400000, guid: b0430770f21abbf41aa02dab31988b6d, type: 2}
+  StingerSearchClipsBank: {fileID: 11400000, guid: 9c7beba86e5e94a4ba867d2b60f2047b, type: 2}
+  genericMusicConfiguration: {fileID: 11400000, guid: 71474b3ea256ea247b0b69e9df236cfe, type: 2}
+  genericStingerConfiguration: {fileID: 11400000, guid: 267c3a9abbebd844b8411504f9a97d72, type: 2}
+  otherLayersMusicConfiguration: {fileID: 11400000, guid: dbc4b54609a67c040a035331bb690f69, type: 2}
+  FadeInTime: 3
+  FadeOutTime: 3
