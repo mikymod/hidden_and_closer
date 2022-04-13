@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 namespace HNC
@@ -12,6 +14,10 @@ namespace HNC
         [SerializeField] private SettingsMenu settingsMenu;
         [SerializeField] private GameObject gameUI;
         [SerializeField] private GameObject gameOverUI;
+        [SerializeField] private GameObject sceneTransitionUI;
+
+        // public static UnityAction GameOverUIEnabled;
+        public static UnityAction TransitionSceneFadeOut;
 
         private void Awake()
         {
@@ -20,6 +26,8 @@ namespace HNC
 
         private void OnEnable()
         {
+            TransitionSceneFadeOut += OnTransitionSceneFadeOut;
+
             input.pause += OpenPauseMenu;
 
             PlayerController.DeadEvent += OnPlayerDeath;
@@ -27,9 +35,16 @@ namespace HNC
 
         private void OnDisable()
         {
+            TransitionSceneFadeOut -= OnTransitionSceneFadeOut;
+
             input.pause -= OpenPauseMenu;
 
             PlayerController.DeadEvent -= OnPlayerDeath;
+        }
+
+        private void OnTransitionSceneFadeOut()
+        {
+            sceneTransitionUI.SetActive(true);
         }
 
         private void OnPlayerDeath() => StartCoroutine(PlayerDeathCoroutine());

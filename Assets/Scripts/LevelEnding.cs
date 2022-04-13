@@ -1,4 +1,6 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 namespace HNC
@@ -12,9 +14,16 @@ namespace HNC
         {
             if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
             {
-                SaveSystem.LevelFinished?.Invoke(SceneManager.GetActiveScene());
-                SceneManager.LoadScene(sceneToLoad);
+                StartCoroutine(ChangeLevel());
             }
+        }
+
+        private IEnumerator ChangeLevel()
+        {
+            UIManager.TransitionSceneFadeOut?.Invoke();
+            SaveSystem.LevelFinished?.Invoke(SceneManager.GetActiveScene());
+            yield return new WaitForSeconds(2);
+            SceneManager.LoadScene(sceneToLoad);
         }
     }
 }
