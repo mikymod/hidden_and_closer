@@ -68,7 +68,7 @@ namespace HNC {
         }
 
         public IEnumerator StartRumble(float time, float intensity) {
-            if (Gamepad.current.enabled) {
+            if (Gamepad.current != null) {
                 Gamepad.current.SetMotorSpeeds(intensity, intensity);
                 yield return new WaitForSeconds(time);
                 Gamepad.current.SetMotorSpeeds(0, 0);
