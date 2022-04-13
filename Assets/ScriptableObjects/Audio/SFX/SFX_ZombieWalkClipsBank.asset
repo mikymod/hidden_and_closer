@@ -10,11 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 41a74ff3a955e2e4781e63bf5a183c04, type: 3}
-  m_Name: SFX_ZombieSearch
+  m_Name: SFX_ZombieWalkClipsBank
   m_EditorClassIdentifier: 
   audioClipsGroups:
     sequenceMode: 1
     audioClips:
-    - {fileID: 8300000, guid: 148b4bab83d19c4468cc54f6a3ecaec6, type: 3}
-    - {fileID: 8300000, guid: 8a5c9bd50dfedce44892175c8120db23, type: 3}
-    - {fileID: 8300000, guid: 9212c0547f048be45b12f74774625414, type: 3}
+    - {fileID: 8300000, guid: 98b8b84d5e11eea4f8e1816328894ab9, type: 3}
+    - {fileID: 8300000, guid: 11da8bdcd0363c04c8d638b043e40d0c, type: 3}
+    - {fileID: 8300000, guid: f6bf23aa3c50fa24e95cf5ad500cd502, type: 3}
+    - {fileID: 8300000, guid: 978a234ca50dae746999964c72f3b0bb, type: 3}
+    - {fileID: 8300000, guid: f606bf6b562fefc40aaa34b114b336c3, type: 3}

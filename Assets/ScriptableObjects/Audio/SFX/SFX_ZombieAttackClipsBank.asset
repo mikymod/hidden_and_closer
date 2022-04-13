@@ -10,12 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 41a74ff3a955e2e4781e63bf5a183c04, type: 3}
-  m_Name: SFX_ZombieIdle
+  m_Name: SFX_ZombieAttackClipsBank
   m_EditorClassIdentifier: 
   audioClipsGroups:
     sequenceMode: 1
     audioClips:
-    - {fileID: 8300000, guid: 4eb88454ec1a135468d5ca8f56523860, type: 3}
-    - {fileID: 8300000, guid: a395cdd1de9473f43b055f4db86e818a, type: 3}
-    - {fileID: 8300000, guid: 1a2ffc797f9913c439b5c7e769c772d8, type: 3}
-    - {fileID: 8300000, guid: 89ad4de86ad3dbf4daa1fa6c67cf74e8, type: 3}
+    - {fileID: 8300000, guid: cfb59703edfcab54e9bf31276c5a5ed6, type: 3}
+    - {fileID: 8300000, guid: 7732ebf6bd08bb64f9a6aab4a1bc6197, type: 3}
+    - {fileID: 8300000, guid: f0b7ecb988416ae48af564ff333fc622, type: 3}
