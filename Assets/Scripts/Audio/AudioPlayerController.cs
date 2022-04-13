@@ -10,10 +10,6 @@ namespace HNC.Audio
         [SerializeField] private AudioConfigurationSO walkStandConfiguration;
         [SerializeField] private AudioClipsBankSO walkCrouchClipsBank;
         [SerializeField] private AudioConfigurationSO walkCrouchConfiguration;
-        [SerializeField] private AudioClipsBankSO shootClipsBank;
-        [SerializeField] private AudioConfigurationSO shootConfiguration;
-        [SerializeField] private AudioClipsBankSO hitClipsBank;
-        [SerializeField] private AudioConfigurationSO hitConfiguration;
         [SerializeField] private AudioClipsBankSO deathClipsBank;
         [SerializeField] private AudioConfigurationSO deathConfiguration;
 
@@ -29,13 +25,10 @@ namespace HNC.Audio
             walkCrouchConfiguration.pitch = walkCrouchConfiguration.randomPitch ? Random.Range(0.9f, 1.2f) : 1;
         }
 
-        public void PlayHitSound()
+        public void PlayDeathSound()
         {
-            AudioManager.OnSoundPlay?.Invoke(hitClipsBank, hitConfiguration, transform, 0f);
-            hitConfiguration.pitch = hitConfiguration.randomPitch ? Random.Range(0.9f, 1.2f) : 1;
+            AudioManager.OnSoundPlay?.Invoke(deathClipsBank, deathConfiguration, transform, 0f);
+            deathConfiguration.pitch = deathConfiguration.randomPitch ? Random.Range(0.9f, 1.2f) : 1;
         }
-
-        public void PlayShootSound() => AudioManager.OnSoundPlay?.Invoke(shootClipsBank, shootConfiguration, transform, 0f);
-        public void PlayDeathSound() => AudioManager.OnSoundPlay?.Invoke(deathClipsBank, deathConfiguration, transform, 0f);
     }
 }
