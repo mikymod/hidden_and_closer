@@ -192,7 +192,7 @@ GameObject:
   - component: {fileID: 1439450122}
   - component: {fileID: 1439450121}
   - component: {fileID: 6722843424827479264}
-  - component: {fileID: 7354529064484135809}
+  - component: {fileID: 3789795795987142095}
   m_Layer: 11
   m_Name: Companion
   m_TagString: Companion
@@ -278,7 +278,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveClipsBank: {fileID: 11400000, guid: 05d00a6821d2024479be10831b2077ac, type: 2}
   moveConfiguration: {fileID: 11400000, guid: e7f8853fa780edd4a91d38c9090ee6a4, type: 2}
---- !u!114 &7354529064484135809
+--- !u!114 &3789795795987142095
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

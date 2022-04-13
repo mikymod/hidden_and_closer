@@ -1502,7 +1502,7 @@ MonoBehaviour:
     m_Bits: 2624
   soundVolumeThreshold: 0.5
   viewRadius: 8
-  viewAngle: 45
+  viewAngle: 80
   targetMask:
     serializedVersion: 2
     m_Bits: 2112

@@ -20,42 +20,42 @@ namespace HNC.Audio
 
         public void PlayWalkSound()
         {
-            AudioManager.OnSoundPlay?.Invoke(walkClipsBank, genericConfiguration, null, 0f);
+            AudioManager.OnSoundPlay?.Invoke(walkClipsBank, genericConfiguration, transform, 0f);
             genericConfiguration.pitch = genericConfiguration.randomPitch ? Random.Range(0.9f, 1.2f) : 1;
         }
 
         public void PlayRunSound()
         {
-            AudioManager.OnSoundPlay?.Invoke(runClipsBank, genericConfiguration, null, 0f);
+            AudioManager.OnSoundPlay?.Invoke(runClipsBank, genericConfiguration, transform, 0f);
             genericConfiguration.pitch = genericConfiguration.randomPitch ? Random.Range(0.9f, 1.2f) : 1;
         }
         public void PlayAttackSound()
         {
-            AudioManager.OnSoundPlay?.Invoke(attackBank, genericConfiguration, null, 0f);
+            AudioManager.OnSoundPlay?.Invoke(attackBank, genericConfiguration, transform, 0f);
             genericConfiguration.pitch = genericConfiguration.randomPitch ? Random.Range(0.9f, 1.2f) : 1;
         }
 
-        public void PlayScreamSound() => AudioManager.OnSoundPlay?.Invoke(screamClipsBank, genericConfiguration, null, 0f);
+        public void PlayScreamSound() => AudioManager.OnSoundPlay?.Invoke(screamClipsBank, genericConfiguration, transform, 0f);
         public void PlayHitSound()
         {
-            AudioManager.OnSoundPlay?.Invoke(hitClipsBank, genericConfiguration, null, 0f);
-            AudioManager.OnSoundPlay?.Invoke(rockHitClipsBank, genericConfiguration, null, 0f);
+            AudioManager.OnSoundPlay?.Invoke(hitClipsBank, genericConfiguration, transform, 0f);
+            AudioManager.OnSoundPlay?.Invoke(rockHitClipsBank, genericConfiguration, transform, 0f);
             genericConfiguration.pitch = genericConfiguration.randomPitch ? Random.Range(0.9f, 1.2f) : 1;
         }
         public void PlayIdleSound()
         {
-            AudioManager.OnSoundPlay?.Invoke(idleClipsBank, genericConfiguration, null, 0f);
+            AudioManager.OnSoundPlay?.Invoke(idleClipsBank, genericConfiguration, transform, 0f);
             genericConfiguration.pitch = genericConfiguration.randomPitch ? Random.Range(0.9f, 1.2f) : 1;
         }
         public void PlayAlertSound()
         {
-            AudioManager.OnSoundPlay?.Invoke(alertBank, genericConfiguration, null, 0f);
+            AudioManager.OnSoundPlay?.Invoke(alertBank, genericConfiguration, transform, 0f);
             genericConfiguration.pitch = genericConfiguration.randomPitch ? Random.Range(0.9f, 1.2f) : 1;
         }
 
         public void PlaySearchSound()
         {
-            AudioManager.OnSoundPlay?.Invoke(searchBank, genericConfiguration, null, 0f);
+            AudioManager.OnSoundPlay?.Invoke(searchBank, genericConfiguration, transform, 0f);
             genericConfiguration.pitch = genericConfiguration.randomPitch ? Random.Range(0.9f, 1.2f) : 1;
         }
     }
