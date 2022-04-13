@@ -54,7 +54,7 @@ namespace HNC.Audio
                 enemiesState[enemy] = state;
             }
             currentState = EnemyFSMState.Idle;
-            for (int i = (int)EnemyFSMState.Attack; i >= 0; i--)
+            for (int i = (int)EnemyFSMState.Death; i >= 0; i--)
             {
                 if (enemiesState.ContainsValue((EnemyFSMState)i))
                 {
@@ -70,6 +70,7 @@ namespace HNC.Audio
             switch (currentState)
             {
                 case EnemyFSMState.Idle:
+                case EnemyFSMState.Death:
                     AudioManager.OnSoundPlayEsclusive?.Invoke(StingerIdleClipsBank, genericStingerConfiguration, null, 0f);
                     AudioManager.OnFadeIn?.Invoke(MusicIdleClipsBank, FadeInTime);
                     AudioManager.OnFadeOut?.Invoke(MusicSearchClipsBank, FadeOutTime);
