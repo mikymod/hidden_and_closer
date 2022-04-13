@@ -1,3 +1,4 @@
+using HNC.Audio;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -46,6 +47,10 @@ namespace HNC {
 
         private void GetRandomTarget()
         {
+            if (_enemy.TryGetComponent(out AudioZombieController component))
+            {
+                component.PlaySearchSound();
+            }
             //Caluclate random point
             _enemy.Animator.SetFloat("Speed", 1);
             _timer = Random.Range(_enemy.MinTimePatrol/2, _enemy.MaxTimePatrol/2);

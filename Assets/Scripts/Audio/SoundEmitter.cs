@@ -69,6 +69,7 @@ namespace HNC
             {
                 audioSource.volume = 0f;
                 audioSource.transform.parent = originalParent;
+                StopAllCoroutines();
                 audioSource.Stop();
                 audioSource.gameObject.SetActive(false);
             }
@@ -116,6 +117,7 @@ namespace HNC
 
             audioSource.volume = 0f;
             audioSource.transform.parent = originalParent;
+            StopAllCoroutines();
             audioSource.Stop();
             audioSource.gameObject.SetActive(false);
         }

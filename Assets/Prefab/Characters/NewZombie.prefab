@@ -1404,6 +1404,7 @@ GameObject:
   - component: {fileID: 1590004418259880252}
   - component: {fileID: 1296942999861299698}
   - component: {fileID: 2122423737}
+  - component: {fileID: 4297426609801881249}
   m_Layer: 0
   m_Name: NewZombie
   m_TagString: Untagged
@@ -1562,6 +1563,29 @@ MonoBehaviour:
   points:
   - {fileID: 0}
   - {fileID: 0}
+--- !u!114 &4297426609801881249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1175038301080259109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e949c4068d3c8a45a8719a76cfbf6f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  walkClipsBank: {fileID: 11400000, guid: 189faa75d91b026449f276ac77a4d78b, type: 2}
+  runClipsBank: {fileID: 11400000, guid: e39f9e053c2409a4ab716a5bff774874, type: 2}
+  alertBank: {fileID: 11400000, guid: 4051d84e11507434ebf0b5aa5fd27226, type: 2}
+  attackBank: {fileID: 11400000, guid: 721f2a1c7650fc842a1fe768ac56b946, type: 2}
+  searchBank: {fileID: 11400000, guid: c5ea1b7098558224a94c4df50193a432, type: 2}
+  carAttackBank: {fileID: 11400000, guid: c5ea1b7098558224a94c4df50193a432, type: 2}
+  hitClipsBank: {fileID: 11400000, guid: 8a743f237ccc84e45a85fa351bbba137, type: 2}
+  rockHitClipsBank: {fileID: 11400000, guid: 1caebb4a0ab31f9478be63092f0a6b39, type: 2}
+  idleClipsBank: {fileID: 11400000, guid: 374e4147b55623041b0e096427b03b60, type: 2}
+  screamClipsBank: {fileID: 0}
+  genericConfiguration: {fileID: 11400000, guid: 59e47a15a93253d45bcd9905aff16c84, type: 2}
 --- !u!1 &1175044637120098051
 GameObject:
   m_ObjectHideFlags: 0

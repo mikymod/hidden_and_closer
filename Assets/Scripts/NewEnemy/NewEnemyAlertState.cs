@@ -1,4 +1,5 @@
 using UnityEngine;
+using HNC.Audio;
 
 namespace HNC {
     public class NewEnemyAlertState : NewEnemyState {
@@ -7,6 +8,10 @@ namespace HNC {
         public override void Enter() {
             base.Enter();
             _enemy.AlertTimer = _enemy.AlertTime;
+            if (_enemy.TryGetComponent(out AudioZombieController component))
+            {
+                component.PlayAlertSound();
+            }
         }
 
         public override void Exit() => _enemy.TransitionToAlertState = false;

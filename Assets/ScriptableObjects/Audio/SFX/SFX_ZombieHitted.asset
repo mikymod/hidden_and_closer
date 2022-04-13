@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41a74ff3a955e2e4781e63bf5a183c04, type: 3}
+  m_Name: SFX_ZombieHitted
+  m_EditorClassIdentifier: 
+  audioClipsGroups:
+    sequenceMode: 1
+    audioClips:
+    - {fileID: 8300000, guid: 039a411e4862f314983c61bb29c15fa1, type: 3}
+    - {fileID: 8300000, guid: b933613e7d54a0e4da1d201e074524c2, type: 3}
+    - {fileID: 8300000, guid: fce8490f948a8ed4da13e269250ab3ef, type: 3}
+    - {fileID: 8300000, guid: cae654bb15ff6494d812af0ed7052c17, type: 3}
