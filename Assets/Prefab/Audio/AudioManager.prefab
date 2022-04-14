@@ -137,6 +137,7 @@ MonoBehaviour:
   StingerAlertClipsBank: {fileID: 11400000, guid: ca352c9fab4a6b241910534554ee8d92, type: 2}
   StingerAttackClipsBank: {fileID: 11400000, guid: b0430770f21abbf41aa02dab31988b6d, type: 2}
   StingerSearchClipsBank: {fileID: 11400000, guid: 9c7beba86e5e94a4ba867d2b60f2047b, type: 2}
+  StingerDeathClipsBank: {fileID: 11400000, guid: 7e633e4e8e46a984d85c413eae2de039, type: 2}
   genericMusicConfiguration: {fileID: 11400000, guid: 71474b3ea256ea247b0b69e9df236cfe, type: 2}
   genericStingerConfiguration: {fileID: 11400000, guid: 267c3a9abbebd844b8411504f9a97d72, type: 2}
   FadeInTime: 2

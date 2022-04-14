@@ -13,6 +13,7 @@ namespace HNC.Audio
         [SerializeField] private AudioClipsBankSO StingerAlertClipsBank;
         [SerializeField] private AudioClipsBankSO StingerAttackClipsBank;
         [SerializeField] private AudioClipsBankSO StingerSearchClipsBank;
+        [SerializeField] private AudioClipsBankSO StingerDeathClipsBank;
         [SerializeField] private AudioConfigurationSO genericMusicConfiguration;
         [SerializeField] private AudioConfigurationSO genericStingerConfiguration;
 
@@ -38,6 +39,7 @@ namespace HNC.Audio
             NewChangeStateEvent.OnChangeState += ChangeState;
             UIManager.TransitionGameOver += FadeOutAllMusic;
             UIManager.TransitionSceneFadeOut += FadeOutAllMusic;
+            PlayerController.DeadEvent += PlayDeathSound;
         }
 
         private void OnDisable()
@@ -45,6 +47,7 @@ namespace HNC.Audio
             NewChangeStateEvent.OnChangeState -= ChangeState;
             UIManager.TransitionGameOver -= FadeOutAllMusic;
             UIManager.TransitionSceneFadeOut -= FadeOutAllMusic;
+            PlayerController.DeadEvent -= PlayDeathSound;
         }
 
         private void ChangeState(GameObject enemy, EnemyFSMState state)
@@ -109,6 +112,11 @@ namespace HNC.Audio
             AudioEventsManager.OnFadeOut?.Invoke(MusicAlertClipsBank, FadeOutTime);
             AudioEventsManager.OnFadeOut?.Invoke(MusicSearchClipsBank, FadeOutTime);
             AudioEventsManager.OnFadeOut?.Invoke(MusicAttackClipsBank, FadeOutTime);
+        }
+
+        private void PlayDeathSound()
+        {
+            AudioEventsManager.OnSoundPlay?.Invoke(StingerDeathClipsBank, genericStingerConfiguration, null, 0f);
         }
     }
 }
