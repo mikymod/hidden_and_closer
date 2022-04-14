@@ -1,13 +1,12 @@
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
-namespace HNC
-{
+namespace HNC {
     [CreateAssetMenu(fileName = "InputHandler", menuName = "HNC/InputHandler")]
-    public class InputHandler : ScriptableObject, GameInput.IPlayerActions, GameInput.ICompanionActions, GameInput.IUIActions
-    {
+    public class InputHandler : ScriptableObject, GameInput.IPlayerActions, GameInput.ICompanionActions, GameInput.IUIActions {
         public event UnityAction<Vector2> move = delegate { };
         public event UnityAction<Vector2> look = delegate { };
         public event UnityAction aimStarted = delegate { };
@@ -28,10 +27,10 @@ namespace HNC
 
         private GameInput gameInput;
 
-        private void OnEnable()
-        {
-            if (gameInput == null)
-            {
+        private bool useGamepad;
+
+        private void OnEnable() {
+            if (gameInput == null) {
                 gameInput = new GameInput();
                 gameInput.Player.SetCallbacks(this);
                 gameInput.Companion.SetCallbacks(this);
@@ -41,15 +40,13 @@ namespace HNC
 
         private void OnDisable() => DisableAllInput();
 
-        public void DisableAllInput()
-        {
+        public void DisableAllInput() {
             gameInput.Player.Disable();
             gameInput.Companion.Disable();
             gameInput.UI.Disable();
         }
 
-        public void EnablePlayerInput()
-        {
+        public void EnablePlayerInput() {
             gameInput.Player.Enable();
             gameInput.Companion.Disable();
             gameInput.UI.Disable();
@@ -57,8 +54,7 @@ namespace HNC
             Cursor.visible = false;
         }
 
-        public void EnableCompanionInput()
-        {
+        public void EnableCompanionInput() {
             gameInput.Player.Disable();
             gameInput.Companion.Enable();
             gameInput.UI.Disable();
@@ -66,8 +62,7 @@ namespace HNC
             Cursor.visible = false;
         }
 
-        public void EnableUIInput()
-        {
+        public void EnableUIInput() {
             gameInput.Player.Disable();
             gameInput.Companion.Disable();
             gameInput.UI.Enable();
@@ -75,132 +70,153 @@ namespace HNC
             Cursor.visible = true;
         }
 
-        public IEnumerator StartRumble(float time, float intensity)
-        {
-            if (Gamepad.current != null && Gamepad.current.enabled)
-            {
+        public IEnumerator StartRumble(float time, float intensity) {
+            if (useGamepad) {
                 Gamepad.current.SetMotorSpeeds(intensity, intensity);
                 yield return new WaitForSeconds(time);
                 Gamepad.current.SetMotorSpeeds(0, 0);
             }
         }
 
-        public void OnAim(InputAction.CallbackContext context)
-        {
-            if (context.started)
-            {
+        private void CameFromGamepade(InputAction.CallbackContext context) => useGamepad = Gamepad.current != null && Gamepad.current.allControls.Contains(context.control);
+
+        public void OnAim(InputAction.CallbackContext context) {
+            CameFromGamepade(context);
+
+            if (context.started) {
                 aimStarted?.Invoke();
             }
 
-            if (context.canceled)
-            {
+            if (context.canceled) {
                 aimCanceled?.Invoke();
             }
         }
 
-        public void OnCrouch(InputAction.CallbackContext context)
-        {
-            if (context.started)
-            {
+        public void OnCrouch(InputAction.CallbackContext context) {
+            CameFromGamepade(context);
+
+            if (context.started) {
                 crouchStarted?.Invoke();
             }
 
-            if (context.canceled)
-            {
+            if (context.canceled) {
                 crouchCanceled?.Invoke();
             }
         }
 
-        public void OnFire(InputAction.CallbackContext context)
-        {
-            if (context.started)
-            {
+        public void OnFire(InputAction.CallbackContext context) {
+            CameFromGamepade(context);
+
+            if (context.started) {
                 fireStarted?.Invoke();
             }
 
-            if (context.canceled)
-            {
+            if (context.canceled) {
                 fireCanceled?.Invoke();
             }
         }
 
-        public void OnInteract(InputAction.CallbackContext context)
-        {
-            if (context.started)
-            {
+        public void OnInteract(InputAction.CallbackContext context) {
+            CameFromGamepade(context);
+
+            if (context.started) {
                 interactStarted?.Invoke();
             }
 
-            if (context.canceled)
-            {
+            if (context.canceled) {
                 interactCanceled?.Invoke();
             }
         }
 
-        public void OnLook(InputAction.CallbackContext context)
-        {
+        public void OnLook(InputAction.CallbackContext context) {
+            CameFromGamepade(context);
+
             Vector2 value = context.ReadValue<Vector2>();
             look?.Invoke(value);
         }
 
-        public void OnMove(InputAction.CallbackContext context)
-        {
+        public void OnMove(InputAction.CallbackContext context) {
+            CameFromGamepade(context);
+
             Vector2 value = context.ReadValue<Vector2>();
             move?.Invoke(value);
         }
 
-        public void OnCompanionLook(InputAction.CallbackContext context)
-        {
+        public void OnCompanionLook(InputAction.CallbackContext context) {
+            CameFromGamepade(context);
+
             Vector2 value = context.ReadValue<Vector2>();
             companionLook?.Invoke(value);
         }
 
-        public void OnPause(InputAction.CallbackContext context)
-        {
-            if (context.started)
-            {
+        public void OnPause(InputAction.CallbackContext context) {
+            CameFromGamepade(context);
+
+            if (context.started) {
                 pause?.Invoke();
             }
         }
 
-        public void OnCompanionMove(InputAction.CallbackContext context)
-        {
+        public void OnCompanionMove(InputAction.CallbackContext context) {
+            CameFromGamepade(context);
+
             Vector2 value = context.ReadValue<Vector2>();
             companionMove?.Invoke(value);
         }
-        public void OnCompanionSwitch(InputAction.CallbackContext context)
-        {
-            if (context.started)
-            {
+        public void OnCompanionSwitch(InputAction.CallbackContext context) {
+            CameFromGamepade(context);
+
+            if (context.started) {
                 companionSwitch?.Invoke();
             }
         }
-        public void OnPlayerSwitch(InputAction.CallbackContext context)
-        {
-            if (context.started)
-            {
+        public void OnPlayerSwitch(InputAction.CallbackContext context) {
+            CameFromGamepade(context);
+
+            if (context.started) {
                 playerSwitch?.Invoke();
             }
         }
-        public void OnNavigate(InputAction.CallbackContext context) { }
 
-        public void OnSubmit(InputAction.CallbackContext context) { }
+        public void OnNavigate(InputAction.CallbackContext context) {
+            CameFromGamepade(context);
+        }
 
-        public void OnCancel(InputAction.CallbackContext context) { }
+        public void OnSubmit(InputAction.CallbackContext context) {
+            CameFromGamepade(context);
+        }
 
-        public void OnPoint(InputAction.CallbackContext context) { }
+        public void OnCancel(InputAction.CallbackContext context) {
+            CameFromGamepade(context);
+        }
 
-        public void OnClick(InputAction.CallbackContext context) { }
+        public void OnPoint(InputAction.CallbackContext context) {
+            CameFromGamepade(context);
+        }
 
-        public void OnScrollWheel(InputAction.CallbackContext context) { }
+        public void OnClick(InputAction.CallbackContext context) {
+            CameFromGamepade(context);
+        }
 
-        public void OnMiddleClick(InputAction.CallbackContext context) { }
+        public void OnScrollWheel(InputAction.CallbackContext context) {
+            CameFromGamepade(context);
+        }
 
-        public void OnRightClick(InputAction.CallbackContext context) { }
+        public void OnMiddleClick(InputAction.CallbackContext context) {
+            CameFromGamepade(context);
+        }
 
-        public void OnTrackedDevicePosition(InputAction.CallbackContext context) { }
+        public void OnRightClick(InputAction.CallbackContext context) {
+            CameFromGamepade(context);
+        }
 
-        public void OnTrackedDeviceOrientation(InputAction.CallbackContext context) { }
+        public void OnTrackedDevicePosition(InputAction.CallbackContext context) {
+            CameFromGamepade(context);
+        }
+
+        public void OnTrackedDeviceOrientation(InputAction.CallbackContext context) {
+            CameFromGamepade(context);
+        }
     }
 }
 

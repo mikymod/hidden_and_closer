@@ -2,6 +2,7 @@ using System;
 using Cinemachine;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
 namespace HNC
 {
