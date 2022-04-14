@@ -54,19 +54,19 @@ namespace HNC
         public void ChangeMasterVolume(float volume)
         {
             _masterVolume = volume;
-            AudioManager.OnMasterVolumeChanged?.Invoke(volume);
+            AudioEventsManager.OnMasterVolumeChanged?.Invoke(volume);
         }
 
         public void ChangeMusicVolume(float volume)
         {
             _musicVolume = volume;
-            AudioManager.OnMusicVolumeChanged?.Invoke(volume);
+            AudioEventsManager.OnMusicVolumeChanged?.Invoke(volume);
         }
 
         public void ChangeSFXVolume(float volume)
         {
             _sfxVolume = volume;
-            AudioManager.OnSFXVolumeChanged?.Invoke(volume);
+            AudioEventsManager.OnSFXVolumeChanged?.Invoke(volume);
         }
 
         public void SaveAndBack()

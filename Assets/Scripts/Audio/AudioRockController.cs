@@ -11,8 +11,7 @@ namespace HNC.Audio
 
         public void PlayHitSound()
         {
-            AudioManager.OnSoundPlay?.Invoke(hitClipsBank, hitConfiguration, transform, 0f);
-            hitConfiguration.pitch = hitConfiguration.randomPitch ? Random.Range(0.9f, 1.2f) : 1;
+            AudioEventsManager.OnSoundPlay?.Invoke(hitClipsBank, hitConfiguration, transform, 0f);
         }
     }
 }

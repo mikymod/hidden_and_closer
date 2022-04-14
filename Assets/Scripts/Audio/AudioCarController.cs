@@ -15,7 +15,7 @@ namespace HNC.Audio
             if (!isPlaying)
             {
                 isPlaying = true;
-                AudioManager.OnSoundPlay?.Invoke(moveClipsBank, moveConfiguration, transform, 0f);
+                AudioEventsManager.OnSoundPlay?.Invoke(moveClipsBank, moveConfiguration, transform, 0f);
             }
 
         }
@@ -24,7 +24,7 @@ namespace HNC.Audio
         {
             if (isPlaying)
             {
-                AudioManager.OnSoundStop?.Invoke(moveClipsBank, transform, 0f);
+                AudioEventsManager.OnSoundStop?.Invoke(moveClipsBank, transform, 0f);
                 isPlaying = false;
             }
         }

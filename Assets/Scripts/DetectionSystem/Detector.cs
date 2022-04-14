@@ -53,15 +53,15 @@ namespace HNC
 
         private void OnEnable()
         {
-            AudioManager.OnSoundPlay += AddSoundEmitter;
-            AudioManager.OnSoundStop += RemoveSoundEmitter;
+            AudioEventsManager.OnSoundPlay += AddSoundEmitter;
+            AudioEventsManager.OnSoundStop += RemoveSoundEmitter;
         }
 
 
         private void OnDisable()
         {
-            AudioManager.OnSoundPlay -= AddSoundEmitter;
-            AudioManager.OnSoundStop -= RemoveSoundEmitter;
+            AudioEventsManager.OnSoundPlay -= AddSoundEmitter;
+            AudioEventsManager.OnSoundStop -= RemoveSoundEmitter;
         }
 
         private void OnTriggerEnter(Collider other)

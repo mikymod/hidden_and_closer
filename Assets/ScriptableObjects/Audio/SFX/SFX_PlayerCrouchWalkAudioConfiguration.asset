@@ -18,17 +18,25 @@ MonoBehaviour:
   mute: 0
   randomPitch: 1
   volume: 0.3
-  pitch: 1.1824771
+  pitch: 0.91915923
   panStereo: 0
-  reverbZoneMix: 1
+  reverbZoneMix: 0.5
   spatialBlend: 0
   rolloffMode: 0
   minDistance: 0.1
   maxDistance: 50
   spread: 0
   dopplerLevel: 1
+  customRollOff: 0
+  VolumeRollOff:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   bypasseffects: 0
   bypasslistenereffects: 0
   bypassreverbzones: 0
   ignorelistenervolume: 0
   ignorelistenerpause: 0
+  filterBasedDistance: 0

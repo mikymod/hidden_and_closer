@@ -15,7 +15,6 @@ namespace HNC.Audio
         [SerializeField] private AudioClipsBankSO StingerSearchClipsBank;
         [SerializeField] private AudioConfigurationSO genericMusicConfiguration;
         [SerializeField] private AudioConfigurationSO genericStingerConfiguration;
-        [SerializeField] private AudioConfigurationSO otherLayersMusicConfiguration;
 
         public float FadeInTime;
         public float FadeOutTime;
@@ -27,20 +26,25 @@ namespace HNC.Audio
         private void Start()
         {
             currentState = EnemyFSMState.Idle;
-            AudioManager.OnSoundPlayEsclusive?.Invoke(MusicIdleClipsBank, genericMusicConfiguration, null, 3);
-            AudioManager.OnSoundPlayEsclusive?.Invoke(MusicAlertClipsBank, otherLayersMusicConfiguration, null, 0);
-            AudioManager.OnSoundPlayEsclusive?.Invoke(MusicAttackClipsBank, otherLayersMusicConfiguration, null, 0);
-            AudioManager.OnSoundPlayEsclusive?.Invoke(MusicSearchClipsBank, otherLayersMusicConfiguration, null, 0);
+            AudioEventsManager.OnSoundPlay?.Invoke(MusicIdleClipsBank, genericMusicConfiguration, null, 0f);
+            AudioEventsManager.OnSoundPlay?.Invoke(MusicAlertClipsBank, genericMusicConfiguration, null, 0);
+            AudioEventsManager.OnSoundPlay?.Invoke(MusicAttackClipsBank, genericMusicConfiguration, null, 0);
+            AudioEventsManager.OnSoundPlay?.Invoke(MusicSearchClipsBank, genericMusicConfiguration, null, 0);
+            ChangeMusicOnState();
         }
 
         private void OnEnable()
         {
             NewChangeStateEvent.OnChangeState += ChangeState;
+            UIManager.TransitionGameOver += FadeOutAllMusic;
+            UIManager.TransitionSceneFadeOut += FadeOutAllMusic;
         }
 
         private void OnDisable()
         {
             NewChangeStateEvent.OnChangeState -= ChangeState;
+            UIManager.TransitionGameOver -= FadeOutAllMusic;
+            UIManager.TransitionSceneFadeOut -= FadeOutAllMusic;
         }
 
         private void ChangeState(GameObject enemy, EnemyFSMState state)
@@ -71,34 +75,40 @@ namespace HNC.Audio
             {
                 case EnemyFSMState.Idle:
                 case EnemyFSMState.Death:
-                    AudioManager.OnSoundPlayEsclusive?.Invoke(StingerIdleClipsBank, genericStingerConfiguration, null, 0f);
-                    AudioManager.OnFadeIn?.Invoke(MusicIdleClipsBank, FadeInTime);
-                    AudioManager.OnFadeOut?.Invoke(MusicSearchClipsBank, FadeOutTime);
-                    AudioManager.OnFadeOut?.Invoke(MusicAlertClipsBank, FadeOutTime);
-                    AudioManager.OnFadeOut?.Invoke(MusicAttackClipsBank, FadeOutTime);
+                    AudioEventsManager.OnFadeIn?.Invoke(MusicIdleClipsBank, FadeInTime);
+                    AudioEventsManager.OnFadeOut?.Invoke(MusicSearchClipsBank, FadeOutTime);
+                    AudioEventsManager.OnFadeOut?.Invoke(MusicAlertClipsBank, FadeOutTime);
+                    AudioEventsManager.OnFadeOut?.Invoke(MusicAttackClipsBank, FadeOutTime);
                     break;
                 case EnemyFSMState.Search:
-                    AudioManager.OnSoundPlayEsclusive?.Invoke(StingerSearchClipsBank, genericStingerConfiguration, null, 0f);
-                    AudioManager.OnFadeIn?.Invoke(MusicSearchClipsBank, FadeInTime);
-                    AudioManager.OnFadeOut?.Invoke(MusicIdleClipsBank, FadeOutTime);
-                    AudioManager.OnFadeOut?.Invoke(MusicAlertClipsBank, FadeOutTime);
-                    AudioManager.OnFadeOut?.Invoke(MusicAttackClipsBank, FadeOutTime);
+                    AudioEventsManager.OnFadeIn?.Invoke(MusicSearchClipsBank, FadeInTime);
+                    AudioEventsManager.OnFadeOut?.Invoke(MusicIdleClipsBank, FadeOutTime);
+                    AudioEventsManager.OnFadeOut?.Invoke(MusicAlertClipsBank, FadeOutTime);
+                    AudioEventsManager.OnFadeOut?.Invoke(MusicAttackClipsBank, FadeOutTime);
                     break;
                 case EnemyFSMState.Alert:
-                    AudioManager.OnSoundPlayEsclusive?.Invoke(StingerAlertClipsBank, genericStingerConfiguration, null, 0f);
-                    AudioManager.OnFadeIn?.Invoke(MusicIdleClipsBank, FadeInTime);
-                    AudioManager.OnFadeIn?.Invoke(MusicAlertClipsBank, FadeInTime);
-                    AudioManager.OnFadeOut?.Invoke(MusicAttackClipsBank, FadeOutTime);
-                    AudioManager.OnFadeOut?.Invoke(MusicSearchClipsBank, FadeOutTime);
+                    AudioEventsManager.OnFadeIn?.Invoke(MusicIdleClipsBank, FadeInTime);
+                    AudioEventsManager.OnFadeIn?.Invoke(MusicAlertClipsBank, FadeInTime);
+                    AudioEventsManager.OnFadeOut?.Invoke(MusicAttackClipsBank, FadeOutTime);
+                    AudioEventsManager.OnFadeOut?.Invoke(MusicSearchClipsBank, FadeOutTime);
                     break;
                 case EnemyFSMState.Attack:
-                    AudioManager.OnSoundPlayEsclusive?.Invoke(StingerAttackClipsBank, genericStingerConfiguration, null, 0f);
-                    AudioManager.OnFadeIn?.Invoke(MusicSearchClipsBank, FadeInTime);
-                    AudioManager.OnFadeIn?.Invoke(MusicIdleClipsBank, FadeInTime);
-                    AudioManager.OnFadeIn?.Invoke(MusicAlertClipsBank, FadeInTime);
-                    AudioManager.OnFadeIn?.Invoke(MusicAttackClipsBank, FadeInTime);
+                    AudioEventsManager.OnFadeIn?.Invoke(MusicSearchClipsBank, FadeInTime);
+                    AudioEventsManager.OnFadeIn?.Invoke(MusicIdleClipsBank, FadeInTime);
+                    AudioEventsManager.OnFadeIn?.Invoke(MusicAlertClipsBank, FadeInTime);
+                    AudioEventsManager.OnFadeIn?.Invoke(MusicAttackClipsBank, FadeInTime);
+                    break;
+                default:
                     break;
             }
+        }
+    
+        private void FadeOutAllMusic()
+        {
+            AudioEventsManager.OnFadeOut?.Invoke(MusicIdleClipsBank, FadeOutTime);
+            AudioEventsManager.OnFadeOut?.Invoke(MusicAlertClipsBank, FadeOutTime);
+            AudioEventsManager.OnFadeOut?.Invoke(MusicSearchClipsBank, FadeOutTime);
+            AudioEventsManager.OnFadeOut?.Invoke(MusicAttackClipsBank, FadeOutTime);
         }
     }
 }

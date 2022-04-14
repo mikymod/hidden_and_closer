@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace HNC
@@ -9,6 +7,7 @@ namespace HNC
     {
         private AudioSource audioSource;
         private Transform originalParent;
+        public LayerMask obstacleMask;
 
         private void Awake()
         {
@@ -21,12 +20,17 @@ namespace HNC
             if (transform != null)
             {
                 audioSource.transform.parent = transform;
+                audioSource.transform.localPosition = Vector3.zero + Vector3.up;
             }
-            audioSource.transform.localPosition = Vector3.zero;
+            else
+            {
+                audioSource.transform.localPosition = Vector3.zero;
+            }
+
             audioSource.clip = audioClipBank.GetClip();
             audioConfig.ApplyTo(audioSource);
+            audioConfig.pitch = audioConfig.randomPitch ? Random.Range(0.9f, 1.2f) : 1;
             audioSource.Play();
-
             if (fadeTime > 0)
             {
                 StartCoroutine(FadeIn(fadeTime));
@@ -36,9 +40,20 @@ namespace HNC
                 float clipLengthRemaining = audioSource.clip.length - audioSource.time;
                 StartCoroutine(AudioClipFinishPlaying(transform, clipLengthRemaining, fadeTime));
             }
+            if (audioConfig.lpFilterOn)
+            {
+                if (CheckForPlayerVision())
+                {
+                    audioSource.GetComponent<AudioLowPassFilter>().enabled = true;
+                }
+                else
+                {
+                    audioSource.GetComponent<AudioLowPassFilter>().enabled = false;
+                }
+            }
         }
-        
-        public void Resume(float fadeTime) 
+
+        public void Resume(float fadeTime)
         {
             if (fadeTime > 0)
             {
@@ -50,7 +65,7 @@ namespace HNC
                 audioSource.UnPause();
             }
         }
-        
+
         public void Pause(float fadeTime)
         {
             if (fadeTime > 0)
@@ -58,13 +73,13 @@ namespace HNC
                 StartCoroutine(FadeOutForPause(fadeTime));
             }
             else
-            { 
+            {
                 audioSource.Pause();
             }
         }
-        
+
         public void Stop(Transform transform, float fadeTime)
-         {
+        {
             if (fadeTime <= 0)
             {
                 audioSource.volume = 0f;
@@ -77,8 +92,8 @@ namespace HNC
             {
                 StartCoroutine(FadeOut(fadeTime));
             }
-        } 
-        
+        }
+
         private IEnumerator AudioClipFinishPlaying(Transform transform, float lenght, float fadeTime)
         {
             yield return new WaitForSeconds(lenght);
@@ -170,7 +185,7 @@ namespace HNC
             }
             audioSource.volume = 0f;
         }
-    
+
         public void CallFadeIn(float fadeTime)
         {
             StopAllCoroutines();
@@ -181,6 +196,21 @@ namespace HNC
         {
             StopAllCoroutines();
             StartCoroutine(FadeOutWithoutStop(fadeTime));
+        }
+
+        private bool CheckForPlayerVision()
+        {
+            float distanceToTarget = Vector3.Distance(transform.position, GameObject.Find("Player(Clone)").transform.position);
+            if (distanceToTarget <= 16)
+            {
+                Vector3 dirToTarget = (GameObject.Find("Player(Clone)").transform.position - transform.position).normalized;
+                Debug.DrawRay(transform.position, dirToTarget * 16);
+                if (!Physics.Raycast(transform.position, dirToTarget, distanceToTarget, obstacleMask))
+                {
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }

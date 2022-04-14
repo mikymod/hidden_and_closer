@@ -34,12 +34,12 @@ namespace HNC
 
         private void OnEnable()
         {
-            AudioManager.OnSoundPlay += OnSoundPlay;
+            AudioEventsManager.OnSoundPlay += OnSoundPlay;
         }
 
         private void OnDisable()
         {
-            AudioManager.OnSoundPlay -= OnSoundPlay;
+            AudioEventsManager.OnSoundPlay -= OnSoundPlay;
         }
 
         private void OnSoundPlay(AudioClipsBankSO bank, AudioConfigurationSO configuration, Transform sound, float fade)
@@ -47,7 +47,7 @@ namespace HNC
             var colliders = Physics.OverlapSphere(transform.position, hearingRadius, soundMask);
             if (colliders.Length > 0)
             {
-                if (configuration.volume > soundVolumeThreshold)
+                if (configuration.volume > soundVolumeThreshold && sound.parent != transform.parent)
                 {
                     NoiseDetected?.Invoke(colliders[0].transform.position);
                     AudioNoiseDetected?.Invoke();
