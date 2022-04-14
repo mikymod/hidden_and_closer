@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8673719398587888798}
   - component: {fileID: 5841942266969808811}
   - component: {fileID: 5348674240540911561}
+  - component: {fileID: 1103974388099566704}
   m_Layer: 5
   m_Name: SceneTransitionUI
   m_TagString: Untagged
@@ -95,3 +96,15 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1103974388099566704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 239731764092271936}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ce662897f480d541b19304d9d8418bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

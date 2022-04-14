@@ -23,6 +23,7 @@ namespace HNC
         {
             UIManager.TransitionSceneFadeOut?.Invoke();
             SaveSystem.LevelFinished?.Invoke(SceneManager.GetActiveScene());
+            SceneTransition.TransitionFadeOut?.Invoke();
             yield return new WaitForSeconds(2);
             SceneManager.LoadScene(sceneToLoad);
         }
