@@ -112,14 +112,17 @@ public class SaveSystem : ScriptableObject
     // API
     public void CreateNewGameFile()
     {
+        Settings previousSettings = new Settings();
         if (FileManager.FileExists(saveFilename))
         {
+            previousSettings = saveData.Settings;
             DeleteGameData();
         }
 
         if (FileManager.WriteToFile(saveFilename, ""))
         {
             saveData = new SaveData();
+            saveData.Settings = previousSettings;
             saveData.CreatedAt = DateTime.Now;
         }
     }

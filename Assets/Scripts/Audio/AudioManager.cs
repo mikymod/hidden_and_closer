@@ -11,16 +11,21 @@ namespace HNC.Audio
 
         [SerializeField] private AudioMixer audioMixer = default;
         [SerializeField] private InputHandler input;
+        [SerializeField] private SaveSystem saveSystem;
         [Range(0f, 1f)] private float masterVolume = 1f;
         [Range(0f, 1f)] private float musicVolume = 1f;
         [Range(0f, 1f)] private float sfxVolume = 1f;
         private bool filtered = false;
 
+
         private void Awake()
         {
-            //DontDestroyOnLoad(transform.gameObject);
             pooler = GetComponent<Pooler>();
+            masterVolume = saveSystem.SaveData.Settings.Audio.Master;
+            musicVolume = saveSystem.SaveData.Settings.Audio.Music;
+            sfxVolume = saveSystem.SaveData.Settings.Audio.SFX;
         }
+
         private void OnEnable()
         {
             AudioEventsManager.OnSoundPlay += Play;

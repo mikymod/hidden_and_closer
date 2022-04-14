@@ -1,8 +1,10 @@
 using HNC.Audio;
 using HNC.Save;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace HNC
 {
@@ -10,6 +12,14 @@ namespace HNC
     {
         [SerializeField] private InputHandler input = default;
         [SerializeField] private GameObject firstElement; // Required by EventSystem
+        [SerializeField] private SaveSystem saveSystem;
+        [SerializeField] private Slider masterSlider;
+        [SerializeField] private Slider SFXSlider;
+        [SerializeField] private Slider musicSlider;
+        [SerializeField] private Toggle fullScreenToogle;
+        [SerializeField] private Toggle vSyncToogle;
+
+        //public static UnityAction RestoreUI;
 
         public UnityAction SettingsClosed;
 
@@ -22,6 +32,11 @@ namespace HNC
         private void OnEnable()
         {
             input.pause += CloseScreen;
+            fullScreenToogle.isOn = saveSystem.SaveData.Settings.Graphic.Fullscreen;
+            vSyncToogle.isOn = saveSystem.SaveData.Settings.Graphic.VerticalSync;
+            masterSlider.value = saveSystem.SaveData.Settings.Audio.Master;
+            SFXSlider.value = saveSystem.SaveData.Settings.Audio.SFX;
+            musicSlider.value = saveSystem.SaveData.Settings.Audio.Music;
         }
 
         private void OnDisable()

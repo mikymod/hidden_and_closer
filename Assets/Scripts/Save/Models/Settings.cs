@@ -13,8 +13,8 @@ namespace HNC.Save
 
     public class GraphicSettings
     {
-        public bool Fullscreen { get; set; } = default;
-        public bool VerticalSync { get; set; } = default;
+        public bool Fullscreen { get; set; } = true;
+        public bool VerticalSync { get; set; } = true;
 
         public string ToJson() => JsonConvert.SerializeObject(this);
         public GraphicSettings FromJson(string json) => JsonConvert.DeserializeObject<GraphicSettings>(json);
@@ -22,9 +22,9 @@ namespace HNC.Save
 
     public class AudioSettings
     {
-        public float Master { get; set; } = default;
-        public float Music { get; set; } = default;
-        public float SFX { get; set; } = default;
+        public float Master { get; set; } = 1f;
+        public float Music { get; set; } = 1f;
+        public float SFX { get; set; } = 1f;
 
         public string ToJson() => JsonConvert.SerializeObject(this);
         public static AudioSettings FromJson(string json) => JsonConvert.DeserializeObject<AudioSettings>(json);

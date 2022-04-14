@@ -1,5 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
+using HNC.Save;
+using UnityEngine.Events;
+using System.Collections;
 
 namespace HNC.Audio
 {
@@ -14,8 +17,11 @@ namespace HNC.Audio
         [SerializeField] private AudioClipsBankSO StingerAttackClipsBank;
         [SerializeField] private AudioClipsBankSO StingerSearchClipsBank;
         [SerializeField] private AudioClipsBankSO StingerDeathClipsBank;
+        [SerializeField] private AudioClipsBankSO StingerSafeSpotClipsBank;
         [SerializeField] private AudioConfigurationSO genericMusicConfiguration;
         [SerializeField] private AudioConfigurationSO genericStingerConfiguration;
+
+        public static UnityAction OnPlayCheckPointStinger;
 
         public float FadeInTime;
         public float FadeOutTime;
@@ -39,7 +45,8 @@ namespace HNC.Audio
             NewChangeStateEvent.OnChangeState += ChangeState;
             UIManager.TransitionGameOver += FadeOutAllMusic;
             UIManager.TransitionSceneFadeOut += FadeOutAllMusic;
-            PlayerController.DeadEvent += PlayDeathSound;
+            PlayerController.DeadEvent += PlayDeathStinger;
+            OnPlayCheckPointStinger += PlayCheckPointStinger;
         }
 
         private void OnDisable()
@@ -47,7 +54,8 @@ namespace HNC.Audio
             NewChangeStateEvent.OnChangeState -= ChangeState;
             UIManager.TransitionGameOver -= FadeOutAllMusic;
             UIManager.TransitionSceneFadeOut -= FadeOutAllMusic;
-            PlayerController.DeadEvent -= PlayDeathSound;
+            PlayerController.DeadEvent -= PlayDeathStinger;
+            OnPlayCheckPointStinger -= PlayCheckPointStinger;
         }
 
         private void ChangeState(GameObject enemy, EnemyFSMState state)
@@ -114,9 +122,22 @@ namespace HNC.Audio
             AudioEventsManager.OnFadeOut?.Invoke(MusicAttackClipsBank, FadeOutTime);
         }
 
-        private void PlayDeathSound()
+        private void PlayDeathStinger()
         {
             AudioEventsManager.OnSoundPlay?.Invoke(StingerDeathClipsBank, genericStingerConfiguration, null, 0f);
+        }
+
+        private void PlayCheckPointStinger()
+        {
+            StartCoroutine(CheckPointCoroutine());
+            FadeOutAllMusic();
+            AudioEventsManager.OnSoundPlay?.Invoke(StingerSafeSpotClipsBank, genericStingerConfiguration, null, 0f);
+        }
+
+        private IEnumerator CheckPointCoroutine()
+        {
+            yield return new WaitForSeconds(2);
+            ChangeMusicOnState();
         }
     }
 }

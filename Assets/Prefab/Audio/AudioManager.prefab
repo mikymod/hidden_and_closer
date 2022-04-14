@@ -103,6 +103,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioMixer: {fileID: 24100000, guid: 3687cbbf467ff7c40929b6ce31efc34c, type: 2}
   input: {fileID: 11400000, guid: 41954bc1138fb734c8ee8824ae8c8e24, type: 2}
+  saveSystem: {fileID: 11400000, guid: 34ac9551b494e2342a39c9d72c1e3e92, type: 2}
 --- !u!114 &7286632536255259986
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -138,6 +139,7 @@ MonoBehaviour:
   StingerAttackClipsBank: {fileID: 11400000, guid: b0430770f21abbf41aa02dab31988b6d, type: 2}
   StingerSearchClipsBank: {fileID: 11400000, guid: 9c7beba86e5e94a4ba867d2b60f2047b, type: 2}
   StingerDeathClipsBank: {fileID: 11400000, guid: 7e633e4e8e46a984d85c413eae2de039, type: 2}
+  StingerSafeSpotClipsBank: {fileID: 11400000, guid: d4b25479687205e41a74112a98d663f9, type: 2}
   genericMusicConfiguration: {fileID: 11400000, guid: 71474b3ea256ea247b0b69e9df236cfe, type: 2}
   genericStingerConfiguration: {fileID: 11400000, guid: 267c3a9abbebd844b8411504f9a97d72, type: 2}
   FadeInTime: 2
