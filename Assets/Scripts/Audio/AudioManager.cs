@@ -10,73 +10,49 @@ namespace HNC.Audio
         private Pooler pooler;
 
         [SerializeField] private AudioMixer audioMixer = default;
-        [SerializeField] private AudioMixerSnapshot audioMixerSnapshots = default;
+        [SerializeField] private InputHandler input;
         [Range(0f, 1f)] private float masterVolume = 1f;
         [Range(0f, 1f)] private float musicVolume = 1f;
         [Range(0f, 1f)] private float sfxVolume = 1f;
-
-        public static UnityAction<AudioClipsBankSO, AudioConfigurationSO, Transform, float> OnSoundPlay;
-        public static UnityAction<AudioClipsBankSO, AudioConfigurationSO, Transform, float> OnSoundPlayEsclusive;
-        public static UnityAction<AudioClipsBankSO, Transform, float> OnSoundStop;
-        public static UnityAction<AudioClipsBankSO, float> OnSoundPause;
-        public static UnityAction<AudioClipsBankSO, float> OnSoundResume;
-        public static UnityAction<float> OnMasterVolumeChanged;
-        public static UnityAction<float> OnMusicVolumeChanged;
-        public static UnityAction<float> OnSFXVolumeChanged;
-        public static UnityAction<AudioClipsBankSO, float> OnFadeIn;
-        public static UnityAction<AudioClipsBankSO, float> OnFadeOut;
+        private bool filtered = false;
 
         private void Awake()
         {
-            DontDestroyOnLoad(transform.gameObject);
+            //DontDestroyOnLoad(transform.gameObject);
             pooler = GetComponent<Pooler>();
-            ChangeAudioMixerSnapshot("Default");
         }
         private void OnEnable()
         {
-            OnSoundPlay += Play;
-            OnSoundPlayEsclusive += PlayEsclusive;
-            OnSoundStop += Stop;
-            OnSoundPause += Pause;
-            OnSoundResume += Resume;
-            OnMasterVolumeChanged += MasterVolumChanged;
-            OnMusicVolumeChanged += MusicVolumChanged;
-            OnSFXVolumeChanged += SFXVolumChanged;
-            OnFadeIn +=FadeIn;
-            OnFadeOut += FadeOut;
+            AudioEventsManager.OnSoundPlay += Play;
+            AudioEventsManager.OnSoundStop += Stop;
+            AudioEventsManager.OnSoundPause += Pause;
+            AudioEventsManager.OnSoundResume += Resume;
+            AudioEventsManager.OnMasterVolumeChanged += MasterVolumChanged;
+            AudioEventsManager.OnMusicVolumeChanged += MusicVolumChanged;
+            AudioEventsManager.OnSFXVolumeChanged += SFXVolumChanged;
+            AudioEventsManager.OnFadeIn +=FadeIn;
+            AudioEventsManager.OnFadeOut += FadeOut;
+            //input.pause += ChangeAudioMixerSnapshot;
         }
 
         private void OnDisable()
         {
-            OnSoundPlay -= Play;
-            OnSoundPlayEsclusive -= PlayEsclusive;
-            OnSoundStop -= Stop;
-            OnSoundPause -= Pause;
-            OnSoundResume -= Resume;
-            OnMasterVolumeChanged -= MasterVolumChanged;
-            OnMusicVolumeChanged -= MusicVolumChanged;
-            OnSFXVolumeChanged -= SFXVolumChanged;
-            OnFadeIn -= FadeIn;
-            OnFadeOut -= FadeOut;
+            AudioEventsManager.OnSoundPlay -= Play;
+            AudioEventsManager.OnSoundStop -= Stop;
+            AudioEventsManager.OnSoundPause -= Pause;
+            AudioEventsManager.OnSoundResume -= Resume;
+            AudioEventsManager.OnMasterVolumeChanged -= MasterVolumChanged;
+            AudioEventsManager.OnMusicVolumeChanged -= MusicVolumChanged;
+            AudioEventsManager.OnSFXVolumeChanged -= SFXVolumChanged;
+            AudioEventsManager.OnFadeIn -= FadeIn;
+            AudioEventsManager.OnFadeOut -= FadeOut;
+            //input.pause -= ChangeAudioMixerSnapshot;
         }
 
         private void Play(AudioClipsBankSO audioClipBank, AudioConfigurationSO audioConfig, Transform transform, float fadeTime)
         {
             GameObject soundEmitter = pooler.Get();
             if (soundEmitter != null)
-            {
-                soundEmitter.GetComponent<SoundEmitter>().Play(audioClipBank, audioConfig, transform, fadeTime);
-            }
-            else
-            {
-                soundEmitter.SetActive(false);
-            }
-        }
-
-        private void PlayEsclusive(AudioClipsBankSO audioClipBank, AudioConfigurationSO audioConfig, Transform transform, float fadeTime)
-        {
-            GameObject soundEmitter = pooler.Get();
-            if (soundEmitter != null && !IsPlaying(audioClipBank))
             {
                 soundEmitter.GetComponent<SoundEmitter>().Play(audioClipBank, audioConfig, transform, fadeTime);
             }
@@ -153,6 +129,7 @@ namespace HNC.Audio
             }
         }
 
+
         //Non credo serva
         //public IEnumerator FadeIn(AudioSource audioSource, float fadeTime)
         //{
@@ -187,7 +164,19 @@ namespace HNC.Audio
         //    audioSource.volume = 0f;
         //    audioSource.Stop();
         //}
-
-        private void ChangeAudioMixerSnapshot(string snapshotName) => audioMixerSnapshots.TransitionTo(0f);
+    
+        private void ChangeAudioMixerSnapshot()
+        {
+            if (filtered)
+            {
+                filtered = false;
+                audioMixer.FindSnapshot("Default").TransitionTo(1f);
+            }
+            else
+            {
+                filtered = true;
+                audioMixer.FindSnapshot("Filtered").TransitionTo(1f);
+            }
+        }
     }
 }

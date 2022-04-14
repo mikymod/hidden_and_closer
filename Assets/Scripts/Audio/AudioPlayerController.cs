@@ -15,20 +15,17 @@ namespace HNC.Audio
 
         public void PlayStandWalkSound()
         {
-            AudioManager.OnSoundPlay?.Invoke(walkStandClipsBank, walkStandConfiguration, transform, 0f);
-            walkStandConfiguration.pitch = walkStandConfiguration.randomPitch ? Random.Range(0.9f, 1.2f) : 1;
+            AudioEventsManager.OnSoundPlay?.Invoke(walkStandClipsBank, walkStandConfiguration, transform, 0f);
         }
 
         public void PlayCrouchWalkSound()
         {
-            AudioManager.OnSoundPlay?.Invoke(walkCrouchClipsBank, walkCrouchConfiguration, transform, 0f);
-            walkCrouchConfiguration.pitch = walkCrouchConfiguration.randomPitch ? Random.Range(0.9f, 1.2f) : 1;
+            AudioEventsManager.OnSoundPlay?.Invoke(walkCrouchClipsBank, walkCrouchConfiguration, transform, 0f);
         }
 
         public void PlayDeathSound()
         {
-            AudioManager.OnSoundPlay?.Invoke(deathClipsBank, deathConfiguration, transform, 0f);
-            deathConfiguration.pitch = deathConfiguration.randomPitch ? Random.Range(0.9f, 1.2f) : 1;
+            AudioEventsManager.OnSoundPlay?.Invoke(deathClipsBank, deathConfiguration, transform, 0f);
         }
     }
 }

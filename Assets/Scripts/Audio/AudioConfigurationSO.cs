@@ -24,7 +24,7 @@ public class AudioConfigurationSO : ScriptableObject
     public bool mute = false;
     public bool randomPitch;
     [Range(0f, 1f)] public float volume = 1f;
-    [Range(-3f, 3f)] public float pitch = 1f;
+    [Range(-3f, 3f)] public float pitch = 0f;
     [Range(0f, 1f)] public float panStereo = 0f;
     [Range(0f, 1f)] public float reverbZoneMix = 1f;
 
@@ -35,6 +35,8 @@ public class AudioConfigurationSO : ScriptableObject
     [Range(5f, 100f)] public float maxDistance = 50f;
     [Range(0, 360)] public int spread = 0;
     [Range(0f, 5f)] public float dopplerLevel = 1f;
+    public bool customRollOff;
+    public AnimationCurve VolumeRollOff;
 
     [Header("Ignores")]
     public bool bypasseffects = false;
@@ -43,6 +45,8 @@ public class AudioConfigurationSO : ScriptableObject
     public bool ignorelistenervolume = false;
     public bool ignorelistenerpause = false;
 
+    [Header("LPFilter")]
+    public bool lpFilterOn = false;
     public void ApplyTo(AudioSource audioSource)
     {
         audioSource.outputAudioMixerGroup = this.audioMixerGroup;
@@ -64,6 +68,11 @@ public class AudioConfigurationSO : ScriptableObject
         audioSource.maxDistance = this.maxDistance;
         audioSource.ignoreListenerVolume = this.ignorelistenervolume;
         audioSource.ignoreListenerPause = this.ignorelistenerpause;
+        if (customRollOff)
+        {
+            audioSource.SetCustomCurve(AudioSourceCurveType.CustomRolloff, VolumeRollOff);
+        }
+        audioSource.GetComponent<AudioLowPassFilter>().enabled = lpFilterOn;
     }
 }
 
