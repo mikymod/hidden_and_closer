@@ -9,7 +9,8 @@ namespace HNC {
         Search,
         Attack,
         Death,
-        Suspicious
+        Suspicious,
+        End
     }
 
     [RequireComponent(typeof(NavMeshAgent))]

@@ -9,12 +9,12 @@ namespace HNC {
         public override void Enter() {
             base.Enter();//CheckDistance();
             _enemy.Animator.SetFloat("Speed", 2);
-            _enemy.NavMeshAgent.speed *= 2;
+            _enemy.NavMeshAgent.speed = _enemy.SpeedAttack;
         }
 
         public override void Exit() {
+            _enemy.NavMeshAgent.speed = _enemy.SpeedNormal;
             _enemy.TransitionToAttackState = false;
-            _enemy.NavMeshAgent.speed /= 2;
         }
 
         public override void Update() {
