@@ -22,6 +22,7 @@ namespace HNC.Audio
         [SerializeField] private AudioConfigurationSO genericStingerConfiguration;
 
         public static UnityAction OnPlayCheckPointStinger;
+        public static UnityAction OnFadeOutTransitionMusic;
 
         public float FadeInTime;
         public float FadeOutTime;
@@ -45,6 +46,7 @@ namespace HNC.Audio
             NewChangeStateEvent.OnChangeState += ChangeState;
             UIManager.TransitionGameOver += FadeOutAllMusic;
             UIManager.TransitionSceneFadeOut += FadeOutAllMusic;
+            OnFadeOutTransitionMusic += FadeOutAllMusic;
             PlayerController.DeadEvent += PlayDeathStinger;
             OnPlayCheckPointStinger += PlayCheckPointStinger;
         }
@@ -54,6 +56,7 @@ namespace HNC.Audio
             NewChangeStateEvent.OnChangeState -= ChangeState;
             UIManager.TransitionGameOver -= FadeOutAllMusic;
             UIManager.TransitionSceneFadeOut -= FadeOutAllMusic;
+            OnFadeOutTransitionMusic -= FadeOutAllMusic;
             PlayerController.DeadEvent -= PlayDeathStinger;
             OnPlayCheckPointStinger -= PlayCheckPointStinger;
         }
