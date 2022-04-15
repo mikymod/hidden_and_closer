@@ -141,7 +141,6 @@ MonoBehaviour:
   generalUIClipsBank: {fileID: 11400000, guid: d80c61b6c6462a444934829784005a73, type: 2}
   positiveUIClipsBank: {fileID: 11400000, guid: 934d3e7439cdec04a9fe1523370101a4, type: 2}
   genericUIConfiguration: {fileID: 11400000, guid: c08ba3e2e2951894eb1f0e4fe495d261, type: 2}
-  newGame: {fileID: 0}
 --- !u!1 &8482373901614539416
 GameObject:
   m_ObjectHideFlags: 0

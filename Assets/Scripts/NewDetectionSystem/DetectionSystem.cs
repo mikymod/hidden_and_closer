@@ -44,6 +44,10 @@ namespace HNC
 
         private void OnSoundPlay(AudioClipsBankSO bank, AudioConfigurationSO configuration, Transform sound, float fade)
         {
+            if (sound == null)
+            {
+                return;
+            }
             var colliders = Physics.OverlapSphere(transform.position, hearingRadius, soundMask);
             if (colliders.Length > 0)
             {

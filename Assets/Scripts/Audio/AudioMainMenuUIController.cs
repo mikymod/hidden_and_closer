@@ -9,7 +9,6 @@ namespace HNC.Audio
         [SerializeField] private AudioClipsBankSO generalUIClipsBank;
         [SerializeField] private AudioClipsBankSO positiveUIClipsBank;
         [SerializeField] private AudioConfigurationSO genericUIConfiguration;
-        [SerializeField] private Button newGame;
 
         public void PlayGeneralUISound()
         {
