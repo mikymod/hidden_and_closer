@@ -15,15 +15,16 @@ namespace HNC.Audio
         [SerializeField] private AudioClipsBankSO idleClipsBank;
         [SerializeField] private AudioClipsBankSO screamClipsBank;
         [SerializeField] private AudioConfigurationSO genericConfiguration;
+        [SerializeField] private AudioConfigurationSO walkRunConfiguration;
 
         public void PlayWalkSound()
         {
-            AudioEventsManager.OnSoundPlay?.Invoke(walkClipsBank, genericConfiguration, transform, 0f);
+            AudioEventsManager.OnSoundPlay?.Invoke(walkClipsBank, walkRunConfiguration, transform, 0f);
         }
 
         public void PlayRunSound()
         {
-            AudioEventsManager.OnSoundPlay?.Invoke(runClipsBank, genericConfiguration, transform, 0f);
+            AudioEventsManager.OnSoundPlay?.Invoke(runClipsBank, walkRunConfiguration, transform, 0f);
         }
 
         public void PlayAttackSound()

@@ -22,6 +22,7 @@ namespace HNC
         private void Awake()
         {
             gameUI.SetActive(true);
+            sceneTransitionUI.SetActive(true);
         }
 
         private void OnEnable()

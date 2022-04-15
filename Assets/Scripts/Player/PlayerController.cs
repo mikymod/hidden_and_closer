@@ -1,5 +1,6 @@
 using System;
 using Cinemachine;
+using HNC.Audio;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -355,6 +356,7 @@ namespace HNC
                 {
                     Interactable interactable = other.gameObject.GetComponentInParent<Interactable>();
                     interactable.Interact();
+                    MusicPlayer.OnPlayCheckPointStinger?.Invoke();
                 }
             }
         }

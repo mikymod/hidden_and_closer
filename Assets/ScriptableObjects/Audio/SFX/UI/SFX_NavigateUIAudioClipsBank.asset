@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41a74ff3a955e2e4781e63bf5a183c04, type: 3}
+  m_Name: SFX_NavigateUIAudioClipsBank
+  m_EditorClassIdentifier: 
+  audioClipsGroups:
+    sequenceMode: 1
+    audioClips:
+    - {fileID: 8300000, guid: 4d84ecc635ce54e4fb903d7a91f83970, type: 3}
+    - {fileID: 8300000, guid: a7ed7eac5c0068644b4aa7d9f74c0c55, type: 3}
+    - {fileID: 8300000, guid: 10f839f2e0a1ea8409aa25b17d9eb4c8, type: 3}

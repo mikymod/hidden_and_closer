@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using HNC.Audio;
 
 namespace HNC
 {
@@ -40,12 +41,14 @@ namespace HNC
 
         private void NewGameButtonPressed()
         {
+            MusicPlayer.OnFadeOutTransitionMusic?.Invoke();
             // Avoid multiple button click
             EventSystem.current.SetSelectedGameObject(null);
 
             saveSystem.CreateNewGameFile();
 
             SceneManager.LoadScene(firstScene);
+
         }
 
         private void ContinueButtonPressed()

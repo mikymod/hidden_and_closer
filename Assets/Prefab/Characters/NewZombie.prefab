@@ -1592,6 +1592,7 @@ MonoBehaviour:
   idleClipsBank: {fileID: 11400000, guid: 374e4147b55623041b0e096427b03b60, type: 2}
   screamClipsBank: {fileID: 0}
   genericConfiguration: {fileID: 11400000, guid: 59e47a15a93253d45bcd9905aff16c84, type: 2}
+  walkRunConfiguration: {fileID: 11400000, guid: 6784ae147502031469b1452ef9eb44f0, type: 2}
 --- !u!1 &1175044637120098051
 GameObject:
   m_ObjectHideFlags: 0

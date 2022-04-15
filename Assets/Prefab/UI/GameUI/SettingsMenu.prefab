@@ -2060,6 +2060,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   input: {fileID: 11400000, guid: 41954bc1138fb734c8ee8824ae8c8e24, type: 2}
   firstElement: {fileID: 7561069000910744091}
+  saveSystem: {fileID: 11400000, guid: 34ac9551b494e2342a39c9d72c1e3e92, type: 2}
+  masterSlider: {fileID: 7182417189611061420}
+  SFXSlider: {fileID: 9050209895599552550}
+  musicSlider: {fileID: 7648838000743255107}
+  fullScreenToogle: {fileID: 7561069000910744093}
+  vSyncToogle: {fileID: 7561069000608129464}
 --- !u!1 &7561069000312773287
 GameObject:
   m_ObjectHideFlags: 0
