@@ -617,26 +617,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 782788966, guid: 88c0f1de84460fb41aa3dd64a7508d5c, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 782788966, guid: 88c0f1de84460fb41aa3dd64a7508d5c, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 782788967, guid: 88c0f1de84460fb41aa3dd64a7508d5c, type: 3}
-      propertyPath: m_fontAsset
-      value: 
-      objectReference: {fileID: 11400000, guid: 425a6b719bceca04ea98f5be59a26266, type: 2}
-    - target: {fileID: 782788967, guid: 88c0f1de84460fb41aa3dd64a7508d5c, type: 3}
-      propertyPath: m_sharedMaterial
-      value: 
-      objectReference: {fileID: -5311777940652027663, guid: 425a6b719bceca04ea98f5be59a26266, type: 2}
-    - target: {fileID: 782788967, guid: 88c0f1de84460fb41aa3dd64a7508d5c, type: 3}
-      propertyPath: m_HorizontalAlignment
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 568691828467171507, guid: 88c0f1de84460fb41aa3dd64a7508d5c, type: 3}
       propertyPath: m_Name
       value: MainMenu
@@ -803,22 +783,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4786242066729679699, guid: 88c0f1de84460fb41aa3dd64a7508d5c, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4786242068295240466, guid: 88c0f1de84460fb41aa3dd64a7508d5c, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0.80300003
-      objectReference: {fileID: 0}
-    - target: {fileID: 4786242068295240466, guid: 88c0f1de84460fb41aa3dd64a7508d5c, type: 3}
-      propertyPath: m_AnchorMin.x
-      value: 0.53243756
-      objectReference: {fileID: 0}
-    - target: {fileID: 4786242068295240466, guid: 88c0f1de84460fb41aa3dd64a7508d5c, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4786242068295240466, guid: 88c0f1de84460fb41aa3dd64a7508d5c, type: 3}
-      propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
