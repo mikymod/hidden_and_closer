@@ -30,7 +30,7 @@ namespace HNC
             ""id"": ""cd89ea3c-9c19-48e2-ae28-3c6ba9e9e33d"",
             ""actions"": [
                 {
-                    ""name"": ""Move"",
+                    ""name"": ""MoveX"",
                     ""type"": ""Value"",
                     ""id"": ""f1267bfd-0b74-4197-84f1-f6cf343a711a"",
                     ""expectedControlType"": ""Vector2"",
@@ -58,12 +58,12 @@ namespace HNC
                 },
                 {
                     ""name"": ""Aim"",
-                    ""type"": ""Button"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""31d649f9-9396-4bb9-9a9f-f30469c04c47"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""initialStateCheck"": true
                 },
                 {
                     ""name"": ""Crouch"",
@@ -110,7 +110,7 @@ namespace HNC
                     ""interactions"": """",
                     ""processors"": ""StickDeadzone"",
                     ""groups"": "";Gamepad"",
-                    ""action"": ""Move"",
+                    ""action"": ""MoveX"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -121,7 +121,7 @@ namespace HNC
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Move"",
+                    ""action"": ""MoveX"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -132,7 +132,7 @@ namespace HNC
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""Move"",
+                    ""action"": ""MoveX"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -143,7 +143,7 @@ namespace HNC
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""Move"",
+                    ""action"": ""MoveX"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -154,7 +154,7 @@ namespace HNC
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""Move"",
+                    ""action"": ""MoveX"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -165,7 +165,7 @@ namespace HNC
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""Move"",
+                    ""action"": ""MoveX"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -176,7 +176,7 @@ namespace HNC
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""Move"",
+                    ""action"": ""MoveX"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -187,7 +187,7 @@ namespace HNC
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""Move"",
+                    ""action"": ""MoveX"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -198,7 +198,7 @@ namespace HNC
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""Move"",
+                    ""action"": ""MoveX"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -209,7 +209,7 @@ namespace HNC
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""Move"",
+                    ""action"": ""MoveX"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -220,7 +220,7 @@ namespace HNC
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""XR"",
-                    ""action"": ""Move"",
+                    ""action"": ""MoveX"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -231,7 +231,7 @@ namespace HNC
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Joystick"",
-                    ""action"": ""Move"",
+                    ""action"": ""MoveX"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -702,6 +702,15 @@ namespace HNC
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Aim"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""3bea608b-c2e9-4511-8b59-27c0046aeb3c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Submit"",
                     ""type"": ""Button"",
                     ""id"": ""3df695d2-20a6-487c-a738-35ac6c70ee33"",
@@ -736,51 +745,6 @@ namespace HNC
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
-                },
-                {
-                    ""name"": ""ScrollWheel"",
-                    ""type"": ""PassThrough"",
-                    ""id"": ""6d0cf677-99f9-4139-abb6-3f5b6347a4ae"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""MiddleClick"",
-                    ""type"": ""PassThrough"",
-                    ""id"": ""bc2f4d23-1f2e-450a-a2f8-296931c95f69"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""RightClick"",
-                    ""type"": ""PassThrough"",
-                    ""id"": ""5179465e-ec88-4929-bce8-83a1caf723fb"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""TrackedDevicePosition"",
-                    ""type"": ""PassThrough"",
-                    ""id"": ""3e05d654-5e4a-44d1-94fb-2bcd4f18afbc"",
-                    ""expectedControlType"": ""Vector3"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""TrackedDeviceOrientation"",
-                    ""type"": ""PassThrough"",
-                    ""id"": ""e298d876-43ce-4ba1-85af-590e669d7152"",
-                    ""expectedControlType"": ""Quaternion"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
                 },
                 {
                     ""name"": ""Pause"",
@@ -1158,61 +1122,6 @@ namespace HNC
                 },
                 {
                     ""name"": """",
-                    ""id"": ""38c99815-14ea-4617-8627-164d27641299"",
-                    ""path"": ""<Mouse>/scroll"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""ScrollWheel"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""24066f69-da47-44f3-a07e-0015fb02eb2e"",
-                    ""path"": ""<Mouse>/middleButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""MiddleClick"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""4c191405-5738-4d4b-a523-c6a301dbf754"",
-                    ""path"": ""<Mouse>/rightButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""RightClick"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""7236c0d9-6ca3-47cf-a6ee-a97f5b59ea77"",
-                    ""path"": ""<XRController>/devicePosition"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""XR"",
-                    ""action"": ""TrackedDevicePosition"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""23e01e3a-f935-4948-8d8b-9bcac77714fb"",
-                    ""path"": ""<XRController>/deviceRotation"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""XR"",
-                    ""action"": ""TrackedDeviceOrientation"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""7882c9db-f187-4072-a026-012e91af36fb"",
                     ""path"": ""<Gamepad>/start"",
                     ""interactions"": """",
@@ -1230,6 +1139,28 @@ namespace HNC
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fec1d35a-1f38-4418-9034-6eed684b45cb"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Aim"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a54f2b84-7362-4429-94fe-a1948943756d"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Aim"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1301,7 +1232,7 @@ namespace HNC
 }");
             // Player
             m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
-            m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
+            m_Player_MoveX = m_Player.FindAction("MoveX", throwIfNotFound: true);
             m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
             m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
             m_Player_Aim = m_Player.FindAction("Aim", throwIfNotFound: true);
@@ -1318,15 +1249,11 @@ namespace HNC
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
+            m_UI_Aim = m_UI.FindAction("Aim", throwIfNotFound: true);
             m_UI_Submit = m_UI.FindAction("Submit", throwIfNotFound: true);
             m_UI_Cancel = m_UI.FindAction("Cancel", throwIfNotFound: true);
             m_UI_Point = m_UI.FindAction("Point", throwIfNotFound: true);
             m_UI_Click = m_UI.FindAction("Click", throwIfNotFound: true);
-            m_UI_ScrollWheel = m_UI.FindAction("ScrollWheel", throwIfNotFound: true);
-            m_UI_MiddleClick = m_UI.FindAction("MiddleClick", throwIfNotFound: true);
-            m_UI_RightClick = m_UI.FindAction("RightClick", throwIfNotFound: true);
-            m_UI_TrackedDevicePosition = m_UI.FindAction("TrackedDevicePosition", throwIfNotFound: true);
-            m_UI_TrackedDeviceOrientation = m_UI.FindAction("TrackedDeviceOrientation", throwIfNotFound: true);
             m_UI_Pause = m_UI.FindAction("Pause", throwIfNotFound: true);
         }
 
@@ -1387,7 +1314,7 @@ namespace HNC
         // Player
         private readonly InputActionMap m_Player;
         private IPlayerActions m_PlayerActionsCallbackInterface;
-        private readonly InputAction m_Player_Move;
+        private readonly InputAction m_Player_MoveX;
         private readonly InputAction m_Player_Look;
         private readonly InputAction m_Player_Fire;
         private readonly InputAction m_Player_Aim;
@@ -1399,7 +1326,7 @@ namespace HNC
         {
             private @GameInput m_Wrapper;
             public PlayerActions(@GameInput wrapper) { m_Wrapper = wrapper; }
-            public InputAction @Move => m_Wrapper.m_Player_Move;
+            public InputAction @MoveX => m_Wrapper.m_Player_MoveX;
             public InputAction @Look => m_Wrapper.m_Player_Look;
             public InputAction @Fire => m_Wrapper.m_Player_Fire;
             public InputAction @Aim => m_Wrapper.m_Player_Aim;
@@ -1416,9 +1343,9 @@ namespace HNC
             {
                 if (m_Wrapper.m_PlayerActionsCallbackInterface != null)
                 {
-                    @Move.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
-                    @Move.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
-                    @Move.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
+                    @MoveX.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMoveX;
+                    @MoveX.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMoveX;
+                    @MoveX.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMoveX;
                     @Look.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
                     @Look.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
                     @Look.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
@@ -1444,9 +1371,9 @@ namespace HNC
                 m_Wrapper.m_PlayerActionsCallbackInterface = instance;
                 if (instance != null)
                 {
-                    @Move.started += instance.OnMove;
-                    @Move.performed += instance.OnMove;
-                    @Move.canceled += instance.OnMove;
+                    @MoveX.started += instance.OnMoveX;
+                    @MoveX.performed += instance.OnMoveX;
+                    @MoveX.canceled += instance.OnMoveX;
                     @Look.started += instance.OnLook;
                     @Look.performed += instance.OnLook;
                     @Look.canceled += instance.OnLook;
@@ -1534,30 +1461,22 @@ namespace HNC
         private readonly InputActionMap m_UI;
         private IUIActions m_UIActionsCallbackInterface;
         private readonly InputAction m_UI_Navigate;
+        private readonly InputAction m_UI_Aim;
         private readonly InputAction m_UI_Submit;
         private readonly InputAction m_UI_Cancel;
         private readonly InputAction m_UI_Point;
         private readonly InputAction m_UI_Click;
-        private readonly InputAction m_UI_ScrollWheel;
-        private readonly InputAction m_UI_MiddleClick;
-        private readonly InputAction m_UI_RightClick;
-        private readonly InputAction m_UI_TrackedDevicePosition;
-        private readonly InputAction m_UI_TrackedDeviceOrientation;
         private readonly InputAction m_UI_Pause;
         public struct UIActions
         {
             private @GameInput m_Wrapper;
             public UIActions(@GameInput wrapper) { m_Wrapper = wrapper; }
             public InputAction @Navigate => m_Wrapper.m_UI_Navigate;
+            public InputAction @Aim => m_Wrapper.m_UI_Aim;
             public InputAction @Submit => m_Wrapper.m_UI_Submit;
             public InputAction @Cancel => m_Wrapper.m_UI_Cancel;
             public InputAction @Point => m_Wrapper.m_UI_Point;
             public InputAction @Click => m_Wrapper.m_UI_Click;
-            public InputAction @ScrollWheel => m_Wrapper.m_UI_ScrollWheel;
-            public InputAction @MiddleClick => m_Wrapper.m_UI_MiddleClick;
-            public InputAction @RightClick => m_Wrapper.m_UI_RightClick;
-            public InputAction @TrackedDevicePosition => m_Wrapper.m_UI_TrackedDevicePosition;
-            public InputAction @TrackedDeviceOrientation => m_Wrapper.m_UI_TrackedDeviceOrientation;
             public InputAction @Pause => m_Wrapper.m_UI_Pause;
             public InputActionMap Get() { return m_Wrapper.m_UI; }
             public void Enable() { Get().Enable(); }
@@ -1571,6 +1490,9 @@ namespace HNC
                     @Navigate.started -= m_Wrapper.m_UIActionsCallbackInterface.OnNavigate;
                     @Navigate.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnNavigate;
                     @Navigate.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnNavigate;
+                    @Aim.started -= m_Wrapper.m_UIActionsCallbackInterface.OnAim;
+                    @Aim.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnAim;
+                    @Aim.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnAim;
                     @Submit.started -= m_Wrapper.m_UIActionsCallbackInterface.OnSubmit;
                     @Submit.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnSubmit;
                     @Submit.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnSubmit;
@@ -1583,21 +1505,6 @@ namespace HNC
                     @Click.started -= m_Wrapper.m_UIActionsCallbackInterface.OnClick;
                     @Click.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnClick;
                     @Click.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnClick;
-                    @ScrollWheel.started -= m_Wrapper.m_UIActionsCallbackInterface.OnScrollWheel;
-                    @ScrollWheel.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnScrollWheel;
-                    @ScrollWheel.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnScrollWheel;
-                    @MiddleClick.started -= m_Wrapper.m_UIActionsCallbackInterface.OnMiddleClick;
-                    @MiddleClick.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnMiddleClick;
-                    @MiddleClick.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnMiddleClick;
-                    @RightClick.started -= m_Wrapper.m_UIActionsCallbackInterface.OnRightClick;
-                    @RightClick.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnRightClick;
-                    @RightClick.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnRightClick;
-                    @TrackedDevicePosition.started -= m_Wrapper.m_UIActionsCallbackInterface.OnTrackedDevicePosition;
-                    @TrackedDevicePosition.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnTrackedDevicePosition;
-                    @TrackedDevicePosition.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnTrackedDevicePosition;
-                    @TrackedDeviceOrientation.started -= m_Wrapper.m_UIActionsCallbackInterface.OnTrackedDeviceOrientation;
-                    @TrackedDeviceOrientation.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnTrackedDeviceOrientation;
-                    @TrackedDeviceOrientation.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnTrackedDeviceOrientation;
                     @Pause.started -= m_Wrapper.m_UIActionsCallbackInterface.OnPause;
                     @Pause.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnPause;
                     @Pause.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnPause;
@@ -1608,6 +1515,9 @@ namespace HNC
                     @Navigate.started += instance.OnNavigate;
                     @Navigate.performed += instance.OnNavigate;
                     @Navigate.canceled += instance.OnNavigate;
+                    @Aim.started += instance.OnAim;
+                    @Aim.performed += instance.OnAim;
+                    @Aim.canceled += instance.OnAim;
                     @Submit.started += instance.OnSubmit;
                     @Submit.performed += instance.OnSubmit;
                     @Submit.canceled += instance.OnSubmit;
@@ -1620,21 +1530,6 @@ namespace HNC
                     @Click.started += instance.OnClick;
                     @Click.performed += instance.OnClick;
                     @Click.canceled += instance.OnClick;
-                    @ScrollWheel.started += instance.OnScrollWheel;
-                    @ScrollWheel.performed += instance.OnScrollWheel;
-                    @ScrollWheel.canceled += instance.OnScrollWheel;
-                    @MiddleClick.started += instance.OnMiddleClick;
-                    @MiddleClick.performed += instance.OnMiddleClick;
-                    @MiddleClick.canceled += instance.OnMiddleClick;
-                    @RightClick.started += instance.OnRightClick;
-                    @RightClick.performed += instance.OnRightClick;
-                    @RightClick.canceled += instance.OnRightClick;
-                    @TrackedDevicePosition.started += instance.OnTrackedDevicePosition;
-                    @TrackedDevicePosition.performed += instance.OnTrackedDevicePosition;
-                    @TrackedDevicePosition.canceled += instance.OnTrackedDevicePosition;
-                    @TrackedDeviceOrientation.started += instance.OnTrackedDeviceOrientation;
-                    @TrackedDeviceOrientation.performed += instance.OnTrackedDeviceOrientation;
-                    @TrackedDeviceOrientation.canceled += instance.OnTrackedDeviceOrientation;
                     @Pause.started += instance.OnPause;
                     @Pause.performed += instance.OnPause;
                     @Pause.canceled += instance.OnPause;
@@ -1689,7 +1584,7 @@ namespace HNC
         }
         public interface IPlayerActions
         {
-            void OnMove(InputAction.CallbackContext context);
+            void OnMoveX(InputAction.CallbackContext context);
             void OnLook(InputAction.CallbackContext context);
             void OnFire(InputAction.CallbackContext context);
             void OnAim(InputAction.CallbackContext context);
@@ -1708,15 +1603,11 @@ namespace HNC
         public interface IUIActions
         {
             void OnNavigate(InputAction.CallbackContext context);
+            void OnAim(InputAction.CallbackContext context);
             void OnSubmit(InputAction.CallbackContext context);
             void OnCancel(InputAction.CallbackContext context);
             void OnPoint(InputAction.CallbackContext context);
             void OnClick(InputAction.CallbackContext context);
-            void OnScrollWheel(InputAction.CallbackContext context);
-            void OnMiddleClick(InputAction.CallbackContext context);
-            void OnRightClick(InputAction.CallbackContext context);
-            void OnTrackedDevicePosition(InputAction.CallbackContext context);
-            void OnTrackedDeviceOrientation(InputAction.CallbackContext context);
             void OnPause(InputAction.CallbackContext context);
         }
     }

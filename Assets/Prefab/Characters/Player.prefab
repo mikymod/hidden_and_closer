@@ -2127,7 +2127,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5343256549429736462}
   - component: {fileID: 8434225612162634821}
-  - component: {fileID: 1287313681}
   m_Layer: 0
   m_Name: cm
   m_TagString: Untagged
@@ -2161,28 +2160,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1287313681
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1724808793703674882}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd6043bde05a7fc4cba197d06915c1e3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Damping: {x: 0.1, y: 0.5, z: 0.3}
-  ShoulderOffset: {x: 0.5, y: -0.4, z: 0}
-  VerticalArmLength: 0.4
-  CameraSide: 1
-  CameraDistance: 2
-  CameraCollisionFilter:
-    serializedVersion: 2
-    m_Bits: 1
-  IgnoreTag: Player
-  CameraRadius: 0.2
 --- !u!1 &4527703129396571485
 GameObject:
   m_ObjectHideFlags: 0
@@ -2417,6 +2394,7 @@ GameObject:
   - component: {fileID: 2593415516852944210}
   - component: {fileID: 7309905222063963226}
   - component: {fileID: 1770937014352968398}
+  - component: {fileID: 9045396297228216286}
   m_Layer: 0
   m_Name: AimCamera
   m_TagString: Untagged
@@ -2457,7 +2435,7 @@ MonoBehaviour:
   m_StreamingVersion: 20170927
   m_Priority: -1
   m_StandbyUpdate: 2
-  m_LookAt: {fileID: 0}
+  m_LookAt: {fileID: 1022249497815077855}
   m_Follow: {fileID: 0}
   m_Lens:
     FieldOfView: 25
@@ -2489,6 +2467,36 @@ MonoBehaviour:
   m_ChannelMask: 1
   m_Gain: 1
   m_Use2DDistance: 0
+--- !u!114 &9045396297228216286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8548895340667223121}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e501d18bb52cf8c40b1853ca4904654f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_CollideAgainst:
+    serializedVersion: 2
+    m_Bits: 1
+  m_IgnoreTag: Player
+  m_TransparentLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_MinimumDistanceFromTarget: 0.3
+  m_AvoidObstacles: 1
+  m_DistanceLimit: 0
+  m_MinimumOcclusionTime: 0
+  m_CameraRadius: 0.1
+  m_Strategy: 1
+  m_MaximumEffort: 10
+  m_SmoothingTime: 0
+  m_Damping: 0
+  m_DampingWhenOccluded: 0
+  m_OptimalTargetDistance: 0
 --- !u!1001 &4230331252433030394
 PrefabInstance:
   m_ObjectHideFlags: 0

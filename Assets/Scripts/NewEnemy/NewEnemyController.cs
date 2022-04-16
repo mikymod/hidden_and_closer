@@ -8,6 +8,8 @@ namespace HNC
     public class NewEnemyController : MonoBehaviour
     {
         [Header("StateMachine")]
+        [Tooltip("Normal speed of enemey")]
+        public float SpeedNormal = 1;
         [Tooltip("Min time range for check next point in Patrol")]
         public float MinTimePatrol;
         [Tooltip("Max time range for check next point in Patrol")]
@@ -20,9 +22,18 @@ namespace HNC
         [Space(10)]
         [Tooltip("Time between attack")]
         public float TimeBetweenAttack;
+        [Tooltip("Attack speed of enemey")]
+        public float SpeedAttack = 3;
         [Space(10)]
         [Tooltip("Time in Search State")]
         public float SearchTime;
+        [Space(10)]
+        [Tooltip("Distance from player to enemy for start Heating animation on player dead")]
+        public float DistanceForHeating;
+        [Tooltip("Min time range for scream after player dead")]
+        public float MinTimeScream;
+        [Tooltip("Max time range for scream after player dead")]
+        public float MaxTimeScream;
 
         public DetectionSystem DetectionSystem;
 
@@ -37,6 +48,7 @@ namespace HNC
         [HideInInspector] public bool TransitionToAlertState;
         [HideInInspector] public bool TransitionToAttackState;
         [HideInInspector] public bool TransitionToSearchState;
+        [HideInInspector] public bool TransitionToEndState;
 
         [Header("hearing")]
         public float hearingRadius;
@@ -64,6 +76,7 @@ namespace HNC
             DetectionSystem.ExitFromVisibleArea += PlayerNotInLOS;
             LightDetector.PlayerInLight += ScaleVisionArea;
             ForceIdleBroadcast += ForceIdle;
+            PlayerController.DeadEvent += EnableTransitionToEndState; 
         }
 
 
@@ -74,6 +87,7 @@ namespace HNC
             DetectionSystem.ExitFromVisibleArea -= PlayerNotInLOS;
             LightDetector.PlayerInLight -= ScaleVisionArea;
             ForceIdleBroadcast -= ForceIdle;
+            PlayerController.DeadEvent -= EnableTransitionToEndState;
         }
 
         private void ForceIdle()
@@ -83,6 +97,10 @@ namespace HNC
             TransitionToAlertState = false;
             TransitionToAttackState = false;
             TransitionToIdleState = true;
+        }
+
+        private void EnableTransitionToEndState() {
+            TransitionToEndState = true;
         }
 
         private void Awake()
@@ -100,6 +118,7 @@ namespace HNC
             NewEnemyAttackState attackState = new NewEnemyAttackState(this, EnemyFSMState.Attack);
             NewEnemySearchState searchState = new NewEnemySearchState(this, EnemyFSMState.Search);
             NewEnemyDeathState deathState = new NewEnemyDeathState(this, EnemyFSMState.Death);
+            NewEnemyEndState endState = new NewEnemyEndState(this, EnemyFSMState.End);
 
             _stateMachine.AddTransition(idleState, alertState, () => TransitionToAlertState);
             _stateMachine.AddTransition(alertState, idleState, () => TransitionToIdleState);
@@ -108,6 +127,7 @@ namespace HNC
             _stateMachine.AddTransition(searchState, idleState, () => TransitionToIdleState);
             _stateMachine.AddTransition(searchState, attackState, () => TransitionToAttackState);
             _stateMachine.AddAnyTransition(deathState, () => life <= 0);
+            _stateMachine.AddAnyTransition(endState, () => TransitionToEndState);
             _stateMachine.SetInitialState(idleState);
         }
 

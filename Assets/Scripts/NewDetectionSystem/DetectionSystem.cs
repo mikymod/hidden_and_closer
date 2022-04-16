@@ -51,7 +51,7 @@ namespace HNC
             var colliders = Physics.OverlapSphere(transform.position, hearingRadius, soundMask);
             if (colliders.Length > 0)
             {
-                if (configuration.volume > soundVolumeThreshold && sound.parent != transform.parent)
+                if (configuration.volume > soundVolumeThreshold && sound != transform)
                 {
                     NoiseDetected?.Invoke(colliders[0].transform.position);
                     AudioNoiseDetected?.Invoke();

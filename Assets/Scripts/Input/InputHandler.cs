@@ -28,6 +28,8 @@ namespace HNC {
         private GameInput gameInput;
 
         private bool useGamepad;
+        private bool aimPressed = false;
+        private bool sendEvent = false;
 
         private void OnEnable() {
             if (gameInput == null) {
@@ -47,11 +49,21 @@ namespace HNC {
         }
 
         public void EnablePlayerInput() {
+            if (gameInput.UI.enabled && sendEvent) {
+                Debug.Log("Evento perso");
+                if (aimPressed) {
+                    aimStarted?.Invoke();
+                } else {
+                    aimCanceled?.Invoke();
+                }
+                sendEvent = false;
+            }
             gameInput.Player.Enable();
             gameInput.Companion.Disable();
             gameInput.UI.Disable();
 
             Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
         }
 
         public void EnableCompanionInput() {
@@ -83,12 +95,27 @@ namespace HNC {
         public void OnAim(InputAction.CallbackContext context) {
             CameFromGamepade(context);
 
-            if (context.started) {
-                aimStarted?.Invoke();
-            }
-
-            if (context.canceled) {
-                aimCanceled?.Invoke();
+            if (context.performed) {
+                if (gameInput.Player.enabled) {
+                    if (!aimPressed) {
+                        Debug.Log("Evento PLayer && ! aim");
+                        aimPressed = true;
+                        aimStarted?.Invoke();
+                    } else {
+                        Debug.Log("Evento PLayer && aim");
+                        aimPressed = false;
+                        aimCanceled?.Invoke();
+                    }
+                } else if (gameInput.UI.enabled) {
+                    if (!aimPressed) {
+                        Debug.Log("Evento UI && ! aim");
+                        aimPressed = true;
+                    } else {
+                        Debug.Log("Evento UI && aim");
+                        aimPressed = false;
+                    }
+                    sendEvent = true;
+                }
             }
         }
 
@@ -135,7 +162,7 @@ namespace HNC {
             look?.Invoke(value);
         }
 
-        public void OnMove(InputAction.CallbackContext context) {
+        public void OnMoveX(InputAction.CallbackContext context) {
             CameFromGamepade(context);
 
             Vector2 value = context.ReadValue<Vector2>();
@@ -178,45 +205,25 @@ namespace HNC {
             }
         }
 
-        public void OnNavigate(InputAction.CallbackContext context) {
-            CameFromGamepade(context);
-        }
+        public void OnNavigate(InputAction.CallbackContext context) => CameFromGamepade(context);
 
-        public void OnSubmit(InputAction.CallbackContext context) {
-            CameFromGamepade(context);
-        }
+        public void OnSubmit(InputAction.CallbackContext context) => CameFromGamepade(context);
 
-        public void OnCancel(InputAction.CallbackContext context) {
-            CameFromGamepade(context);
-        }
+        public void OnCancel(InputAction.CallbackContext context) => CameFromGamepade(context);
 
-        public void OnPoint(InputAction.CallbackContext context) {
-            CameFromGamepade(context);
-        }
+        public void OnPoint(InputAction.CallbackContext context) => CameFromGamepade(context);
 
-        public void OnClick(InputAction.CallbackContext context) {
-            CameFromGamepade(context);
-        }
+        public void OnClick(InputAction.CallbackContext context) => CameFromGamepade(context);
 
-        public void OnScrollWheel(InputAction.CallbackContext context) {
-            CameFromGamepade(context);
-        }
+        public void OnScrollWheel(InputAction.CallbackContext context) => CameFromGamepade(context);
 
-        public void OnMiddleClick(InputAction.CallbackContext context) {
-            CameFromGamepade(context);
-        }
+        public void OnMiddleClick(InputAction.CallbackContext context) => CameFromGamepade(context);
 
-        public void OnRightClick(InputAction.CallbackContext context) {
-            CameFromGamepade(context);
-        }
+        public void OnRightClick(InputAction.CallbackContext context) => CameFromGamepade(context);
 
-        public void OnTrackedDevicePosition(InputAction.CallbackContext context) {
-            CameFromGamepade(context);
-        }
+        public void OnTrackedDevicePosition(InputAction.CallbackContext context) => CameFromGamepade(context);
 
-        public void OnTrackedDeviceOrientation(InputAction.CallbackContext context) {
-            CameFromGamepade(context);
-        }
+        public void OnTrackedDeviceOrientation(InputAction.CallbackContext context) => CameFromGamepade(context);
     }
 }
 
