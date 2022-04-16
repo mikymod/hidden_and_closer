@@ -22975,7 +22975,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh71768
+  m_Name: pb_Mesh40016
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -26477,7 +26477,7 @@ MonoBehaviour:
   m_Center: {x: 0, y: 2, z: 0}
   m_LayerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 1
   m_UseGeometry: 0
   m_DefaultArea: 0
   m_IgnoreNavMeshAgent: 1
@@ -26487,7 +26487,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.1
   m_BuildHeightMesh: 0
-  m_NavMeshData: {fileID: 23800000, guid: 08c9f7cd5bd06b14aaa0f8a4a1efc92e, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: c78e7175af4789b44bdb9bb0a49da9af, type: 2}
 --- !u!43 &1947109461
 Mesh:
   m_ObjectHideFlags: 0
