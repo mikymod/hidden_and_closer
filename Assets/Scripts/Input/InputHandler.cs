@@ -72,6 +72,7 @@ namespace HNC {
             gameInput.UI.Disable();
 
             Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
         }
 
         public void EnableUIInput() {
@@ -79,7 +80,8 @@ namespace HNC {
             gameInput.Companion.Disable();
             gameInput.UI.Enable();
 
-            Cursor.visible = true;
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.None;
         }
 
         public IEnumerator StartRumble(float time, float intensity) {

@@ -1,15 +1,11 @@
-using System;
 using Cinemachine;
 using HNC.Audio;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.InputSystem;
 
-namespace HNC
-{
+namespace HNC {
     // Player Controller semplificato 
-    public class PlayerController : MonoBehaviour
-    {
+    public class PlayerController : MonoBehaviour {
         [Header("Input")]
         [Header("Input SO")]
         [SerializeField] private InputHandler input;
@@ -94,11 +90,9 @@ namespace HNC
         private CharacterController _controller;
         private GameObject _mainCamera;
 
-        private void Awake()
-        {
+        private void Awake() {
             // get a reference to our main camera
-            if (_mainCamera == null)
-            {
+            if (_mainCamera == null) {
                 //_mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
                 _mainCamera = Camera.main.gameObject;
             }
@@ -118,8 +112,7 @@ namespace HNC
             NewChangeStateEvent.OnChangeState += VibrateController;
         }
 
-        private void OnDestroy()
-        {
+        private void OnDestroy() {
             input.move -= OnMove;
             input.look -= OnLook;
             input.crouchStarted -= OnCrouchStarted;
@@ -133,26 +126,22 @@ namespace HNC
             NewChangeStateEvent.OnChangeState -= VibrateController;
         }
 
-        private void OnEnable()
-        {
+        private void OnEnable() {
             input.DisableAllInput();
             input.EnablePlayerInput();
         }
 
-        private void OnDisable()
-        {
+        private void OnDisable() {
         }
 
-        private void Start()
-        {
+        private void Start() {
             _hasAnimator = TryGetComponent(out _animator);
             _controller = GetComponent<CharacterController>();
 
             AssignAnimationIDs();
         }
 
-        private void Update()
-        {
+        private void Update() {
             _hasAnimator = TryGetComponent(out _animator);
 
             //Shoot();
@@ -161,25 +150,21 @@ namespace HNC
 
         private void LateUpdate() => CameraRotation();
 
-        private void AssignAnimationIDs()
-        {
+        private void AssignAnimationIDs() {
             _animIDMove = Animator.StringToHash(AnimIDMove);
             _animIDSpeed = Animator.StringToHash(AnimIDSpeed);
             _animIDCrouch = Animator.StringToHash(AnimIDCrouch);
             _animIDAim = Animator.StringToHash(AnimIDAim);
             _animIDShoot = Animator.StringToHash(AnimIDShoot);
             _animIDDeath = Animator.StringToHash(AnimIDDeath);
-            if (_hasAnimator)
-            {
+            if (_hasAnimator) {
                 _animLayerAim = _animator.GetLayerIndex(AnimLayerAim);
             }
         }
 
-        private void CameraRotation()
-        {
+        private void CameraRotation() {
             // if there is an input and camera position is not fixed
-            if (_look.sqrMagnitude >= _threshold && !LockCameraPosition)
-            {
+            if (_look.sqrMagnitude >= _threshold && !LockCameraPosition) {
                 //Don't multiply mouse input by Time.deltaTime;
                 float deltaTimeMultiplier = 1.0f;
 
@@ -195,8 +180,7 @@ namespace HNC
             CinemachineCameraTarget.transform.rotation = Quaternion.Euler(_cinemachineTargetPitch + CameraAngleOverride, _cinemachineTargetYaw, 0.0f);
         }
 
-        private void Move()
-        {
+        private void Move() {
             // set target speed based on move speed, sprint speed and if sprint is pressed
             float targetSpeed = _crouch ? CrouchSpeed : MoveSpeed;
 
@@ -204,8 +188,7 @@ namespace HNC
 
             // note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
             // if there is no input, set the target speed to 0
-            if (_move == Vector2.zero)
-            {
+            if (_move == Vector2.zero) {
                 targetSpeed = 0.0f;
             }
 
@@ -216,17 +199,14 @@ namespace HNC
             float inputMagnitude = _move.magnitude;
 
             // accelerate or decelerate to target speed
-            if (currentHorizontalSpeed < targetSpeed - speedOffset || currentHorizontalSpeed > targetSpeed + speedOffset)
-            {
+            if (currentHorizontalSpeed < targetSpeed - speedOffset || currentHorizontalSpeed > targetSpeed + speedOffset) {
                 // creates curved result rather than a linear one giving a more organic speed change
                 // note T in Lerp is clamped, so we don't need to clamp our speed
                 _speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * inputMagnitude, Time.deltaTime * SpeedChangeRate);
 
                 // round speed to 3 decimal places
                 _speed = Mathf.Round(_speed * 1000f) / 1000f;
-            }
-            else
-            {
+            } else {
                 _speed = targetSpeed;
             }
             _animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.deltaTime * SpeedChangeRate);
@@ -236,8 +216,7 @@ namespace HNC
 
             // note: Vector2's != operator uses approximation so is not floating point error prone, and is cheaper than magnitude
             // if there is a move input rotate player when the player is moving
-            if (_move != Vector2.zero)
-            {
+            if (_move != Vector2.zero) {
                 _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + _mainCamera.transform.eulerAngles.y;
                 // float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _aim ? _mainCamera.transform.eulerAngles.y : _targetRotation, ref _rotationVelocity, RotationSmoothTime);
                 float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity, RotationSmoothTime);
@@ -252,22 +231,18 @@ namespace HNC
             _controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) + new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
 
             // update animator if using character
-            if (_hasAnimator)
-            {
+            if (_hasAnimator) {
                 _animator.SetBool(_animIDMove, inputMagnitude != 0);
                 _animator.SetFloat(_animIDSpeed, inputMagnitude);
             }
         }
 
-        private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
-        {
-            if (lfAngle < -360f)
-            {
+        private static float ClampAngle(float lfAngle, float lfMin, float lfMax) {
+            if (lfAngle < -360f) {
                 lfAngle += 360f;
             }
 
-            if (lfAngle > 360f)
-            {
+            if (lfAngle > 360f) {
                 lfAngle -= 360f;
             }
 
@@ -297,19 +272,15 @@ namespace HNC
 
         private void OnInteractCanceled() => _interact = false;
 
-        private void OnCrouchStarted()
-        {
+        private void OnCrouchStarted() {
             _crouch = !_crouch;
-            if (_hasAnimator)
-            {
+            if (_hasAnimator) {
                 _animator.SetBool(_animIDCrouch, _crouch);
             }
         }
 
-        private void OnDeath()
-        {
-            if (_hasAnimator && !isDeath)
-            {
+        private void OnDeath() {
+            if (_hasAnimator && !isDeath) {
                 StartCoroutine(input.StartRumble(0.5f, 1));
                 _animator.SetTrigger(_animIDDeath);
                 input.DisableAllInput();
@@ -320,10 +291,8 @@ namespace HNC
             }
         }
 
-        private void VibrateController(GameObject enemy, EnemyFSMState state)
-        {
-            if (state == EnemyFSMState.Death)
-            {
+        private void VibrateController(GameObject enemy, EnemyFSMState state) {
+            if (state == EnemyFSMState.Death) {
                 StartCoroutine(input.StartRumble(0.3f, 0.3f));
             }
         }
@@ -332,28 +301,26 @@ namespace HNC
 
         #endregion
 
-        private void OnTriggerEnter(Collider other)
-        {
-            if (other.gameObject.layer == LayerMask.NameToLayer("Interactable"))
-            {
-                if (_interact)
-                {
+        private void OnTriggerEnter(Collider other) {
+            Debug.Log("Trigger", other.gameObject);
+            if (other.gameObject.layer == LayerMask.NameToLayer("Interactable")) {
+                if (_interact) {
                     Debug.Log("INTERACT ENTER");
                 }
             }
 
-            if (other.gameObject.name == "Elbow_R")
-            {
+            if (other.gameObject.name == "Elbow_R") {
                 DeadEvent?.Invoke();
             }
         }
 
-        private void OnTriggerStay(Collider other)
-        {
-            if (other.gameObject.layer == LayerMask.NameToLayer("Interactable"))
-            {
-                if (_interact)
-                {
+        private void OnCollisionEnter(Collision collision) {
+            Debug.Log("Collision", collision.gameObject);
+        }
+
+        private void OnTriggerStay(Collider other) {
+            if (other.gameObject.layer == LayerMask.NameToLayer("Interactable")) {
+                if (_interact) {
                     Interactable interactable = other.gameObject.GetComponentInParent<Interactable>();
                     interactable.Interact();
                     MusicPlayer.OnPlayCheckPointStinger?.Invoke();
