@@ -1705,6 +1705,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MainMenu
       objectReference: {fileID: 0}
+    - target: {fileID: 568691828467171510, guid: 88c0f1de84460fb41aa3dd64a7508d5c, type: 3}
+      propertyPath: firstScene
+      value: TutorialLevelBuilded
+      objectReference: {fileID: 0}
     - target: {fileID: 568691828467171511, guid: 88c0f1de84460fb41aa3dd64a7508d5c, type: 3}
       propertyPath: m_Pivot.x
       value: 0
