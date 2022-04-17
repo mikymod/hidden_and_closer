@@ -63,7 +63,7 @@ namespace HNC {
             gameInput.UI.Disable();
 
             Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.lockState = CursorLockMode.Confined;
         }
 
         public void EnableCompanionInput() {
@@ -72,7 +72,7 @@ namespace HNC {
             gameInput.UI.Disable();
 
             Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.lockState = CursorLockMode.Confined;
         }
 
         public void EnableUIInput() {
