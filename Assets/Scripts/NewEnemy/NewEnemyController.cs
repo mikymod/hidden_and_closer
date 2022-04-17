@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
+using static UnityEditor.PlayerSettings;
 
 namespace HNC
 {
@@ -38,7 +39,7 @@ namespace HNC
         public DetectionSystem DetectionSystem;
 
         private StateMachine _stateMachine;
-        [HideInInspector] public EnemyFSMState CurrentState;
+        public EnemyFSMState CurrentState;
         [HideInInspector] public NavMeshAgent NavMeshAgent;
 
         [HideInInspector] public float AlertTimer;
@@ -150,8 +151,7 @@ namespace HNC
             PosToGo = pos;
         }
 
-        private void PlayerInLOS(Transform target)
-        {
+        private void PlayerInLOS(Transform target) {
             TransitionToAlertState = true;
             TransitionToAttackState = true;
             PosToGo = target.position;

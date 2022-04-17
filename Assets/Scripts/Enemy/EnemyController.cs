@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
 namespace HNC {
+    [Serializable]
     public enum EnemyFSMState {
         Idle,
         Alert,
