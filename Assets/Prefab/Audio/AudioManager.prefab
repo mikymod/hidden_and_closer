@@ -67,6 +67,7 @@ GameObject:
   - component: {fileID: 7286632536255260076}
   - component: {fileID: 7286632536255259986}
   - component: {fileID: 8794952955345230655}
+  - component: {fileID: 8323920835631010646}
   m_Layer: 0
   m_Name: AudioManager
   m_TagString: Untagged
@@ -117,7 +118,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 8506172153664772167, guid: a45dd1c19969ded4a9cde6cef3b86565, type: 3}
-  poolCount: 10
+  poolCount: 20
 --- !u!114 &8794952955345230655
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -144,3 +145,17 @@ MonoBehaviour:
   genericStingerConfiguration: {fileID: 11400000, guid: 267c3a9abbebd844b8411504f9a97d72, type: 2}
   FadeInTime: 2
   FadeOutTime: 2
+--- !u!114 &8323920835631010646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7286632536255260079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 922d123d5740b4840abe561bd16c526c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  generalUIClipsBank: {fileID: 11400000, guid: 934d3e7439cdec04a9fe1523370101a4, type: 2}
+  genericUIConfiguration: {fileID: 11400000, guid: c08ba3e2e2951894eb1f0e4fe495d261, type: 2}

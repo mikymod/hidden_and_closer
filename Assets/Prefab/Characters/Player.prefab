@@ -1455,6 +1455,7 @@ MonoBehaviour:
   walkCrouchClipsBank: {fileID: 11400000, guid: f23992df9e091804b8b96058857c8292, type: 2}
   walkCrouchConfiguration: {fileID: 11400000, guid: e11ede56e9c07cb418dd8a33e54f268f, type: 2}
   deathClipsBank: {fileID: 11400000, guid: 8efc0bcaf67c3ca45932e5bc28919e92, type: 2}
+  fallClipsBank: {fileID: 11400000, guid: b140d56331cf75e4b950e840e4a96e9a, type: 2}
   deathConfiguration: {fileID: 11400000, guid: 2265d994cf7b76644b276d13d768fe2a, type: 2}
 --- !u!114 &6319493667860062177
 MonoBehaviour:
@@ -2282,7 +2283,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6973731647541965489}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.011491537, y: 0.10865569, z: -0.07518029}
+  m_LocalPosition: {x: -0.011491537, y: 1.1, z: -3.048}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2678425101215814162}

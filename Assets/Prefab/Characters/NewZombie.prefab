@@ -1590,7 +1590,9 @@ MonoBehaviour:
   hitClipsBank: {fileID: 11400000, guid: 8a743f237ccc84e45a85fa351bbba137, type: 2}
   rockHitClipsBank: {fileID: 11400000, guid: 1caebb4a0ab31f9478be63092f0a6b39, type: 2}
   idleClipsBank: {fileID: 11400000, guid: 374e4147b55623041b0e096427b03b60, type: 2}
-  screamClipsBank: {fileID: 0}
+  screamClipsBank: {fileID: 11400000, guid: bce03bde2fa9eb94abd7f0f8c50d1390, type: 2}
+  carAttackClipsBank: {fileID: 11400000, guid: 294b143aa0026ab4fa6b232ce1314336, type: 2}
+  fallClipsBank: {fileID: 11400000, guid: 01cca8d522fcdb343a17c909a8b5cd4e, type: 2}
   genericConfiguration: {fileID: 11400000, guid: 59e47a15a93253d45bcd9905aff16c84, type: 2}
   walkRunConfiguration: {fileID: 11400000, guid: 6784ae147502031469b1452ef9eb44f0, type: 2}
 --- !u!1 &1175044637120098051
