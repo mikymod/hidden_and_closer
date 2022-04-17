@@ -8,7 +8,7 @@ namespace HNC {
         public override void Enter() {
             base.Enter();
             _enemy.AlertTimer = _enemy.AlertTime;
-            _enemy.transform.LookAt(_enemy.PosToGo);
+            _enemy.transform.LookAt(_enemy.PosToGo, Vector3.up);
             if (_enemy.TryGetComponent(out AudioZombieController component))
             {
                 component.PlayAlertSound();

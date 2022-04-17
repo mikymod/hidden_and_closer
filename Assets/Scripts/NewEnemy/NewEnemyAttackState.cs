@@ -48,6 +48,7 @@ namespace HNC {
             }
             if (_enemy.Target != null) {
                 _enemy.transform.LookAt(_enemy.Target.position, Vector3.up);
+                _enemy.transform.rotation = Quaternion.Euler(0, _enemy.transform.rotation.eulerAngles.y, 0);
             }
         }
     }
