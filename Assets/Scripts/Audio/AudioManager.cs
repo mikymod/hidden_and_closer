@@ -11,7 +11,6 @@ namespace HNC.Audio
         private Pooler pooler;
 
         [SerializeField] private AudioMixer audioMixer = default;
-        [SerializeField] private InputHandler input;
         [SerializeField] private SaveSystem saveSystem;
         [Range(0f, 1f)] private float masterVolume = 1f;
         [Range(0f, 1f)] private float musicVolume = 1f;
@@ -25,6 +24,7 @@ namespace HNC.Audio
             masterVolume = saveSystem.SaveData.Settings.Audio.Master;
             musicVolume = saveSystem.SaveData.Settings.Audio.Music;
             sfxVolume = saveSystem.SaveData.Settings.Audio.SFX;
+            audioMixer.FindSnapshot("Default").TransitionTo(0f);
         }
 
         private void OnEnable()
@@ -39,7 +39,6 @@ namespace HNC.Audio
             AudioEventsManager.OnSFXVolumeChanged += SFXVolumChanged;
             AudioEventsManager.OnFadeIn +=FadeIn;
             AudioEventsManager.OnFadeOut += FadeOut;
-            //input.pause += ChangeAudioMixerSnapshot;
         }
 
 
@@ -55,7 +54,6 @@ namespace HNC.Audio
             AudioEventsManager.OnSFXVolumeChanged -= SFXVolumChanged;
             AudioEventsManager.OnFadeIn -= FadeIn;
             AudioEventsManager.OnFadeOut -= FadeOut;
-            //input.pause -= ChangeAudioMixerSnapshot;
         }
 
         private void Play(AudioClipsBankSO audioClipBank, AudioConfigurationSO audioConfig, Transform transform, float fadeTime)
@@ -157,12 +155,12 @@ namespace HNC.Audio
             if (filtered)
             {
                 filtered = false;
-                audioMixer.FindSnapshot("Default").TransitionTo(1f);
+                audioMixer.FindSnapshot("Default").TransitionTo(0f);
             }
             else
             {
                 filtered = true;
-                audioMixer.FindSnapshot("Filtered").TransitionTo(1f);
+                audioMixer.FindSnapshot("Filtered").TransitionTo(0f);
             }
         }
 
