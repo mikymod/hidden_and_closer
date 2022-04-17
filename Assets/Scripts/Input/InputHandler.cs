@@ -80,8 +80,8 @@ namespace HNC {
             gameInput.Companion.Disable();
             gameInput.UI.Enable();
 
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.Confined;
         }
 
         public IEnumerator StartRumble(float time, float intensity) {

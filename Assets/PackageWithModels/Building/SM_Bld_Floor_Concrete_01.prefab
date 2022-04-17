@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5922994091021727364}
   - component: {fileID: 5914749485464595272}
   - component: {fileID: 5953865173297545750}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: SM_Bld_Floor_Concrete_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -91,7 +91,7 @@ BoxCollider:
   m_GameObject: {fileID: 5927633669527891488}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 2.4999998, y: 0.010037694, z: 2.5000012}
   m_Center: {x: -1.2499999, y: 0.005018847, z: 1.2500006}
