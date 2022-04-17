@@ -126,11 +126,12 @@ namespace HNC
         private void CloseSettingsMenu()
         {
             pauseMenu.gameObject.SetActive(true);
-            // pauseMenu.InitPauseMenu();
+            pauseMenu.SetMenuScreen();
 
             input.pause -= CloseSettingsMenu;
             settingsMenu.SettingsClosed -= CloseSettingsMenu;
             input.pause += ClosePauseMenu;
+
 
             settingsMenu.gameObject.SetActive(false);
         }
