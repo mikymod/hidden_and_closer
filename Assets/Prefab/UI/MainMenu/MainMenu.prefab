@@ -133,8 +133,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebe56c620ce57a6498fb62364a75f345, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  generalUIClipsBank: {fileID: 11400000, guid: d80c61b6c6462a444934829784005a73, type: 2}
-  positiveUIClipsBank: {fileID: 11400000, guid: 934d3e7439cdec04a9fe1523370101a4, type: 2}
+  generalUIClipsBank: {fileID: 11400000, guid: 934d3e7439cdec04a9fe1523370101a4, type: 2}
   genericUIConfiguration: {fileID: 11400000, guid: c08ba3e2e2951894eb1f0e4fe495d261, type: 2}
 --- !u!1 &8113089655183287617
 GameObject:
@@ -332,7 +331,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1969717479910535521, guid: 8abdb2a99d496ae4daba992a88c91730, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: PlayPositiveUISound
+      value: PlayGeneralUISound
       objectReference: {fileID: 0}
     - target: {fileID: 1969717479910535521, guid: 8abdb2a99d496ae4daba992a88c91730, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
@@ -843,6 +842,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 1357429573682344813}
+    - target: {fileID: 2447538488949619712, guid: 4ae39557e98d00e4bb4f2b79d56c7553, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: PlayGeneralUISound
+      objectReference: {fileID: 0}
     - target: {fileID: 2447538488949619713, guid: 4ae39557e98d00e4bb4f2b79d56c7553, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -867,6 +870,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 1357429573682344813}
+    - target: {fileID: 2447538489326620746, guid: 4ae39557e98d00e4bb4f2b79d56c7553, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: PlayGeneralUISound
+      objectReference: {fileID: 0}
     - target: {fileID: 2447538489326620747, guid: 4ae39557e98d00e4bb4f2b79d56c7553, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -999,6 +1006,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 1357429573682344813}
+    - target: {fileID: 5010329323307849275, guid: 4ae39557e98d00e4bb4f2b79d56c7553, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: PlayGeneralUISound
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4ae39557e98d00e4bb4f2b79d56c7553, type: 3}
 --- !u!224 &4786242068279783135 stripped

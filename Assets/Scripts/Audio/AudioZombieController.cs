@@ -14,6 +14,8 @@ namespace HNC.Audio
         [SerializeField] private AudioClipsBankSO rockHitClipsBank;
         [SerializeField] private AudioClipsBankSO idleClipsBank;
         [SerializeField] private AudioClipsBankSO screamClipsBank;
+        [SerializeField] private AudioClipsBankSO carAttackClipsBank;
+        [SerializeField] private AudioClipsBankSO fallClipsBank;
         [SerializeField] private AudioConfigurationSO genericConfiguration;
         [SerializeField] private AudioConfigurationSO walkRunConfiguration;
 
@@ -30,6 +32,11 @@ namespace HNC.Audio
         public void PlayAttackSound()
         {
             AudioEventsManager.OnSoundPlay?.Invoke(attackBank, genericConfiguration, transform, 0f);
+        }
+
+        public void PlayCarAttackSound()
+        {
+            AudioEventsManager.OnSoundPlay?.Invoke(carAttackClipsBank, genericConfiguration, transform, 0f);
         }
 
         public void PlayScreamSound() => AudioEventsManager.OnSoundPlay?.Invoke(screamClipsBank, genericConfiguration, transform, 0f);
@@ -50,6 +57,11 @@ namespace HNC.Audio
         public void PlaySearchSound()
         {
             AudioEventsManager.OnSoundPlay?.Invoke(searchBank, genericConfiguration, transform, 0f);
+        }
+
+        public void PlayFallSound()
+        {
+            AudioEventsManager.OnSoundPlay?.Invoke(fallClipsBank, genericConfiguration, transform, 0f);
         }
     }
 }

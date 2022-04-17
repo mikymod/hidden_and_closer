@@ -123,6 +123,25 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &27157889 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7286632536255260079, guid: ddd92bccdf49f2043a4b45122d09622b, type: 3}
+  m_PrefabInstance: {fileID: 914158993}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &27157894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 27157889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a43b3d6d795f69f428bf897262445417, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainMenuMusicClipBank: {fileID: 11400000, guid: 4ee746829ff5abc4ea8e53c1ea0f8e1a, type: 2}
+  mainMenuMusicConfiguration: {fileID: 11400000, guid: 71474b3ea256ea247b0b69e9df236cfe, type: 2}
 --- !u!1 &91975197
 GameObject:
   m_ObjectHideFlags: 0
@@ -375,6 +394,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7286632536255259986, guid: ddd92bccdf49f2043a4b45122d09622b, type: 3}
+      propertyPath: poolCount
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 7286632536255260077, guid: ddd92bccdf49f2043a4b45122d09622b, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -423,7 +446,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: AudioManager
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 8794952955345230655, guid: ddd92bccdf49f2043a4b45122d09622b, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 8794952955345230655, guid: ddd92bccdf49f2043a4b45122d09622b, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: ddd92bccdf49f2043a4b45122d09622b, type: 3}
 --- !u!1001 &1169285542
 PrefabInstance:

@@ -41,7 +41,7 @@ namespace HNC
 
         private void NewGameButtonPressed()
         {
-            MusicPlayer.OnFadeOutTransitionMusic?.Invoke();
+            GameMusicController.OnFadeOutTransitionMusic?.Invoke();
             // Avoid multiple button click
             EventSystem.current.SetSelectedGameObject(null);
 

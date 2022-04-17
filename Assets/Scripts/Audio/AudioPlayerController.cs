@@ -11,6 +11,7 @@ namespace HNC.Audio
         [SerializeField] private AudioClipsBankSO walkCrouchClipsBank;
         [SerializeField] private AudioConfigurationSO walkCrouchConfiguration;
         [SerializeField] private AudioClipsBankSO deathClipsBank;
+        [SerializeField] private AudioClipsBankSO fallClipsBank;
         [SerializeField] private AudioConfigurationSO deathConfiguration;
 
         public void PlayStandWalkSound()
@@ -26,6 +27,11 @@ namespace HNC.Audio
         public void PlayDeathSound()
         {
             AudioEventsManager.OnSoundPlay?.Invoke(deathClipsBank, deathConfiguration, transform, 0f);
+        }
+
+        public void PlayFallSound()
+        {
+            AudioEventsManager.OnSoundPlay?.Invoke(fallClipsBank, deathConfiguration, transform, 0f);
         }
     }
 }

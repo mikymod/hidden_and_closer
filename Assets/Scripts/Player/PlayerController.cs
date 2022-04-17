@@ -323,7 +323,7 @@ namespace HNC {
                 if (_interact) {
                     Interactable interactable = other.gameObject.GetComponentInParent<Interactable>();
                     interactable.Interact();
-                    MusicPlayer.OnPlayCheckPointStinger?.Invoke();
+                    GameMusicController.OnPlayCheckPointStinger?.Invoke();
                 }
             }
         }
