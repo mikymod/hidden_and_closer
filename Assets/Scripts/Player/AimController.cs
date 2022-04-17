@@ -207,7 +207,7 @@ namespace HNC
                     _trajectorylinePoints.Add(_lastTrajectoryHit.point);
                     _lineRenderer.positionCount = _trajectorylinePoints.Count;
                     _lineRenderer.SetPositions(_trajectorylinePoints.ToArray());
-                    trajectoryCollisionPoint.transform.position = _lastTrajectoryHit.point;
+                    trajectoryCollisionPoint.transform.position = _lastTrajectoryHit.point + Vector3.up * 0.01f;
                     trajectoryCollisionPoint.transform.rotation = Quaternion.LookRotation(-_lastTrajectoryHit.normal, Vector3.up);
                     return;
                 }
@@ -219,7 +219,7 @@ namespace HNC
             var lastPoint = _trajectorylinePoints[_trajectorylinePoints.Count - 1];
             if (Physics.Raycast(lastPoint, lastDirection, out _lastTrajectoryHit, float.PositiveInfinity, AimLayer))
             {
-                trajectoryCollisionPoint.transform.position = _lastTrajectoryHit.point;
+                trajectoryCollisionPoint.transform.position = _lastTrajectoryHit.point + Vector3.up * 0.01f;
                 trajectoryCollisionPoint.transform.rotation = Quaternion.LookRotation(-_lastTrajectoryHit.normal, Vector3.up);
                 _trajectorylinePoints.Add(_lastTrajectoryHit.point);
 
