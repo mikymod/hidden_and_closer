@@ -80,7 +80,7 @@ namespace HNC {
             gameInput.Companion.Disable();
             gameInput.UI.Enable();
 
-            Cursor.visible = false;
+            Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
         }
 
