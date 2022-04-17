@@ -22,7 +22,6 @@ namespace HNC.Audio
         [SerializeField] private AudioConfigurationSO genericStingerConfiguration;
 
         public static UnityAction OnPlayCheckPointStinger;
-        public static UnityAction OnFadeOutTransitionMusic;
 
         public float FadeInTime;
         public float FadeOutTime;
@@ -31,13 +30,16 @@ namespace HNC.Audio
 
         private Dictionary<GameObject, EnemyFSMState> enemiesState = new Dictionary<GameObject, EnemyFSMState>();
 
+        private bool isInTransition;
+
         private void Start()
         {
+            isInTransition = false;
             currentState = EnemyFSMState.Idle;
-            AudioEventsManager.OnSoundPlay?.Invoke(MusicIdleClipsBank, genericMusicConfiguration, null, 0f);
-            AudioEventsManager.OnSoundPlay?.Invoke(MusicAlertClipsBank, genericMusicConfiguration, null, 0);
-            AudioEventsManager.OnSoundPlay?.Invoke(MusicAttackClipsBank, genericMusicConfiguration, null, 0);
-            AudioEventsManager.OnSoundPlay?.Invoke(MusicSearchClipsBank, genericMusicConfiguration, null, 0);
+            AudioEventsManager.OnSoundPlayEsclusive?.Invoke(MusicIdleClipsBank, genericMusicConfiguration, null, 0f);
+            AudioEventsManager.OnSoundPlayEsclusive?.Invoke(MusicAlertClipsBank, genericMusicConfiguration, null, 0);
+            AudioEventsManager.OnSoundPlayEsclusive?.Invoke(MusicAttackClipsBank, genericMusicConfiguration, null, 0);
+            AudioEventsManager.OnSoundPlayEsclusive?.Invoke(MusicSearchClipsBank, genericMusicConfiguration, null, 0);
             ChangeMusicOnState();
         }
 
@@ -46,7 +48,6 @@ namespace HNC.Audio
             NewChangeStateEvent.OnChangeState += ChangeState;
             UIManager.TransitionGameOver += FadeOutAllMusic;
             UIManager.TransitionSceneFadeOut += FadeOutAllMusic;
-            OnFadeOutTransitionMusic += FadeOutAllMusic;
             PlayerController.DeadEvent += PlayDeathStinger;
             OnPlayCheckPointStinger += PlayCheckPointStinger;
         }
@@ -56,7 +57,6 @@ namespace HNC.Audio
             NewChangeStateEvent.OnChangeState -= ChangeState;
             UIManager.TransitionGameOver -= FadeOutAllMusic;
             UIManager.TransitionSceneFadeOut -= FadeOutAllMusic;
-            OnFadeOutTransitionMusic -= FadeOutAllMusic;
             PlayerController.DeadEvent -= PlayDeathStinger;
             OnPlayCheckPointStinger -= PlayCheckPointStinger;
         }
@@ -85,28 +85,36 @@ namespace HNC.Audio
 
         private void ChangeMusicOnState()
         {
+            if (isInTransition)
+            {
+                return;
+            }
             switch (currentState)
             {
                 case EnemyFSMState.Idle:
                 case EnemyFSMState.Death:
+                    AudioEventsManager.OnSoundPlayEsclusive.Invoke(StingerAlertClipsBank, genericStingerConfiguration, null, 0f);
                     AudioEventsManager.OnFadeIn?.Invoke(MusicIdleClipsBank, FadeInTime);
                     AudioEventsManager.OnFadeOut?.Invoke(MusicSearchClipsBank, FadeOutTime);
                     AudioEventsManager.OnFadeOut?.Invoke(MusicAlertClipsBank, FadeOutTime);
                     AudioEventsManager.OnFadeOut?.Invoke(MusicAttackClipsBank, FadeOutTime);
                     break;
                 case EnemyFSMState.Search:
+                    AudioEventsManager.OnSoundPlayEsclusive.Invoke(StingerSearchClipsBank, genericStingerConfiguration, null, 0f);
                     AudioEventsManager.OnFadeIn?.Invoke(MusicSearchClipsBank, FadeInTime);
                     AudioEventsManager.OnFadeOut?.Invoke(MusicIdleClipsBank, FadeOutTime);
                     AudioEventsManager.OnFadeOut?.Invoke(MusicAlertClipsBank, FadeOutTime);
                     AudioEventsManager.OnFadeOut?.Invoke(MusicAttackClipsBank, FadeOutTime);
                     break;
                 case EnemyFSMState.Alert:
+                    AudioEventsManager.OnSoundPlayEsclusive.Invoke(StingerAlertClipsBank, genericStingerConfiguration, null, 0f);
                     AudioEventsManager.OnFadeIn?.Invoke(MusicIdleClipsBank, FadeInTime);
                     AudioEventsManager.OnFadeIn?.Invoke(MusicAlertClipsBank, FadeInTime);
                     AudioEventsManager.OnFadeOut?.Invoke(MusicAttackClipsBank, FadeOutTime);
                     AudioEventsManager.OnFadeOut?.Invoke(MusicSearchClipsBank, FadeOutTime);
                     break;
                 case EnemyFSMState.Attack:
+                    AudioEventsManager.OnSoundPlayEsclusive.Invoke(StingerAttackClipsBank, genericStingerConfiguration, null, 0f);
                     AudioEventsManager.OnFadeIn?.Invoke(MusicSearchClipsBank, FadeInTime);
                     AudioEventsManager.OnFadeIn?.Invoke(MusicIdleClipsBank, FadeInTime);
                     AudioEventsManager.OnFadeIn?.Invoke(MusicAlertClipsBank, FadeInTime);
@@ -119,22 +127,23 @@ namespace HNC.Audio
     
         private void FadeOutAllMusic()
         {
-            AudioEventsManager.OnFadeOut?.Invoke(MusicIdleClipsBank, 1.0f);
-            AudioEventsManager.OnFadeOut?.Invoke(MusicAlertClipsBank, 1.0f);
-            AudioEventsManager.OnFadeOut?.Invoke(MusicSearchClipsBank, 1.0f);
-            AudioEventsManager.OnFadeOut?.Invoke(MusicAttackClipsBank, 1.0f);
+            isInTransition = true;
+            AudioEventsManager.OnFadeOut?.Invoke(MusicIdleClipsBank, FadeOutTime);
+            AudioEventsManager.OnFadeOut?.Invoke(MusicAlertClipsBank, FadeOutTime);
+            AudioEventsManager.OnFadeOut?.Invoke(MusicSearchClipsBank, FadeOutTime);
+            AudioEventsManager.OnFadeOut?.Invoke(MusicAttackClipsBank, FadeOutTime);
         }
 
         private void PlayDeathStinger()
         {
-            AudioEventsManager.OnSoundPlay?.Invoke(StingerDeathClipsBank, genericStingerConfiguration, null, 0f);
+            AudioEventsManager.OnSoundPlayEsclusive?.Invoke(StingerDeathClipsBank, genericStingerConfiguration, null, 0f);
         }
 
         private void PlayCheckPointStinger()
         {
             StartCoroutine(CheckPointCoroutine());
             FadeOutAllMusic();
-            AudioEventsManager.OnSoundPlay?.Invoke(StingerSafeSpotClipsBank, genericStingerConfiguration, null, 0f);
+            AudioEventsManager.OnSoundPlayEsclusive?.Invoke(StingerSafeSpotClipsBank, genericStingerConfiguration, null, 0f);
         }
 
         private IEnumerator CheckPointCoroutine()

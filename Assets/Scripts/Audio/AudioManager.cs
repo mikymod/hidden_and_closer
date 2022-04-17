@@ -1,7 +1,8 @@
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
-using UnityEngine.Events;
 
 namespace HNC.Audio
 {
@@ -29,6 +30,7 @@ namespace HNC.Audio
         private void OnEnable()
         {
             AudioEventsManager.OnSoundPlay += Play;
+            AudioEventsManager.OnSoundPlayEsclusive += PlayEsclusive;
             AudioEventsManager.OnSoundStop += Stop;
             AudioEventsManager.OnSoundPause += Pause;
             AudioEventsManager.OnSoundResume += Resume;
@@ -40,9 +42,11 @@ namespace HNC.Audio
             //input.pause += ChangeAudioMixerSnapshot;
         }
 
+
         private void OnDisable()
         {
             AudioEventsManager.OnSoundPlay -= Play;
+            AudioEventsManager.OnSoundPlayEsclusive -= PlayEsclusive;
             AudioEventsManager.OnSoundStop -= Stop;
             AudioEventsManager.OnSoundPause -= Pause;
             AudioEventsManager.OnSoundResume -= Resume;
@@ -58,6 +62,19 @@ namespace HNC.Audio
         {
             GameObject soundEmitter = pooler.Get();
             if (soundEmitter != null)
+            {
+                soundEmitter.GetComponent<SoundEmitter>().Play(audioClipBank, audioConfig, transform, fadeTime);
+            }
+            else
+            {
+                soundEmitter.SetActive(false);
+            }
+        }
+
+        private void PlayEsclusive(AudioClipsBankSO audioClipBank, AudioConfigurationSO audioConfig, Transform transform, float fadeTime)
+        {
+            GameObject soundEmitter = pooler.Get();
+            if (soundEmitter != null && !IsPlaying(audioClipBank))
             {
                 soundEmitter.GetComponent<SoundEmitter>().Play(audioClipBank, audioConfig, transform, fadeTime);
             }
@@ -101,20 +118,21 @@ namespace HNC.Audio
         private void MasterVolumChanged(float volume)
         {
             masterVolume = volume;
-            audioMixer.SetFloat("Master", NormalizedMixerValue(volume));
+            audioMixer.SetFloat("Master", NormalizedMixerValue2(volume));
         }
         private void MusicVolumChanged(float volume)
         {
             musicVolume = volume;
-            audioMixer.SetFloat("Music", NormalizedMixerValue(volume));
+            audioMixer.SetFloat("Music", NormalizedMixerValue2(volume));
         }
         private void SFXVolumChanged(float volume)
         {
             sfxVolume = volume;
-            audioMixer.SetFloat("SFX", NormalizedMixerValue(volume));
+            audioMixer.SetFloat("SFX", NormalizedMixerValue2(volume));
         }
 
         private float NormalizedMixerValue(float normalizedValue) => (normalizedValue - 1f) * 80f; 
+        private float NormalizedMixerValue2(float normalizedValue) => Mathf.Log10(normalizedValue) * 20f; 
 
         private void FadeIn(AudioClipsBankSO audioClipBank, float fadeTime)
         {
@@ -134,42 +152,6 @@ namespace HNC.Audio
             }
         }
 
-
-        //Non credo serva
-        //public IEnumerator FadeIn(AudioSource audioSource, float fadeTime)
-        //{
-        //    float time = 0f;
-        //    float startVolume = audioSource.volume;
-        //    float duration = fadeTime;
-
-        //    while (time < duration)
-        //    {
-        //        audioSource.volume = Mathf.Lerp(startVolume, 1f, time / duration);
-        //        time += Time.deltaTime;
-        //        yield return null;
-        //    }
-
-        //    audioSource.volume = 1f;
-        //}
-
-        //Non credo serva
-        //public IEnumerator FadeOut(AudioSource audioSource, float fadeTime)
-        //{
-        //    float time = 0f;
-        //    float startVolume = audioSource.volume;
-        //    float duration = fadeTime;
-
-        //    while (time < duration)
-        //    {
-        //        audioSource.volume = Mathf.Lerp(startVolume, 0f, time / duration);
-        //        time += Time.deltaTime;
-        //        yield return null;
-        //    }
-
-        //    audioSource.volume = 0f;
-        //    audioSource.Stop();
-        //}
-    
         private void ChangeAudioMixerSnapshot()
         {
             if (filtered)
@@ -183,5 +165,8 @@ namespace HNC.Audio
                 audioMixer.FindSnapshot("Filtered").TransitionTo(1f);
             }
         }
+
+
+        
     }
 }

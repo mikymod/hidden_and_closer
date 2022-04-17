@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 568691828467171505}
   - component: {fileID: 568691828467171506}
   - component: {fileID: 568691828467171510}
-  - component: {fileID: 1357429573682344813}
   m_Layer: 5
   m_Name: MainMenu
   m_TagString: Untagged
@@ -120,21 +119,7 @@ MonoBehaviour:
   settingsMenu: {fileID: 7702150906160154723}
   input: {fileID: 11400000, guid: 41954bc1138fb734c8ee8824ae8c8e24, type: 2}
   saveSystem: {fileID: 11400000, guid: 34ac9551b494e2342a39c9d72c1e3e92, type: 2}
-  firstScene: TutorialLevel
---- !u!114 &1357429573682344813
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 568691828467171507}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ebe56c620ce57a6498fb62364a75f345, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  generalUIClipsBank: {fileID: 11400000, guid: 934d3e7439cdec04a9fe1523370101a4, type: 2}
-  genericUIConfiguration: {fileID: 11400000, guid: c08ba3e2e2951894eb1f0e4fe495d261, type: 2}
+  firstScene: TutorialLevelBuilded
 --- !u!1 &8113089655183287617
 GameObject:
   m_ObjectHideFlags: 0
@@ -324,7 +309,7 @@ PrefabInstance:
     - target: {fileID: 1969717479910535521, guid: 8abdb2a99d496ae4daba992a88c91730, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 1357429573682344813}
+      objectReference: {fileID: 0}
     - target: {fileID: 1969717479910535521, guid: 8abdb2a99d496ae4daba992a88c91730, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
       value: 2
@@ -335,7 +320,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1969717479910535521, guid: 8abdb2a99d496ae4daba992a88c91730, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: HNC.Audio.AudioMainMenuUIController, Assembly-CSharp
+      value: HNC.Audio.AudioMenuSFXController, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 1969717479910535521, guid: 8abdb2a99d496ae4daba992a88c91730, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -445,6 +430,10 @@ PrefabInstance:
       propertyPath: m_AnchorMin.x
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7182417189611061420, guid: 8abdb2a99d496ae4daba992a88c91730, type: 3}
+      propertyPath: m_MinValue
+      value: 0.0001
+      objectReference: {fileID: 0}
     - target: {fileID: 7347899360592176261, guid: 8abdb2a99d496ae4daba992a88c91730, type: 3}
       propertyPath: m_AnchorMax.x
       value: 1
@@ -553,6 +542,30 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: -238.27643
       objectReference: {fileID: 0}
+    - target: {fileID: 7561069000608129464, guid: 8abdb2a99d496ae4daba992a88c91730, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7561069000608129464, guid: 8abdb2a99d496ae4daba992a88c91730, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7561069000608129464, guid: 8abdb2a99d496ae4daba992a88c91730, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7561069000608129464, guid: 8abdb2a99d496ae4daba992a88c91730, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: PlayGeneralUISound
+      objectReference: {fileID: 0}
+    - target: {fileID: 7561069000608129464, guid: 8abdb2a99d496ae4daba992a88c91730, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: HNC.Audio.AudioMenuSFXController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7561069000608129464, guid: 8abdb2a99d496ae4daba992a88c91730, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 7561069000608129465, guid: 8abdb2a99d496ae4daba992a88c91730, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -616,6 +629,30 @@ PrefabInstance:
     - target: {fileID: 7561069000910744090, guid: 8abdb2a99d496ae4daba992a88c91730, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7561069000910744093, guid: 8abdb2a99d496ae4daba992a88c91730, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7561069000910744093, guid: 8abdb2a99d496ae4daba992a88c91730, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7561069000910744093, guid: 8abdb2a99d496ae4daba992a88c91730, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7561069000910744093, guid: 8abdb2a99d496ae4daba992a88c91730, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: PlayGeneralUISound
+      objectReference: {fileID: 0}
+    - target: {fileID: 7561069000910744093, guid: 8abdb2a99d496ae4daba992a88c91730, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: HNC.Audio.AudioMenuSFXController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7561069000910744093, guid: 8abdb2a99d496ae4daba992a88c91730, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 7561069001029048533, guid: 8abdb2a99d496ae4daba992a88c91730, type: 3}
       propertyPath: m_AnchorMax.y
@@ -705,6 +742,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -92.57564
       objectReference: {fileID: 0}
+    - target: {fileID: 7648838000743255107, guid: 8abdb2a99d496ae4daba992a88c91730, type: 3}
+      propertyPath: m_MinValue
+      value: 0.0001
+      objectReference: {fileID: 0}
     - target: {fileID: 7663420234746637510, guid: 8abdb2a99d496ae4daba992a88c91730, type: 3}
       propertyPath: m_AnchorMax.x
       value: 1
@@ -777,6 +818,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -183
       objectReference: {fileID: 0}
+    - target: {fileID: 9050209895599552550, guid: 8abdb2a99d496ae4daba992a88c91730, type: 3}
+      propertyPath: m_MinValue
+      value: 0.0001
+      objectReference: {fileID: 0}
     - target: {fileID: 9076828475323252328, guid: 8abdb2a99d496ae4daba992a88c91730, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -841,10 +886,14 @@ PrefabInstance:
     - target: {fileID: 2447538488949619712, guid: 4ae39557e98d00e4bb4f2b79d56c7553, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 1357429573682344813}
+      objectReference: {fileID: 0}
     - target: {fileID: 2447538488949619712, guid: 4ae39557e98d00e4bb4f2b79d56c7553, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
       value: PlayGeneralUISound
+      objectReference: {fileID: 0}
+    - target: {fileID: 2447538488949619712, guid: 4ae39557e98d00e4bb4f2b79d56c7553, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: HNC.Audio.AudioMenuSFXController, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 2447538488949619713, guid: 4ae39557e98d00e4bb4f2b79d56c7553, type: 3}
       propertyPath: m_AnchorMax.y
@@ -869,10 +918,14 @@ PrefabInstance:
     - target: {fileID: 2447538489326620746, guid: 4ae39557e98d00e4bb4f2b79d56c7553, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 1357429573682344813}
+      objectReference: {fileID: 0}
     - target: {fileID: 2447538489326620746, guid: 4ae39557e98d00e4bb4f2b79d56c7553, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
       value: PlayGeneralUISound
+      objectReference: {fileID: 0}
+    - target: {fileID: 2447538489326620746, guid: 4ae39557e98d00e4bb4f2b79d56c7553, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: HNC.Audio.AudioMenuSFXController, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 2447538489326620747, guid: 4ae39557e98d00e4bb4f2b79d56c7553, type: 3}
       propertyPath: m_AnchorMax.y
@@ -1005,10 +1058,14 @@ PrefabInstance:
     - target: {fileID: 5010329323307849275, guid: 4ae39557e98d00e4bb4f2b79d56c7553, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 1357429573682344813}
+      objectReference: {fileID: 0}
     - target: {fileID: 5010329323307849275, guid: 4ae39557e98d00e4bb4f2b79d56c7553, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
       value: PlayGeneralUISound
+      objectReference: {fileID: 0}
+    - target: {fileID: 5010329323307849275, guid: 4ae39557e98d00e4bb4f2b79d56c7553, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: HNC.Audio.AudioMenuSFXController, Assembly-CSharp
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4ae39557e98d00e4bb4f2b79d56c7553, type: 3}

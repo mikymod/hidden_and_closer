@@ -4,11 +4,10 @@ using UnityEngine.UI;
 
 namespace HNC.Audio
 {
-    public class AudioMainMenuUIController : MonoBehaviour
+    public class AudioMenuSFXController : MonoBehaviour
     {
         [SerializeField] private AudioClipsBankSO generalUIClipsBank;
         [SerializeField] private AudioConfigurationSO genericUIConfiguration;
-
 
         public void PlayGeneralUISound()
         {
