@@ -9,22 +9,12 @@ namespace HNC
         private Rigidbody _rb;
         private bool _hasCollide = false;
 
-        [SerializeField] private GameObject bloodParticlesPrefab;
-        [SerializeField] private GameObject dustParticlesPrefab;
-        private GameObject _bloodGO;
-        private ParticleSystem _bloodParticles;
-        private GameObject _dustGO;
-        private ParticleSystem _dustParticles;
+        [SerializeField] private ParticleSystem bloodParticles;
+        [SerializeField] private ParticleSystem dustParticles;
 
         private void Awake()
         {
             _rb = GetComponent<Rigidbody>();
-            _bloodGO = Instantiate(bloodParticlesPrefab, Vector3.zero, Quaternion.identity);
-            _bloodParticles = _bloodGO.GetComponent<ParticleSystem>();
-            _bloodParticles.Stop();
-            _dustGO = Instantiate(dustParticlesPrefab, Vector3.zero, Quaternion.identity);
-            _dustParticles = _dustGO.GetComponent<ParticleSystem>();
-            _dustParticles.Stop();
         }
 
         private void OnCollisionEnter(Collision other)
@@ -38,15 +28,17 @@ namespace HNC
             {
                 enemy.Damaged();
 
-                _bloodGO.transform.position = other.GetContact(0).point;
-                _bloodGO.transform.rotation = Quaternion.LookRotation(other.GetContact(0).normal, Vector3.up);
-                _bloodParticles.Play();
+                bloodParticles.transform.parent = null; // Avoid displacement after ps starts playing
+                bloodParticles.transform.position = other.GetContact(0).point;
+                bloodParticles.transform.rotation = Quaternion.LookRotation(other.GetContact(0).normal, Vector3.up);
+                bloodParticles.Play();
             }
             else
             {
-                _dustGO.transform.position = other.GetContact(0).point;
-                _dustGO.transform.rotation = Quaternion.LookRotation(other.GetContact(0).normal, Vector3.up);
-                _dustParticles.Play();
+                dustParticles.transform.parent = null; // Avoid displacement after ps starts playing
+                dustParticles.transform.position = other.GetContact(0).point;
+                dustParticles.transform.rotation = Quaternion.LookRotation(other.GetContact(0).normal, Vector3.up);
+                dustParticles.Play();
             }
 
             _hasCollide = true;
@@ -62,14 +54,16 @@ namespace HNC
             _rb.useGravity = false;
             _rb.isKinematic = true;
 
-            if (_dustParticles.isPlaying)
+            if (dustParticles.isPlaying)
             {
-                _dustParticles.Stop();
+                dustParticles.Stop();
+                dustParticles.transform.parent = transform;
             }
 
-            if (_bloodParticles.isPlaying)
+            if (bloodParticles.isPlaying)
             {
-                _bloodParticles.Stop();
+                bloodParticles.Stop();
+                bloodParticles.transform.parent = transform;
             }
 
             gameObject.SetActive(false);

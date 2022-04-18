@@ -76,7 +76,7 @@ namespace HNC
             DetectionSystem.ExitFromVisibleArea += PlayerNotInLOS;
             LightDetector.PlayerInLight += ScaleVisionArea;
             ForceIdleBroadcast += ForceIdle;
-            PlayerController.DeadEvent += EnableTransitionToEndState; 
+            PlayerController.DeadEvent += EnableTransitionToEndState;
         }
 
 
@@ -99,7 +99,8 @@ namespace HNC
             TransitionToIdleState = true;
         }
 
-        private void EnableTransitionToEndState() {
+        private void EnableTransitionToEndState()
+        {
             TransitionToEndState = true;
         }
 
@@ -150,7 +151,8 @@ namespace HNC
             PosToGo = pos;
         }
 
-        private void PlayerInLOS(Transform target) {
+        private void PlayerInLOS(Transform target)
+        {
             TransitionToAlertState = true;
             TransitionToAttackState = true;
             PosToGo = target.position;
@@ -165,6 +167,6 @@ namespace HNC
 
         public void Damaged() => life = 0;
 
-        private void ScaleVisionArea(bool isPlayerInLight) => DetectionSystem.viewRadius = isPlayerInLight ? 8 : 4;
+        private void ScaleVisionArea(bool isPlayerInLight) => DetectionSystem.viewRadius = isPlayerInLight ? 8 : 4; // FIXME: avoid coupling and magic values
     }
 }
