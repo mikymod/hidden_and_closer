@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3958335947669978136}
   - component: {fileID: 3957192952386985404}
   m_Layer: 0
-  m_Name: FX_BloodSplat_Small_01
+  m_Name: BulletBloodVFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

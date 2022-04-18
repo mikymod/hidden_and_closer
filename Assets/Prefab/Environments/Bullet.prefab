@@ -223,7 +223,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f96e4034d2c6f1f4b92c6cbdbfd5467f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Threshold: 0.5
+  bloodParticlesPrefab: {fileID: 3759643275852634148, guid: 38cf67c485f4a1142b17fbf94cab85d0, type: 3}
+  dustParticlesPrefab: {fileID: 1629011400212400746, guid: 0b2cc34476401f746802a2161e6132d9, type: 3}
 --- !u!114 &-4728633214441573594
 MonoBehaviour:
   m_ObjectHideFlags: 0
