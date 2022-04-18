@@ -2285,7 +2285,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6973731647541965489}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.011491537, y: 0.10865569, z: -0.07518029}
+  m_LocalPosition: {x: -0.011491537, y: 1.1, z: -3.048}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2678425101215814162}
@@ -2578,6 +2578,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: LightDetector
       objectReference: {fileID: 0}
+    - target: {fileID: 1363596254637034552, guid: 187e0cbe5a769284a8e9f824bfafb726, type: 3}
+      propertyPath: texture
+      value: 
+      objectReference: {fileID: 2800000, guid: 17867f58211daa74a9c33b376749447a, type: 3}
     - target: {fileID: 1363596254637034557, guid: 187e0cbe5a769284a8e9f824bfafb726, type: 3}
       propertyPath: m_CastShadows
       value: 0

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7604619936527680025}
   - component: {fileID: 7730204787103934783}
   - component: {fileID: 7729844218446247343}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: FogVFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}

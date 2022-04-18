@@ -15698,6 +15698,10 @@ PrefabInstance:
       propertyPath: field of view
       value: 50
       objectReference: {fileID: 0}
+    - target: {fileID: 3169085758263299807, guid: bad3cb51835a21f47ba956c9de32c22a, type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 13173
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bad3cb51835a21f47ba956c9de32c22a, type: 3}
 --- !u!1 &450255240
@@ -77443,7 +77447,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7730204787103934783, guid: 908ed242f55edb444b5a3da930ca5b76, type: 3}
       propertyPath: ShapeModule.radiusThickness
-      value: 1.0000
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7730204787103934783, guid: 908ed242f55edb444b5a3da930ca5b76, type: 3}
       propertyPath: CollisionModule.m_Bounce.scalar
