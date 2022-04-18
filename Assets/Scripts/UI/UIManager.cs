@@ -1,13 +1,10 @@
-using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
-namespace HNC
-{
-    public class UIManager : MonoBehaviour
-    {
+namespace HNC {
+    public class UIManager : MonoBehaviour {
         [SerializeField] private InputHandler input;
         [SerializeField] private SaveSystem saveSystem;
         [SerializeField] private PauseMenu pauseMenu;
@@ -19,37 +16,43 @@ namespace HNC
         public static UnityAction TransitionGameOver;
         public static UnityAction TransitionSceneFadeOut;
 
-        private void Awake()
-        {
+        private bool companionEnabled;
+
+        private void Awake() {
             gameUI.SetActive(true);
             sceneTransitionUI.SetActive(true);
         }
 
-        private void OnEnable()
-        {
+        private void OnEnable() {
             TransitionGameOver += OnTransitionGameOver;
             TransitionSceneFadeOut += OnTransitionSceneFadeOut;
 
             input.pause += OpenPauseMenu;
+
+            CompanionController.OnCompanionControlStarted += CompanionEnabled;
+            CompanionController.OnCompanionControlFinish += CompanionDisabled;
         }
 
-        private void OnDisable()
-        {
+        private void OnDisable() {
             TransitionGameOver -= OnTransitionGameOver;
             TransitionSceneFadeOut -= OnTransitionSceneFadeOut;
 
             input.pause -= OpenPauseMenu;
+
+            CompanionController.OnCompanionControlStarted -= CompanionEnabled;
+            CompanionController.OnCompanionControlFinish -= CompanionDisabled;
         }
 
-        private void OnTransitionSceneFadeOut()
-        {
-            sceneTransitionUI.SetActive(true);
-        }
+        private void CompanionEnabled() => companionEnabled = true;
+
+        private void CompanionDisabled() => companionEnabled = false;
+
+
+        private void OnTransitionSceneFadeOut() => sceneTransitionUI.SetActive(true);
 
         private void OnTransitionGameOver() => StartCoroutine(TransitionGameOverCoroutine());
 
-        private IEnumerator TransitionGameOverCoroutine()
-        {
+        private IEnumerator TransitionGameOverCoroutine() {
             yield return new WaitForSeconds(2);
 
             gameOverUI.SetActive(true);
@@ -59,8 +62,7 @@ namespace HNC
             SceneManager.LoadScene(saveSystem.SaveData.Player.Scene);
         }
 
-        private void OpenPauseMenu()
-        {
+        private void OpenPauseMenu() {
             input.pause -= OpenPauseMenu;
 
             input.pause += ClosePauseMenu;
@@ -77,8 +79,7 @@ namespace HNC
             input.EnableUIInput();
         }
 
-        private void ClosePauseMenu()
-        {
+        private void ClosePauseMenu() {
             input.pause -= ClosePauseMenu;
             pauseMenu.ResumeButtonAction -= ResumeButtonPressed;
             pauseMenu.SettingsButtonAction -= SettingsButtonPressed;
@@ -91,28 +92,26 @@ namespace HNC
 
             pauseMenu.gameObject.SetActive(false);
 
-            // TODO: manage companion case
-            input.EnablePlayerInput();
+            if (companionEnabled) {
+                input.EnableCompanionInput();
+            } else {
+                input.EnablePlayerInput();
+            }
         }
 
         private void ResumeButtonPressed() => ClosePauseMenu();
 
         private void SettingsButtonPressed() => OpenSettingsMenu();
 
-        private void ReturnButtonPressed()
-        {
+        private void ReturnButtonPressed() {
             ClosePauseMenu();
             input.DisableAllInput();
             SceneManager.LoadScene(0);
         }
 
-        private void QuitButtonPressed()
-        {
-            Application.Quit(0);
-        }
+        private void QuitButtonPressed() => Application.Quit(0);
 
-        private void OpenSettingsMenu()
-        {
+        private void OpenSettingsMenu() {
             pauseMenu.gameObject.SetActive(false);
 
             input.pause -= ClosePauseMenu;
@@ -123,8 +122,7 @@ namespace HNC
             settingsMenu.InitSettingsMenu();
         }
 
-        private void CloseSettingsMenu()
-        {
+        private void CloseSettingsMenu() {
             pauseMenu.gameObject.SetActive(true);
             pauseMenu.SetMenuScreen();
 
