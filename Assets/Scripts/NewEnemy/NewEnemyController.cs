@@ -179,16 +179,18 @@ namespace HNC
 
         private void PlayerInLOS(Transform target)
         {
+            PosToGo = target.position;
+            Target = target;
             if (CurrentState == EnemyFSMState.Idle)
             {
                 TransitionToAlertState = true;
+                return;
             }
             if (CurrentState == EnemyFSMState.Alert || CurrentState == EnemyFSMState.Search)
             {
                 TransitionToHuntState = true;
+                return;
             }
-            PosToGo = target.position;
-            Target = target;
         }
 
         private void PlayerNotInLOS()
