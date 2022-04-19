@@ -7471,6 +7471,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 424214431}
     m_Modifications:
+    - target: {fileID: 122910536733805593, guid: f280188b09fbe374b973e1db2cb97cb8, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
     - target: {fileID: 136104901138175717, guid: f280188b09fbe374b973e1db2cb97cb8, type: 3}
       propertyPath: m_Name
       value: SM_Prop_ArcadeMachine_01 (3)
@@ -14482,6 +14486,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 424214431}
     m_Modifications:
+    - target: {fileID: 122910536733805593, guid: f280188b09fbe374b973e1db2cb97cb8, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 79459efec17a4d00a321bdcc27bbc385, type: 2}
     - target: {fileID: 136104901138175717, guid: f280188b09fbe374b973e1db2cb97cb8, type: 3}
       propertyPath: m_Name
       value: SM_Prop_ArcadeMachine_01 (2)
@@ -18480,6 +18488,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 424214431}
     m_Modifications:
+    - target: {fileID: 122910536733805593, guid: f280188b09fbe374b973e1db2cb97cb8, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: fcc6100d84022294fbac085a67ea3637, type: 2}
     - target: {fileID: 136104901138175717, guid: f280188b09fbe374b973e1db2cb97cb8, type: 3}
       propertyPath: m_Name
       value: SM_Prop_ArcadeMachine_01 (1)
