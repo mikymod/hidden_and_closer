@@ -16,7 +16,6 @@ namespace HNC
         public override void Enter()
         {
             base.Enter();
-            
             MoveToNextPoint();
         }
 
@@ -50,6 +49,11 @@ namespace HNC
                 {
                     _timer -= Time.deltaTime;
                 }
+            }
+            else
+            {
+                _enemy.Animator.SetFloat("Speed", 1);
+                _enemy.NavMeshAgent.isStopped = false;
             }
         }
     }

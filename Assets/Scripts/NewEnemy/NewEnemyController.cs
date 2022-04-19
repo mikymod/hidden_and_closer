@@ -147,14 +147,23 @@ namespace HNC
             {
                 return;
             }
-            TransitionToAlertState = true;
+            if (CurrentState == EnemyFSMState.Idle)
+            {
+                TransitionToAlertState = true;
+            }
             PosToGo = pos;
         }
 
         private void PlayerInLOS(Transform target)
         {
-            TransitionToAlertState = true;
-            TransitionToAttackState = true;
+            if (CurrentState == EnemyFSMState.Idle)
+            {
+                TransitionToAlertState = true;
+            }
+            if (CurrentState == EnemyFSMState.Alert || CurrentState == EnemyFSMState.Search)
+            {
+                TransitionToAttackState = true;
+            }
             PosToGo = target.position;
             Target = target;
         }

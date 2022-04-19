@@ -20,8 +20,7 @@ namespace HNC {
             _enemy.NavMeshAgent.isStopped = false;
             _enemy.Animator.SetFloat("Speed", 1);
             _enemy.SearchTimer = _enemy.SearchTime;
-            //TODO FIXME
-            _enemy.NavMeshAgent.speed *= 2;
+            //_enemy.NavMeshAgent.speed = _enemy.SpeedAttack;
         }
 
         public override void Update() {
@@ -69,7 +68,7 @@ namespace HNC {
         public override void Exit() 
         {
             _enemy.TransitionToSearchState = false;
-            _enemy.NavMeshAgent.speed /= 2;
+            //_enemy.NavMeshAgent.speed = _enemy.SpeedNormal;
         }
     }
 }
