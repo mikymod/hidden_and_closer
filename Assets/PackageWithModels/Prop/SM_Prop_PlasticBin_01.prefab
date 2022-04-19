@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7849459731729879865}
   - component: {fileID: 7838689711754451301}
   - component: {fileID: 7817664240619349247}
+  - component: {fileID: 1970033421789123317}
   m_Layer: 0
   m_Name: SM_Prop_PlasticBin_01
   m_TagString: Untagged
@@ -96,3 +97,19 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 43233448642387322, guid: 5a0e3542a0527d443b25a26ac20616a8, type: 2}
+--- !u!208 &1970033421789123317
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7827198724532295299}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.05, y: 0.05, z: 0.35}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0.21900001, z: 0}
+  m_TimeToStationary: 0.5

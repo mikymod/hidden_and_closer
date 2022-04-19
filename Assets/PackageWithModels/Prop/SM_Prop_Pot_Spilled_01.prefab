@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 383185291802887499}
   - component: {fileID: 393864186935031145}
   - component: {fileID: 416389563380488485}
+  - component: {fileID: 156965038847165071}
   m_Layer: 0
   m_Name: SM_Prop_Pot_Spilled_01
   m_TagString: Untagged
@@ -96,3 +97,19 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 43034739826786070, guid: 4bc14041e795b534482cc89749cfeb96, type: 2}
+--- !u!208 &156965038847165071
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 371467244199738467}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.0005, y: 0.0005, z: 0.25}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.036000002, y: 0.193, z: 0.149}
+  m_TimeToStationary: 0.5

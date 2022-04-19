@@ -12,12 +12,13 @@ GameObject:
   - component: {fileID: 6024926891825795053}
   - component: {fileID: 6033048814636277947}
   - component: {fileID: 5984823048131035955}
+  - component: {fileID: 6909429306748455600}
   m_Layer: 0
   m_Name: SM_Prop_Chair_05
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 13
   m_IsActive: 1
 --- !u!4 &6051391529738417967
 Transform:
@@ -26,7 +27,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6048316529609530691}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 4.54, z: 1.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -96,3 +97,19 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 43530236959799668, guid: a94a2639abde1424e98531b2ce8ce1f3, type: 2}
+--- !u!208 &6909429306748455600
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6048316529609530691}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.3, y: 0.25, z: 0.2}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0.469, z: 0}
+  m_TimeToStationary: 0.5
