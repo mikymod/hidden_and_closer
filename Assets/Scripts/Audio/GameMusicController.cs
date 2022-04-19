@@ -113,7 +113,7 @@ namespace HNC.Audio
                     AudioEventsManager.OnFadeOut?.Invoke(MusicAttackClipsBank, FadeOutTime);
                     AudioEventsManager.OnFadeOut?.Invoke(MusicSearchClipsBank, FadeOutTime);
                     break;
-                case EnemyFSMState.Attack:
+                case EnemyFSMState.Hunt:
                     AudioEventsManager.OnSoundPlayEsclusive.Invoke(StingerAttackClipsBank, genericStingerConfiguration, null, 0f);
                     AudioEventsManager.OnFadeIn?.Invoke(MusicSearchClipsBank, FadeInTime);
                     AudioEventsManager.OnFadeIn?.Invoke(MusicIdleClipsBank, FadeInTime);
