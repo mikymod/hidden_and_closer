@@ -1,12 +1,27 @@
+using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
 
 namespace HNC
 {
+    [Serializable]
+    public enum EnemyFSMState
+    {
+        Idle,
+        Alert,
+        Search,
+        Hunt,
+        Attack,
+        Death,
+        End
+    }
+
     [RequireComponent(typeof(NavMeshAgent))]
     public class NewEnemyController : MonoBehaviour
     {
+
         [Header("StateMachine")]
         [Tooltip("Normal speed of enemey")]
         public float SpeedNormal = 1;
@@ -46,6 +61,7 @@ namespace HNC
 
         [HideInInspector] public bool TransitionToIdleState;
         [HideInInspector] public bool TransitionToAlertState;
+        [HideInInspector] public bool TransitionToHuntState;
         [HideInInspector] public bool TransitionToAttackState;
         [HideInInspector] public bool TransitionToSearchState;
         [HideInInspector] public bool TransitionToEndState;
@@ -95,6 +111,7 @@ namespace HNC
             Patrol.enabled = false;
             DetectionSystem.enabled = false;
             TransitionToAlertState = false;
+            TransitionToHuntState = false;
             TransitionToAttackState = false;
             TransitionToIdleState = true;
         }
@@ -116,6 +133,7 @@ namespace HNC
             _stateMachine = new StateMachine();
             NewEnemyIdleState idleState = new NewEnemyIdleState(this, EnemyFSMState.Idle);
             NewEnemyAlertState alertState = new NewEnemyAlertState(this, EnemyFSMState.Alert);
+            NewEnemyHuntState huntState = new NewEnemyHuntState(this, EnemyFSMState.Hunt);
             NewEnemyAttackState attackState = new NewEnemyAttackState(this, EnemyFSMState.Attack);
             NewEnemySearchState searchState = new NewEnemySearchState(this, EnemyFSMState.Search);
             NewEnemyDeathState deathState = new NewEnemyDeathState(this, EnemyFSMState.Death);
@@ -123,10 +141,12 @@ namespace HNC
 
             _stateMachine.AddTransition(idleState, alertState, () => TransitionToAlertState);
             _stateMachine.AddTransition(alertState, idleState, () => TransitionToIdleState);
-            _stateMachine.AddTransition(alertState, attackState, () => TransitionToAttackState);
-            _stateMachine.AddTransition(attackState, searchState, () => TransitionToSearchState);
+            _stateMachine.AddTransition(alertState, huntState, () => TransitionToHuntState);
+            _stateMachine.AddTransition(huntState, attackState, () => TransitionToAttackState);
+            _stateMachine.AddTransition(attackState, huntState, () => TransitionToHuntState);
+            _stateMachine.AddTransition(huntState, searchState, () => TransitionToSearchState);
             _stateMachine.AddTransition(searchState, idleState, () => TransitionToIdleState);
-            _stateMachine.AddTransition(searchState, attackState, () => TransitionToAttackState);
+            _stateMachine.AddTransition(searchState, huntState, () => TransitionToHuntState);
             _stateMachine.AddAnyTransition(deathState, () => life <= 0);
             _stateMachine.AddAnyTransition(endState, () => TransitionToEndState);
             _stateMachine.SetInitialState(idleState);
@@ -139,6 +159,9 @@ namespace HNC
             {
                 PosToGo = Target.position;
             }
+
+            Debug.Log($"hunt: {TransitionToHuntState}");
+            Debug.Log($"attack: {TransitionToAttackState}");
         }
 
         public void CheckForNoisePosition(Vector3 pos)
@@ -162,7 +185,7 @@ namespace HNC
             }
             if (CurrentState == EnemyFSMState.Alert || CurrentState == EnemyFSMState.Search)
             {
-                TransitionToAttackState = true;
+                TransitionToHuntState = true;
             }
             PosToGo = target.position;
             Target = target;
@@ -170,6 +193,11 @@ namespace HNC
 
         private void PlayerNotInLOS()
         {
+            if (CurrentState == EnemyFSMState.Attack)
+            {
+                TransitionToHuntState = true;
+            }
+
             PosToGo = Target.position;
             Target = null;
         }
@@ -177,5 +205,18 @@ namespace HNC
         public void Damaged() => life = 0;
 
         private void ScaleVisionArea(bool isPlayerInLight) => DetectionSystem.viewRadius = isPlayerInLight ? 8 : 4; // FIXME: avoid coupling and magic values
+
+        public void BackFromAttackState()
+        {
+            StartCoroutine(BackFromAttackStateCoroutine());
+        }
+
+        private IEnumerator BackFromAttackStateCoroutine()
+        {
+            yield return new WaitForSeconds(1.3f);
+
+            TransitionToAttackState = false;
+            TransitionToHuntState = true;
+        }
     }
 }
