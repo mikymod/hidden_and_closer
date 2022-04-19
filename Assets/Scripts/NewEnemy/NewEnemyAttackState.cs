@@ -18,6 +18,7 @@ namespace HNC {
         }
 
         public override void Update() {
+            Debug.Log(_enemy.NavMeshAgent.speed);
             _enemy.NavMeshAgent.SetDestination(_enemy.PosToGo);
             if (_enemy.DetectionSystem.visibleTargets.Count == 0) {
                 _enemy.TransitionToSearchState = true;
