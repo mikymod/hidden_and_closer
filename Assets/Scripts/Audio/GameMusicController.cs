@@ -45,7 +45,7 @@ namespace HNC.Audio
 
         private void OnEnable()
         {
-            NewChangeStateEvent.OnChangeState += ChangeState;
+            ChangeStateEvent.OnChangeState += ChangeState;
             UIManager.TransitionGameOver += FadeOutAllMusic;
             UIManager.TransitionSceneFadeOut += FadeOutAllMusic;
             PlayerController.DeadEvent += PlayDeathStinger;
@@ -54,7 +54,7 @@ namespace HNC.Audio
 
         private void OnDisable()
         {
-            NewChangeStateEvent.OnChangeState -= ChangeState;
+            ChangeStateEvent.OnChangeState -= ChangeState;
             UIManager.TransitionGameOver -= FadeOutAllMusic;
             UIManager.TransitionSceneFadeOut -= FadeOutAllMusic;
             PlayerController.DeadEvent -= PlayDeathStinger;

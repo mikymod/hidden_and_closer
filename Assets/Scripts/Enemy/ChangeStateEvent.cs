@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 namespace HNC
 {
-    public class NewChangeStateEvent
+    public class ChangeStateEvent
     {
         public static UnityAction<GameObject, EnemyFSMState> OnChangeState;
     }

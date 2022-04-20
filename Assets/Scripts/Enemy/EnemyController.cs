@@ -2,23 +2,25 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
 
 namespace HNC
 {
-
+    [Serializable]
+    public enum EnemyFSMState
+    {
+        Idle,
+        Alert,
+        Search,
+        Hunt,
+        Attack,
+        Death,
+        End
+    }
 
     [RequireComponent(typeof(NavMeshAgent))]
     public class EnemyController : MonoBehaviour
     {
-        [Header("Debug")]
-        public GameObject DetectedVideoGO;
-        public GameObject DetectedAudioGO;
-        //public bool PullAvatarTowardsAgent;
-        //public bool PullAgentTowardsAvatar;
-
-        [Header("Character")]
-        public float MovementSpeed;
-        public float RotationSpeed;
 
         [Header("StateMachine")]
         [Tooltip("Min time range for check next point in Patrol")]
@@ -28,243 +30,183 @@ namespace HNC
         [Tooltip("Radius for choose a Patrol target")]
         public float PatrolRadius;
         [Space(10)]
-        [Tooltip("Time in Suspicious State")]
-        public float SuspiciousTime;
-        [Space(10)]
         [Tooltip("Time in Alert State")]
         public float AlertTime;
+        [Space(10)]
+        [Tooltip("Time in Search State")]
+        public float SearchTime;
+        [Space(10)]
+        [Tooltip("Distance from player to enemy for start Heating animation on player dead")]
+        public float DistanceForHeating;
+        [Tooltip("Min time range for scream after player dead")]
+        public float MinTimeScream;
+        [Tooltip("Max time range for scream after player dead")]
+        public float MaxTimeScream;
 
-        [Header("NavMesh")]
-        [Tooltip("Treshoold of patrol")]
-        public float PatrolTreshoold;
-        [Tooltip("Treshoold of suspicious")]
-        public float SuspiciousTreshoold;
-        [Tooltip("Treshoold of alert")]
-        public float AlertTreshoold;
-        [Tooltip("Treshoold of attack")]
-        public float AttackTreshoold;
+        public DetectionSystem DetectionSystem;
 
-        [Header("Animator")]
-        [Tooltip("Speed float name")]
-        [SerializeField] private string _speedParamName;
-        [Tooltip("Scream trigger name")]
-        [SerializeField] private string _screamParamName;
-        [Tooltip("Attack trigger name")]
-        [SerializeField] private string _attackParamName;
-        [Tooltip("Death float name")]
-        [SerializeField] private string _deathParamName;
-
-        public ZombieUI UI;
-
-        //State Machine
         private StateMachine _stateMachine;
-        [HideInInspector] public EnemyFSMState CurrentState;
-        private float life = 20;
+        public EnemyFSMState CurrentState;
         [HideInInspector] public NavMeshAgent NavMeshAgent;
-        [HideInInspector] public Quaternion Rotation;
 
-        [HideInInspector] public Animator AnimatorComponent;
-        public bool HasAnimator => AnimatorComponent != null;
-        [HideInInspector] public int AnimSpeedHash;
-        [HideInInspector] public int AnimScreamHash;
-        [HideInInspector] public int AnimAttackHash;
-        [HideInInspector] public int AnimDeathHash;
-
-        [HideInInspector] public CapsuleCollider Collider;
-
-        //Detection
-        public GameObject Detector;
-        public GameObject Detected { get; private set; }
-        public GameObject VideoDetected { get; private set; }
-        public GameObject AudioDetected { get; private set; }
-        [HideInInspector] public float SuspiciousTimer;
         [HideInInspector] public float AlertTimer;
+        [HideInInspector] public float SearchTimer;
 
-        private void Awake()
-        {
-            NavMeshAgent = GetComponent<NavMeshAgent>();
-            NavMeshAgent.updatePosition = false;
+        [HideInInspector] public bool TransitionToIdleState;
+        [HideInInspector] public bool TransitionToAlertState;
+        [HideInInspector] public bool TransitionToHuntState;
+        [HideInInspector] public bool TransitionToAttackState;
+        [HideInInspector] public bool TransitionToSearchState;
+        [HideInInspector] public bool TransitionToEndState;
 
-            AnimatorComponent = GetComponent<Animator>();
-            AnimSpeedHash = Animator.StringToHash(_speedParamName);
-            AnimScreamHash = Animator.StringToHash(_screamParamName);
-            AnimAttackHash = Animator.StringToHash(_attackParamName);
-            AnimDeathHash = Animator.StringToHash(_deathParamName);
+        [Header("hearing")]
+        public float hearingRadius;
+        public LayerMask soundMask;
 
-            SuspiciousTimer = SuspiciousTime + 1;
-            AlertTimer = AlertTime + 1;
+        [HideInInspector] public Vector3 PosToGo;
+        [HideInInspector] public Transform Target;
 
-            Collider = GetComponent<CapsuleCollider>();
+        private int life = 1;
 
-            _stateMachine = new StateMachine();
-            EnemyIdleState idleState = new EnemyIdleState(this, EnemyFSMState.Idle);
-            // EnemySuspiciousState suspiciousState = new EnemySuspiciousState(this, EnemyFSMState.Suspicious);
-            EnemyAlertState alertState = new EnemyAlertState(this, EnemyFSMState.Alert);
-            EnemyAttackState attackState = new EnemyAttackState(this, EnemyFSMState.Attack);
-            EnemySearchState searchState = new EnemySearchState(this, EnemyFSMState.Search);
-            EnemyDeathState deathState = new EnemyDeathState(this, EnemyFSMState.Death);
-            _stateMachine.AddAnyTransition(deathState, () => life <= 0);
+        [HideInInspector] public Animator Animator;
+        [HideInInspector] public CapsuleCollider BodyCollider;
+        [HideInInspector] public CapsuleCollider ArmCollider;
 
-            // _stateMachine.AddTransition(idleState, suspiciousState, () =>
-            // {
-            //     /*Debug.Log($"Idle to Susp {detected != null}");*/
-            //     if (VideoDetected != null)
-            //     {
-            //         Detected = VideoDetected;
-            //     }
-            //     else if (AudioDetected != null)
-            //     {
-            //         Detected = AudioDetected;
-            //     }
-            //     return VideoDetected != null || AudioDetected != null;
-            // });
-            // _stateMachine.AddTransition(suspiciousState, alertState, () =>
-            // {
-            //     /*Debug.Log($"Susp to Alert {SuspiciousTimer <= 0 && detected != null}");*/
-            //     return SuspiciousTimer <= 0 && VideoDetected != null;
-            // });
-            // _stateMachine.AddTransition(suspiciousState, searchState, () =>
-            // {
-            //     /*Debug.Log($"Susp to Search {SuspiciousTimer <= 0 && detected == null}");*/
-            //     return SuspiciousTimer <= 0 && VideoDetected == null;
-            // });
-            _stateMachine.AddTransition(alertState, attackState, () =>
-            {
-                /*Debug.Log($"Alert to Attack {AlertTimer <= 0 && detected != null}");*/
-                return AlertTimer <= 0 && VideoDetected != null;
-            });
-            _stateMachine.AddTransition(alertState, searchState, () =>
-            {
-                /*Debug.Log($"Alert to Search {AlertTimer <= 0 && detected == null}");*/
-                return AlertTimer <= 0 && VideoDetected == null;
-            });
-            _stateMachine.AddTransition(attackState, searchState, () =>
-            {
-                /*Debug.Log($"Attack to Search {detected == null}");*/
-                return VideoDetected == null;
-            });
-            // _stateMachine.AddTransition(searchState, suspiciousState, () =>
-            // {
-            //     /*Debug.Log($"Search to Idle {SearchTimer <= 0}");*/
-            //     return VideoDetected != null || AudioDetected != null;
-            // });
+        [HideInInspector] public Patrol Patrol;
 
-            _stateMachine.SetInitialState(idleState);
-        }
+        public static UnityAction ForceIdleBroadcast;
 
         private void OnEnable()
         {
-            DetectionSystemEvents.OnAudioDetectEnter += OnAudioDetectionEnter;
-            DetectionSystemEvents.OnVisionDetectEnter += OnVideoDetectionEnter;
-            DetectionSystemEvents.OnAudioDetectExit += OnAudioDetectionExit;
-            DetectionSystemEvents.OnVisionDetectExit += OnVideoDetectionExit;
+            DetectionSystem.NoiseDetected += CheckForNoisePosition;
+            DetectionSystem.VisibleDetected += PlayerInLOS;
+            DetectionSystem.ExitFromVisibleArea += PlayerNotInLOS;
+            LightDetector.PlayerInLight += ScaleVisionArea;
+            ForceIdleBroadcast += ForceIdle;
+            PlayerController.DeadEvent += EnableTransitionToEndState;
         }
+
 
         private void OnDisable()
         {
-            DetectionSystemEvents.OnAudioDetectEnter -= OnAudioDetectionEnter;
-            DetectionSystemEvents.OnVisionDetectEnter -= OnVideoDetectionEnter;
-            DetectionSystemEvents.OnAudioDetectExit -= OnAudioDetectionExit;
-            DetectionSystemEvents.OnVisionDetectExit -= OnVideoDetectionExit;
+            DetectionSystem.NoiseDetected -= CheckForNoisePosition;
+            DetectionSystem.VisibleDetected -= PlayerInLOS;
+            DetectionSystem.ExitFromVisibleArea -= PlayerNotInLOS;
+            LightDetector.PlayerInLight -= ScaleVisionArea;
+            ForceIdleBroadcast -= ForceIdle;
+            PlayerController.DeadEvent -= EnableTransitionToEndState;
         }
 
-        private void OnAnimatorMove()
+        private void ForceIdle()
         {
-            Vector3 position = AnimatorComponent.rootPosition;
-            position.y = NavMeshAgent.nextPosition.y;
-            transform.position = position;
+            Patrol.enabled = false;
+            DetectionSystem.enabled = false;
+            TransitionToAlertState = false;
+            TransitionToHuntState = false;
+            TransitionToAttackState = false;
+            TransitionToIdleState = true;
+        }
 
-            if (Vector3.Distance(transform.position, NavMeshAgent.nextPosition) > NavMeshAgent.radius)
+        private void EnableTransitionToEndState()
+        {
+            TransitionToEndState = true;
+        }
+
+        private void Awake()
+        {
+            BodyCollider = GetComponent<CapsuleCollider>();
+            Animator = GetComponent<Animator>();
+            NavMeshAgent = GetComponent<NavMeshAgent>();
+            NavMeshAgent.updatePosition = true;
+
+            Patrol = GetComponent<Patrol>();
+
+            _stateMachine = new StateMachine();
+            EnemyIdleState idleState = new EnemyIdleState(this, EnemyFSMState.Idle);
+            EnemyAlertState alertState = new EnemyAlertState(this, EnemyFSMState.Alert);
+            EnemyHuntState huntState = new EnemyHuntState(this, EnemyFSMState.Hunt);
+            EnemyAttackState attackState = new EnemyAttackState(this, EnemyFSMState.Attack);
+            EnemySearchState searchState = new EnemySearchState(this, EnemyFSMState.Search);
+            EnemyDeathState deathState = new EnemyDeathState(this, EnemyFSMState.Death);
+            EnemyEndState endState = new EnemyEndState(this, EnemyFSMState.End);
+
+            _stateMachine.AddTransition(idleState, alertState, () => TransitionToAlertState);
+            _stateMachine.AddTransition(alertState, idleState, () => TransitionToIdleState);
+            _stateMachine.AddTransition(alertState, huntState, () => TransitionToHuntState);
+            _stateMachine.AddTransition(huntState, attackState, () => TransitionToAttackState);
+            _stateMachine.AddTransition(attackState, huntState, () => TransitionToHuntState);
+            _stateMachine.AddTransition(huntState, searchState, () => TransitionToSearchState);
+            _stateMachine.AddTransition(searchState, idleState, () => TransitionToIdleState);
+            _stateMachine.AddTransition(searchState, huntState, () => TransitionToHuntState);
+            _stateMachine.AddAnyTransition(deathState, () => life <= 0);
+            _stateMachine.AddAnyTransition(endState, () => TransitionToEndState);
+            _stateMachine.SetInitialState(idleState);
+        }
+
+        private void Update()
+        {
+            _stateMachine.Update();
+            if (Target != null)
             {
-                //if (PullAvatarTowardsAgent) {
-                //    transform.position += (NavMeshAgent.nextPosition - transform.position) * 0.1f;
-                //} else if (PullAgentTowardsAvatar) {
-                NavMeshAgent.nextPosition += (transform.position - NavMeshAgent.nextPosition) * 0.1f;
-                //}
+                PosToGo = Target.position;
             }
         }
 
-        private void OnVideoDetectionEnter(GameObject detecter, GameObject detected)
+        public void CheckForNoisePosition(Vector3 pos)
         {
-            //Ho rilevato io
-            if (detecter == gameObject)
+            if (Target != null)
             {
-                //Non ho un target
-                //OPPURE
-                //Lo considero solo se sono in Susp
-                if (VideoDetected == null || SuspiciousTimer <= SuspiciousTime && SuspiciousTimer > 0)
-                {
-                    //Setto detected e target
-                    VideoDetected = detected;
-                    DetectedVideoGO.SetActive(true);
+                return;
+            }
+            if (CurrentState == EnemyFSMState.Idle)
+            {
+                TransitionToAlertState = true;
+            }
+            PosToGo = pos;
+        }
 
-                    //Attivo il suspTimer
-                    //SuspiciousTimer = SuspiciousTime;
-                }
+        private void PlayerInLOS(Transform target)
+        {
+            PosToGo = target.position;
+            Target = target;
+            if (CurrentState == EnemyFSMState.Idle)
+            {
+                TransitionToAlertState = true;
+                return;
+            }
+            if (CurrentState == EnemyFSMState.Alert || CurrentState == EnemyFSMState.Search)
+            {
+                TransitionToHuntState = true;
+                return;
             }
         }
 
-        private void OnVideoDetectionExit(GameObject detecter, GameObject detected)
+        private void PlayerNotInLOS()
         {
-            //Ho rilevato io e stavo già rilevando detected
-            if (detecter == gameObject && VideoDetected != null && VideoDetected == detected)
+            if (CurrentState == EnemyFSMState.Attack)
             {
-                if (CurrentState == EnemyFSMState.Attack)
-                {
-                    Debug.Log("Perdo oggetto");
-                }
-                //Rimuovo il detected
-                VideoDetected = null;
-                DetectedVideoGO.SetActive(false);
+                TransitionToHuntState = true;
             }
 
+            PosToGo = Target.position;
+            Target = null;
         }
-
-        private void OnAudioDetectionEnter(GameObject detecter, GameObject detected)
-        {
-            //Ho rilevato io
-            if (detecter == gameObject)
-            {
-                //Non ho un target
-                //OPPURE
-                //Lo considero solo se sono in Susp
-                if (AudioDetected == null || SuspiciousTimer <= SuspiciousTime && SuspiciousTimer > 0)
-                {
-                    //Setto detected e target
-                    AudioDetected = detected;
-                    DetectedAudioGO.SetActive(true);
-
-                    //Attivo il suspTimer
-                    //SuspiciousTimer = SuspiciousTime;
-                }
-            }
-        }
-
-        private void OnAudioDetectionExit(GameObject detecter, GameObject detected)
-        {
-            //Ho rilevato io e stavo già rilevando detected
-            if (detecter == gameObject && AudioDetected != null && AudioDetected == detected)
-            {
-                //Rimuovo il detected
-                AudioDetected = null;
-                DetectedAudioGO.SetActive(false);
-            }
-
-        }
-
-        public void IsFighting() => StartCoroutine(AttackRoutine(3f));
-
-        private void Update() => _stateMachine.Update();//transform.rotation = Quaternion.Slerp(transform.rotation, Rotation, RotationSpeed * Time.deltaTime);//transform.position = Vector3.Lerp(transform.position, Target, MovementSpeed * Time.deltaTime);
 
         public void Damaged() => life = 0;
 
-        private IEnumerator AttackRoutine(float time)
+        private void ScaleVisionArea(bool isPlayerInLight) => DetectionSystem.viewRadius = isPlayerInLight ? 8 : 4;
+
+        public void BackFromAttackState()
         {
-            yield return new WaitForSeconds(time);
-            if (Physics.CheckCapsule(transform.position, transform.forward, 1))
-            {
-                PlayerController.DeadEvent?.Invoke();
-            }
+            StartCoroutine(BackFromAttackStateCoroutine());
+        }
+
+        private IEnumerator BackFromAttackStateCoroutine()
+        {
+            yield return new WaitForSeconds(1.3f);
+
+            TransitionToAttackState = false;
+            TransitionToHuntState = true;
         }
     }
 }

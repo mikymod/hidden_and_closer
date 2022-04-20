@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace HNC
 {
-    public class NewEnemyHuntState : NewEnemyState
+    public class EnemyHuntState : EnemyState
     {
-        public NewEnemyHuntState(NewEnemyController enemy, EnemyFSMState state) : base(enemy, state)
+        public EnemyHuntState(EnemyController enemy, EnemyFSMState state) : base(enemy, state)
         {
         }
 
@@ -37,7 +37,7 @@ namespace HNC
                 return;
             }
 
-            if (_enemy.NavMeshAgent.remainingDistance < _enemy.NavMeshAgent.stoppingDistance)
+            if (_enemy.NavMeshAgent.remainingDistance < _enemy.NavMeshAgent.stoppingDistance * 2)
             {
                 _enemy.TransitionToHuntState = false;
                 _enemy.TransitionToAttackState = true;

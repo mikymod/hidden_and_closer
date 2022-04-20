@@ -1,35 +1,74 @@
+using HNC.Audio;
 using UnityEngine;
+using UnityEngine.AI;
 
-namespace HNC {
-    public class EnemySearchState : EnemyState {
+namespace HNC
+{
+    public class EnemySearchState : EnemyState
+    {
+
         private Vector2 _randomPosition;
+        private NavMeshPath path;
+        private float _timer;
+        public EnemySearchState(EnemyController enemy, EnemyFSMState state) : base(enemy, state)
+        {
+            path = new NavMeshPath();
+        }
 
-        public EnemySearchState(EnemyController enemy, EnemyFSMState state) : base(enemy, state) { }
 
-        public override void Enter() {
+        public override void Enter()
+        {
             base.Enter();
-            //_enemy.SearchTimer = _enemy.SearchTime;
+            _enemy.NavMeshAgent.SetDestination(_enemy.PosToGo);
+            _enemy.NavMeshAgent.isStopped = false;
+            _enemy.Animator.SetFloat("Speed", 1);
+            _enemy.SearchTimer = _enemy.SearchTime;
         }
 
-        public override void Update() {
-            //_enemy.SearchTimer -= Time.deltaTime;
-            if (_enemy.NavMeshAgent.remainingDistance <= _enemy.PatrolTreshoold) {
-                if (_enemy.VideoDetected != null) {
-                    _enemy.NavMeshAgent.destination = _enemy.VideoDetected.transform.position;
-                } else {
-                    _randomPosition = Random.insideUnitCircle * _enemy.PatrolRadius;
-                    _enemy.NavMeshAgent.destination = _enemy.transform.position + new Vector3(_randomPosition.x, 0, _randomPosition.y);
-                }
+        public override void Update()
+        {
+            _enemy.SearchTimer -= Time.deltaTime;
+            if (_enemy.SearchTimer <= 0)
+            {
+                _enemy.TransitionToIdleState = true;
             }
-            if (_enemy.HasAnimator) {
-                if (_enemy.NavMeshAgent.remainingDistance <= _enemy.PatrolTreshoold) {
-                    _enemy.AnimatorComponent.SetFloat(_enemy.AnimSpeedHash, 0);
-                } else {
-                    _enemy.AnimatorComponent.SetFloat(_enemy.AnimSpeedHash, 1);
+            if (_enemy.NavMeshAgent.remainingDistance <= _enemy.NavMeshAgent.stoppingDistance)
+            {
+                _enemy.NavMeshAgent.isStopped = true;
+                _enemy.Animator.SetFloat("Speed", 0);
+
+                if (_timer <= 0)
+                {
+                    GetRandomTarget();
+                }
+                else
+                {
+                    _timer -= Time.deltaTime;
                 }
             }
         }
 
-        public override void Exit() { }//_enemy.SearchTimer = _enemy.SearchTime + 1;
+        private void GetRandomTarget()
+        {
+            if (_enemy.TryGetComponent(out AudioZombieController component))
+            {
+                component.PlaySearchSound();
+            }
+            _enemy.Animator.SetFloat("Speed", 1);
+            _enemy.NavMeshAgent.isStopped = false;
+            _timer = Random.Range(_enemy.MinTimePatrol / 2, _enemy.MaxTimePatrol / 2);
+            do
+            {
+                _randomPosition = Random.insideUnitCircle * _enemy.PatrolRadius * 2;
+            } while (!_enemy.NavMeshAgent.CalculatePath(_enemy.transform.position + new Vector3(
+                Mathf.Clamp(_randomPosition.x, 1, _enemy.PatrolRadius), 0, Mathf.Clamp(_randomPosition.y, 1, _enemy.PatrolRadius)), path));
+            _enemy.NavMeshAgent.path = path;
+
+        }
+
+        public override void Exit()
+        {
+            _enemy.TransitionToSearchState = false;
+        }
     }
 }

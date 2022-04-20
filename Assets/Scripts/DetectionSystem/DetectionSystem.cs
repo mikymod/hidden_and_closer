@@ -22,7 +22,7 @@ namespace HNC {
         public LayerMask targetMask;
         public LayerMask obstacleMask;
 
-        public List<Transform> visibleTargets = new List<Transform>(); // Debug: used in editor
+        public List<Transform> visibleTargets = new List<Transform>();
 
         private bool eventSend = true;
 

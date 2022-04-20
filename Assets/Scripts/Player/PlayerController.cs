@@ -116,7 +116,7 @@ namespace HNC
             input.companionSwitch += OnCompanionControllingStarted;
 
             DeadEvent += OnDeath;
-            NewChangeStateEvent.OnChangeState += VibrateController;
+            ChangeStateEvent.OnChangeState += VibrateController;
         }
 
         private void OnDestroy()
@@ -131,7 +131,7 @@ namespace HNC
             input.companionSwitch -= OnCompanionControllingStarted;
 
             DeadEvent -= OnDeath;
-            NewChangeStateEvent.OnChangeState -= VibrateController;
+            ChangeStateEvent.OnChangeState -= VibrateController;
         }
 
         private void OnEnable()
@@ -319,7 +319,7 @@ namespace HNC
                 input.DisableAllInput();
                 isDeath = true;
                 UIManager.TransitionGameOver?.Invoke();
-                NewEnemyController.ForceIdleBroadcast?.Invoke();
+                EnemyController.ForceIdleBroadcast?.Invoke();
                 _impulseSource.GenerateImpulse(_mainCamera.transform.forward);
             }
         }
@@ -338,24 +338,10 @@ namespace HNC
 
         private void OnTriggerEnter(Collider other)
         {
-            Debug.Log("Trigger", other.gameObject);
-            if (other.gameObject.layer == LayerMask.NameToLayer("Interactable"))
-            {
-                if (_interact)
-                {
-                    Debug.Log("INTERACT ENTER");
-                }
-            }
-
             if (other.gameObject.name == "Elbow_R")
             {
                 DeadEvent?.Invoke();
             }
-        }
-
-        private void OnCollisionEnter(Collision collision)
-        {
-            Debug.Log("Collision", collision.gameObject);
         }
 
         private void OnTriggerStay(Collider other)

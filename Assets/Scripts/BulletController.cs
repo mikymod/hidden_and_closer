@@ -24,18 +24,18 @@ namespace HNC
                 return;
             }
 
-            if (other.gameObject.TryGetComponent(out NewEnemyController enemy))
+            if (other.gameObject.TryGetComponent(out EnemyController enemy))
             {
                 enemy.Damaged();
 
-                bloodParticles.transform.parent = null; // Avoid displacement after ps starts playing
+                bloodParticles.transform.parent = null;
                 bloodParticles.transform.position = other.GetContact(0).point;
                 bloodParticles.transform.rotation = Quaternion.LookRotation(other.GetContact(0).normal, Vector3.up);
                 bloodParticles.Play();
             }
             else
             {
-                dustParticles.transform.parent = null; // Avoid displacement after ps starts playing
+                dustParticles.transform.parent = null;
                 dustParticles.transform.position = other.GetContact(0).point;
                 dustParticles.transform.rotation = Quaternion.LookRotation(other.GetContact(0).normal, Vector3.up);
                 dustParticles.Play();

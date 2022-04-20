@@ -11706,12 +11706,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1175038301080259109, guid: 8643ba8eb87e9b14eb5cc98aa16f9ce8, type: 3}
       propertyPath: m_Name
-      value: NewZombie (1)
+      value: Zombie (1)
       objectReference: {fileID: 0}
     - target: {fileID: 1175038301080259109, guid: 8643ba8eb87e9b14eb5cc98aa16f9ce8, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6386946892082227383, guid: 8643ba8eb87e9b14eb5cc98aa16f9ce8, type: 3}
+      propertyPath: points.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6386946892082227383, guid: 8643ba8eb87e9b14eb5cc98aa16f9ce8, type: 3}
+      propertyPath: points.Array.data[0]
+      value: 
+      objectReference: {fileID: 1950724968}
+    - target: {fileID: 6386946892082227383, guid: 8643ba8eb87e9b14eb5cc98aa16f9ce8, type: 3}
+      propertyPath: points.Array.data[1]
+      value: 
+      objectReference: {fileID: 1108203820}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8643ba8eb87e9b14eb5cc98aa16f9ce8, type: 3}
 --- !u!4 &1012064331 stripped
@@ -18128,12 +18140,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1175038301080259109, guid: 8643ba8eb87e9b14eb5cc98aa16f9ce8, type: 3}
       propertyPath: m_Name
-      value: NewZombie (2)
+      value: Zombie (2)
       objectReference: {fileID: 0}
     - target: {fileID: 1175038301080259109, guid: 8643ba8eb87e9b14eb5cc98aa16f9ce8, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6386946892082227383, guid: 8643ba8eb87e9b14eb5cc98aa16f9ce8, type: 3}
+      propertyPath: points.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6386946892082227383, guid: 8643ba8eb87e9b14eb5cc98aa16f9ce8, type: 3}
+      propertyPath: points.Array.data[0]
+      value: 
+      objectReference: {fileID: 841729386}
+    - target: {fileID: 6386946892082227383, guid: 8643ba8eb87e9b14eb5cc98aa16f9ce8, type: 3}
+      propertyPath: points.Array.data[1]
+      value: 
+      objectReference: {fileID: 1164826216}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8643ba8eb87e9b14eb5cc98aa16f9ce8, type: 3}
 --- !u!4 &1558528367 stripped
@@ -18526,12 +18550,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1175038301080259109, guid: 8643ba8eb87e9b14eb5cc98aa16f9ce8, type: 3}
       propertyPath: m_Name
-      value: NewZombie (3)
+      value: Zombie (3)
       objectReference: {fileID: 0}
     - target: {fileID: 1175038301080259109, guid: 8643ba8eb87e9b14eb5cc98aa16f9ce8, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6386946892082227383, guid: 8643ba8eb87e9b14eb5cc98aa16f9ce8, type: 3}
+      propertyPath: points.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6386946892082227383, guid: 8643ba8eb87e9b14eb5cc98aa16f9ce8, type: 3}
+      propertyPath: points.Array.data[0]
+      value: 
+      objectReference: {fileID: 996611151}
+    - target: {fileID: 6386946892082227383, guid: 8643ba8eb87e9b14eb5cc98aa16f9ce8, type: 3}
+      propertyPath: points.Array.data[1]
+      value: 
+      objectReference: {fileID: 1159410501}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8643ba8eb87e9b14eb5cc98aa16f9ce8, type: 3}
 --- !u!4 &1584265504 stripped
@@ -20235,12 +20271,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1175038301080259109, guid: 8643ba8eb87e9b14eb5cc98aa16f9ce8, type: 3}
       propertyPath: m_Name
-      value: NewZombie
+      value: Zombie
       objectReference: {fileID: 0}
     - target: {fileID: 1175038301080259109, guid: 8643ba8eb87e9b14eb5cc98aa16f9ce8, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6386946892082227383, guid: 8643ba8eb87e9b14eb5cc98aa16f9ce8, type: 3}
+      propertyPath: points.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6386946892082227383, guid: 8643ba8eb87e9b14eb5cc98aa16f9ce8, type: 3}
+      propertyPath: points.Array.data[0]
+      value: 
+      objectReference: {fileID: 2118919256}
+    - target: {fileID: 6386946892082227383, guid: 8643ba8eb87e9b14eb5cc98aa16f9ce8, type: 3}
+      propertyPath: points.Array.data[1]
+      value: 
+      objectReference: {fileID: 1985983363}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8643ba8eb87e9b14eb5cc98aa16f9ce8, type: 3}
 --- !u!4 &1777795368 stripped

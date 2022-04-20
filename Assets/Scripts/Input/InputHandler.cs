@@ -50,7 +50,6 @@ namespace HNC {
 
         public void EnablePlayerInput() {
             if (gameInput.UI.enabled && sendEvent) {
-                Debug.Log("Evento perso");
                 if (aimPressed) {
                     aimStarted?.Invoke();
                 } else {
@@ -100,20 +99,16 @@ namespace HNC {
             if (context.performed) {
                 if (gameInput.Player.enabled) {
                     if (!aimPressed) {
-                        Debug.Log("Evento PLayer && ! aim");
                         aimPressed = true;
                         aimStarted?.Invoke();
                     } else {
-                        Debug.Log("Evento PLayer && aim");
                         aimPressed = false;
                         aimCanceled?.Invoke();
                     }
                 } else if (gameInput.UI.enabled) {
                     if (!aimPressed) {
-                        Debug.Log("Evento UI && ! aim");
                         aimPressed = true;
                     } else {
-                        Debug.Log("Evento UI && aim");
                         aimPressed = false;
                     }
                     sendEvent = true;

@@ -373,8 +373,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1175038301080259109, guid: 8643ba8eb87e9b14eb5cc98aa16f9ce8, type: 3}
       propertyPath: m_Name
-      value: NewZombie (1)
+      value: Zombie (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 6386946892082227383, guid: 8643ba8eb87e9b14eb5cc98aa16f9ce8, type: 3}
+      propertyPath: points.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6386946892082227383, guid: 8643ba8eb87e9b14eb5cc98aa16f9ce8, type: 3}
+      propertyPath: points.Array.data[0]
+      value: 
+      objectReference: {fileID: 1068621336}
+    - target: {fileID: 6386946892082227383, guid: 8643ba8eb87e9b14eb5cc98aa16f9ce8, type: 3}
+      propertyPath: points.Array.data[1]
+      value: 
+      objectReference: {fileID: 450255241}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8643ba8eb87e9b14eb5cc98aa16f9ce8, type: 3}
 --- !u!4 &13456964 stripped
@@ -5556,8 +5568,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1175038301080259109, guid: 8643ba8eb87e9b14eb5cc98aa16f9ce8, type: 3}
       propertyPath: m_Name
-      value: NewZombie (4)
+      value: Zombie (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 6386946892082227383, guid: 8643ba8eb87e9b14eb5cc98aa16f9ce8, type: 3}
+      propertyPath: points.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6386946892082227383, guid: 8643ba8eb87e9b14eb5cc98aa16f9ce8, type: 3}
+      propertyPath: points.Array.data[0]
+      value: 
+      objectReference: {fileID: 609825194}
+    - target: {fileID: 6386946892082227383, guid: 8643ba8eb87e9b14eb5cc98aa16f9ce8, type: 3}
+      propertyPath: points.Array.data[1]
+      value: 
+      objectReference: {fileID: 1397133849}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8643ba8eb87e9b14eb5cc98aa16f9ce8, type: 3}
 --- !u!4 &259889492 stripped
@@ -16792,8 +16816,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1175038301080259109, guid: 8643ba8eb87e9b14eb5cc98aa16f9ce8, type: 3}
       propertyPath: m_Name
-      value: NewZombie (3)
+      value: Zombie (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 6386946892082227383, guid: 8643ba8eb87e9b14eb5cc98aa16f9ce8, type: 3}
+      propertyPath: points.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6386946892082227383, guid: 8643ba8eb87e9b14eb5cc98aa16f9ce8, type: 3}
+      propertyPath: points.Array.data[0]
+      value: 
+      objectReference: {fileID: 1586473366}
+    - target: {fileID: 6386946892082227383, guid: 8643ba8eb87e9b14eb5cc98aa16f9ce8, type: 3}
+      propertyPath: points.Array.data[1]
+      value: 
+      objectReference: {fileID: 459148600}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8643ba8eb87e9b14eb5cc98aa16f9ce8, type: 3}
 --- !u!4 &761425485 stripped
@@ -26554,8 +26590,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1175038301080259109, guid: 8643ba8eb87e9b14eb5cc98aa16f9ce8, type: 3}
       propertyPath: m_Name
-      value: NewZombie
+      value: Zombie
       objectReference: {fileID: 0}
+    - target: {fileID: 6386946892082227383, guid: 8643ba8eb87e9b14eb5cc98aa16f9ce8, type: 3}
+      propertyPath: points.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6386946892082227383, guid: 8643ba8eb87e9b14eb5cc98aa16f9ce8, type: 3}
+      propertyPath: points.Array.data[0]
+      value: 
+      objectReference: {fileID: 1343137097}
+    - target: {fileID: 6386946892082227383, guid: 8643ba8eb87e9b14eb5cc98aa16f9ce8, type: 3}
+      propertyPath: points.Array.data[1]
+      value: 
+      objectReference: {fileID: 566178680}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8643ba8eb87e9b14eb5cc98aa16f9ce8, type: 3}
 --- !u!4 &1180566768 stripped
@@ -30228,8 +30276,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1175038301080259109, guid: 8643ba8eb87e9b14eb5cc98aa16f9ce8, type: 3}
       propertyPath: m_Name
-      value: NewZombie (2)
+      value: Zombie (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 6386946892082227383, guid: 8643ba8eb87e9b14eb5cc98aa16f9ce8, type: 3}
+      propertyPath: points.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6386946892082227383, guid: 8643ba8eb87e9b14eb5cc98aa16f9ce8, type: 3}
+      propertyPath: points.Array.data[0]
+      value: 
+      objectReference: {fileID: 357505572}
+    - target: {fileID: 6386946892082227383, guid: 8643ba8eb87e9b14eb5cc98aa16f9ce8, type: 3}
+      propertyPath: points.Array.data[1]
+      value: 
+      objectReference: {fileID: 898332011}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8643ba8eb87e9b14eb5cc98aa16f9ce8, type: 3}
 --- !u!4 &1357236495 stripped
@@ -39729,8 +39789,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1175038301080259109, guid: 8643ba8eb87e9b14eb5cc98aa16f9ce8, type: 3}
       propertyPath: m_Name
-      value: NewZombie (5)
+      value: Zombie (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 6386946892082227383, guid: 8643ba8eb87e9b14eb5cc98aa16f9ce8, type: 3}
+      propertyPath: points.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6386946892082227383, guid: 8643ba8eb87e9b14eb5cc98aa16f9ce8, type: 3}
+      propertyPath: points.Array.data[0]
+      value: 
+      objectReference: {fileID: 321008398}
+    - target: {fileID: 6386946892082227383, guid: 8643ba8eb87e9b14eb5cc98aa16f9ce8, type: 3}
+      propertyPath: points.Array.data[1]
+      value: 
+      objectReference: {fileID: 1837005980}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8643ba8eb87e9b14eb5cc98aa16f9ce8, type: 3}
 --- !u!4 &1738095382 stripped

@@ -28,7 +28,6 @@ namespace HNC {
 
             _current.Exit();
             _current = state;
-            //Debug.Log($"Current transition {state}");
 
             _transitions.TryGetValue(_current.GetType(), out _currentTransitions);
             if (_currentTransitions == null) {
@@ -51,7 +50,6 @@ namespace HNC {
 
         public void Update() {
             if (_current == null) {
-                Debug.LogWarning("No current state on State Machine");
                 return;
             }
             Transition transition = GetActiveTransition();

@@ -17,7 +17,6 @@ namespace HNC.Save
             }
             catch (Exception e)
             {
-                Debug.LogError($"Failed to write to {fullPath} with exception {e}");
                 return false;
             }
         }
@@ -36,7 +35,6 @@ namespace HNC.Save
             }
             catch (Exception e)
             {
-                Debug.LogError($"Failed to read from {fullPath} with exception {e}");
                 result = "";
                 return false;
             }
@@ -63,7 +61,6 @@ namespace HNC.Save
             }
             catch (Exception e)
             {
-                Debug.LogError($"Failed to move file from {fullPath} to {newFullPath} with exception {e}");
                 return false;
             }
 

@@ -1,8 +1,8 @@
 using UnityEngine;
 
 namespace HNC {
-    public class NewEnemyEndState : NewEnemyState {
-        public NewEnemyEndState(NewEnemyController enemy, EnemyFSMState state) : base(enemy, state) { }
+    public class EnemyEndState : EnemyState {
+        public EnemyEndState(EnemyController enemy, EnemyFSMState state) : base(enemy, state) { }
 
         private float _screamTimer;
 

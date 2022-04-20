@@ -62,10 +62,9 @@ namespace HNC
         {
             if (_aiming)
             {
-                // Rotate around
                 transform.rotation *= Quaternion.Euler(0, _look.x, 0);
 
-                // Move
+               
                 var horizontalMove = transform.forward * _move.y + transform.right * _move.x;
                 if (horizontalMove != Vector3.zero)
                 {
@@ -75,9 +74,9 @@ namespace HNC
                 _animator.SetBool("Move", horizontalMove.magnitude != 0);
                 _animator.SetFloat("Speed", horizontalMove.magnitude);
 
-                // Change distance
+                
                 range += _look.y;
-                range = Mathf.Clamp(range, 200, 500); // FIXME: avoid magic values
+                range = Mathf.Clamp(range, 200, 500);
 
                 _throwForce = (transform.up + transform.forward) * range;
                 ShowTrajectory(_throwForce, bulletTransform.position);
@@ -146,20 +145,20 @@ namespace HNC
 
             _animator.SetTrigger("Shoot");
 
-            // Get bullet
+            
             var bullet = _pooler.Get();
             bullet.transform.parent = null;
             bullet.transform.position = bulletTransform.position;
 
-            // Shoot the bullet
+            
             var bulletRB = bullet.GetComponent<Rigidbody>();
             bulletRB.isKinematic = false;
             bulletRB.useGravity = true;
             bulletRB.AddForce(_throwForce);
 
-            // Wait till animation end
+            
             var state = _animator.GetCurrentAnimatorStateInfo(1);
-            // Retrieve only the decimal part. See this: https://docs.unity3d.com/ScriptReference/AnimatorStateInfo-normalizedTime.html
+            
             var time = state.normalizedTime - Math.Truncate(state.normalizedTime);
             yield return new WaitForSeconds(state.length + 1);
 

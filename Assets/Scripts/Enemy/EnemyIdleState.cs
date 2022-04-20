@@ -1,69 +1,58 @@
 using UnityEngine;
+using UnityEngine.AI;
 
-namespace HNC {
-    public class EnemyIdleState : EnemyState {
-        //private enum ScreamState {
-        //    Scream,
-        //    Await,
-        //}
-        private float _timeToNextPoint;
+namespace HNC
+{
+    public class EnemyIdleState : EnemyState
+    {
+        private float _timer;
+        private NavMeshPath path;
 
-        public EnemyIdleState(EnemyController enemyController, EnemyFSMState state) : base(enemyController, state) {
+        public EnemyIdleState(EnemyController enemyController, EnemyFSMState state) : base(enemyController, state)
+        {
+            path = new NavMeshPath();
         }
 
-        //private float _screamTimer = 0;
-        //private ScreamState _screamState = ScreamState.Scream;
-
-
-        public override void Enter() {
+        public override void Enter()
+        {
             base.Enter();
-            GetRandomTarget();
+            MoveToNextPoint();
         }
 
-        private void GetRandomTarget() {
-            //Caluclate random point
-            Vector2 randomPoint = Random.onUnitSphere * _enemy.PatrolRadius;
-            _enemy.NavMeshAgent.destination = _enemy.transform.position + new Vector3(randomPoint.x, 0, randomPoint.y);
-            if (_enemy.HasAnimator) {
-                _enemy.AnimatorComponent.SetFloat(_enemy.AnimSpeedHash, 1);
-            }
+        private void MoveToNextPoint()
+        {
+            _timer = Random.Range(_enemy.MinTimePatrol, _enemy.MaxTimePatrol);
+            var destination = _enemy.Patrol.NextPointInPath();
+            _enemy.NavMeshAgent.destination = destination.position;
+            _enemy.NavMeshAgent.isStopped = false;
+            _enemy.Animator.SetFloat("Speed", 1);
         }
 
-        public override void Exit() { }
+        public override void Exit()
+        {
+            _enemy.TransitionToIdleState = false;
+        }
 
-        public override void Update() {
-            //_screamTimer -= Time.deltaTime;
-            //if (_screamState == ScreamState.Scream) {
-            //    if (_screamTimer <= 0) {
-            //        _enemy.NavMeshAgent.velocity = Vector3.zero;
-            //        _enemy.NavMeshAgent.angularSpeed = 0;
-            //        if (_enemy.HasAnimator) {
-            //            _enemy.AnimatorComponent.SetFloat(_enemy.AnimSpeedHash, 0);
-            //            _enemy.AnimatorComponent.SetTrigger(_enemy.AnimScreamHash);
-            //        }
-            //        _screamTimer = Random.Range(_enemy.MinTimeScream, _enemy.MaxTimeScream);
-            //        _screamState = ScreamState.Await;
-            //    } else if (_enemy.NavMeshAgent.remainingDistance <= _enemy.PatrolTreshoold) {
-            //        GetRandomTarget();
-            //    }
-            //} else {
-            //    if (_screamTimer <= 0) {
-            //        GetRandomTarget();
-            //        _screamState = ScreamState.Scream;
-            //        _screamTimer = Random.Range(_enemy.MinTimeScream, _enemy.MaxTimeScream);
-            //    }
-            //}
-            if (_enemy.NavMeshAgent.remainingDistance <= _enemy.PatrolTreshoold) {
-                if (_enemy.HasAnimator) {
-                    _enemy.AnimatorComponent.SetFloat(_enemy.AnimSpeedHash, 0);
+        public override void Update()
+        {
+            if (_enemy.NavMeshAgent.remainingDistance <= _enemy.NavMeshAgent.stoppingDistance)
+            {
+                _enemy.NavMeshAgent.isStopped = true;
+                _enemy.Animator.SetFloat("Speed", 0);
+
+                if (_timer <= 0)
+                {
+                    MoveToNextPoint();
                 }
-                _timeToNextPoint = Random.Range(_enemy.MinTimePatrol, _enemy.MaxTimePatrol);
+                else
+                {
+                    _timer -= Time.deltaTime;
+                }
             }
-            if (_timeToNextPoint > 0) {
-                _timeToNextPoint -= Time.deltaTime;
-                if (_timeToNextPoint <= 0) {
-                    GetRandomTarget();
-                }
+            else
+            {
+                _enemy.Animator.SetFloat("Speed", 1);
+                _enemy.NavMeshAgent.isStopped = false;
             }
         }
     }
